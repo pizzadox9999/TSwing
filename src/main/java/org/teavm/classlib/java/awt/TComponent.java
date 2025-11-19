@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.teavm.classlib.java.awt;
+package java.awt;
 
 import java.awt.dnd.DropTarget;
 import java.awt.event.ComponentEvent;
@@ -88,7 +88,7 @@ import org.apache.harmony.awt.text.TextKit;
 import org.apache.harmony.awt.wtk.NativeWindow;
 import org.apache.harmony.luni.util.NotImplementedException;
 
-public abstract class TComponent implements ImageObserver, MenuContainer, Serializable {
+public abstract class Component implements ImageObserver, MenuContainer, Serializable {
     private static final long serialVersionUID = -7644114512714619750L;
 
     public static final float TOP_ALIGNMENT = 0.0f;
