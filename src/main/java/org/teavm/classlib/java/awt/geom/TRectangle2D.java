@@ -128,8 +128,8 @@ public abstract class TRectangle2D extends TRectangularShape {
         @Override
         public TRectangle2D createIntersection(TRectangle2D r) {
             TRectangle2D dst;
-            if (r instanceof Double) {
-                dst = new TRectangle2D.Double();
+            if (r instanceof TDouble) {
+                dst = new TRectangle2D.TDouble();
             } else {
                 dst = new TRectangle2D.TFloat();
             }
@@ -140,8 +140,8 @@ public abstract class TRectangle2D extends TRectangularShape {
         @Override
         public TRectangle2D createUnion(TRectangle2D r) {
             TRectangle2D dst;
-            if (r instanceof Double) {
-                dst = new TRectangle2D.Double();
+            if (r instanceof TDouble) {
+                dst = new TRectangle2D.TDouble();
             } else {
                 dst = new TRectangle2D.TFloat();
             }
@@ -157,17 +157,17 @@ public abstract class TRectangle2D extends TRectangularShape {
         }
     }
 
-    public static class Double extends TRectangle2D {
+    public static class TDouble extends TRectangle2D {
 
         public double x;
         public double y;
         public double width;
         public double height;
 
-        public Double() {
+        public TDouble() {
         }
 
-        public Double(double x, double y, double width, double height) {
+        public TDouble(double x, double y, double width, double height) {
             setRect(x, y, width, height);
         }
 
@@ -241,19 +241,19 @@ public abstract class TRectangle2D extends TRectangularShape {
 
         @Override
         public TRectangle2D getBounds2D() {
-            return new Double(x, y, width, height);
+            return new TDouble(x, y, width, height);
         }
 
         @Override
         public TRectangle2D createIntersection(TRectangle2D r) {
-            TRectangle2D dst = new TRectangle2D.Double();
+            TRectangle2D dst = new TRectangle2D.TDouble();
             TRectangle2D.intersect(this, r, dst);
             return dst;
         }
 
         @Override
         public TRectangle2D createUnion(TRectangle2D r) {
-            TRectangle2D dest = new TRectangle2D.Double();
+            TRectangle2D dest = new TRectangle2D.TDouble();
             TRectangle2D.union(this, r, dest);
             return dest;
         }

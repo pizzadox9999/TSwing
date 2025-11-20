@@ -17,19 +17,19 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 
 /**
  * BufferCapabilities
  *
  */
-public class BufferCapabilities implements Cloneable {
+public class TBufferCapabilities implements Cloneable {
     private final ImageCapabilities frontBufferCapabilities;
     private final ImageCapabilities backBufferCapabilities;
     private final FlipContents flipContents;
 
-    public BufferCapabilities(ImageCapabilities frontBufferCapabilities, 
+    public TBufferCapabilities(ImageCapabilities frontBufferCapabilities, 
             ImageCapabilities backBufferCapabilities, FlipContents flipContents) {
         if (frontBufferCapabilities == null || backBufferCapabilities == null) {
             throw new IllegalArgumentException();
@@ -42,7 +42,7 @@ public class BufferCapabilities implements Cloneable {
 
     @Override
     public Object clone() {
-        return new BufferCapabilities(frontBufferCapabilities, backBufferCapabilities, flipContents);
+        return new TBufferCapabilities(frontBufferCapabilities, backBufferCapabilities, flipContents);
     }
 
     public ImageCapabilities getFrontBufferCapabilities() {

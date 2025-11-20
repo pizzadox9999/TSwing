@@ -21,9 +21,9 @@
  */
 package org.apache.harmony.awt.gl.render;
 
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.geom.AffineTransform;
+import org.teavm.classlib.java.awt.TColor;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.gl.Surface;
@@ -36,17 +36,17 @@ public interface Blitter {
 
     public abstract void blit(int srcX, int srcY, Surface srcSurf,
             int dstX, int dstY, Surface dstSurf, int width, int height,
-            AffineTransform sysxform, AffineTransform xform,
-            Composite comp, Color bgcolor,
+            TAffineTransform sysxform, TAffineTransform xform,
+            TComposite comp, TColor bgcolor,
             MultiRectArea clip);
 
     public abstract void blit(int srcX, int srcY, Surface srcSurf,
             int dstX, int dstY, Surface dstSurf, int width, int height,
-            AffineTransform sysxform, Composite comp, Color bgcolor,
+            TAffineTransform sysxform, TComposite comp, TColor bgcolor,
             MultiRectArea clip);
 
     public abstract void blit(int srcX, int srcY, Surface srcSurf,
             int dstX, int dstY, Surface dstSurf, int width, int height,
-            Composite comp, Color bgcolor, MultiRectArea clip);
+            TComposite comp, TColor bgcolor, MultiRectArea clip);
 
 }

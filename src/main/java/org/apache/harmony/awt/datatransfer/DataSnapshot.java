@@ -19,11 +19,11 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.SystemFlavorMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.teavm.classlib.java.awt.datatransfer.TDataFlavor;
+import org.teavm.classlib.java.awt.datatransfer.TSystemFlavorMap;
 
 /**
  * Immutable copy of transferable data, 
@@ -55,9 +55,9 @@ public class DataSnapshot implements DataProvider {
         serializedObjects = Collections.synchronizedMap(new HashMap<Class<?>, byte[]>());
         
         for (int i = 0; i < nativeFormats.length; i++) {
-            DataFlavor df = null;
+            TDataFlavor df = null;
             try {
-                df = SystemFlavorMap.decodeDataFlavor(nativeFormats[i]);
+                df = TSystemFlavorMap.decodeDataFlavor(nativeFormats[i]);
             } catch (ClassNotFoundException e) {}
             if (df != null) {
                 Class<?> clazz = df.getRepresentationClass();
@@ -90,7 +90,7 @@ public class DataSnapshot implements DataProvider {
             return (rawBitmap != null);
         }
         try {
-            DataFlavor df = SystemFlavorMap.decodeDataFlavor(nativeFormat);
+            TDataFlavor df = TSystemFlavorMap.decodeDataFlavor(nativeFormat);
             return serializedObjects.containsKey(df.getRepresentationClass());
         } catch (Exception e) {
             return false;
@@ -142,7 +142,7 @@ public class DataSnapshot implements DataProvider {
 
     public byte[] getSerializedObject(String nativeFormat) {
         try {
-            DataFlavor df = SystemFlavorMap.decodeDataFlavor(nativeFormat);
+            TDataFlavor df = TSystemFlavorMap.decodeDataFlavor(nativeFormat);
             return getSerializedObject(df.getRepresentationClass());
         } catch (Exception e) {
             return null;

@@ -17,20 +17,20 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class GridLayout implements LayoutManager, Serializable {
+public class TGridLayout implements TLayoutManager, Serializable {
     private static final long serialVersionUID = -7411804673224730901L;   
 
     private static final int DEFAULT_GAP = 0;
     private static final int DEFAULT_COLS_NUMBER = 0;
     private static final int DEFAULT_ROWS_NUMBER = 1;
 
-    private final Toolkit toolkit = Toolkit.getDefaultToolkit();
+    private final TToolkit toolkit = TToolkit.getDefaultToolkit();
 
     private int rows;
     private int columns;
@@ -39,7 +39,7 @@ public class GridLayout implements LayoutManager, Serializable {
 
     private transient Component[] components;
 
-    public GridLayout() {
+    public TGridLayout() {
         this(DEFAULT_ROWS_NUMBER, DEFAULT_COLS_NUMBER, DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {
@@ -48,7 +48,7 @@ public class GridLayout implements LayoutManager, Serializable {
         }
     }
 
-    public GridLayout(int rows, int cols) {
+    public TGridLayout(int rows, int cols) {
         this(rows, cols, DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {
@@ -57,7 +57,7 @@ public class GridLayout implements LayoutManager, Serializable {
         }
     }
 
-    public GridLayout(int rows, int cols, int hgap, int vgap) {
+    public TGridLayout(int rows, int cols, int hgap, int vgap) {
         toolkit.lockAWT();
         try {
             if ((rows == 0) && (cols == 0)) {

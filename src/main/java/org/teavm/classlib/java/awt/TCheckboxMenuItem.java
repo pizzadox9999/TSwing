@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -26,7 +26,7 @@ import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
 import javax.accessibility.AccessibleValue;
 
-public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Accessible {
+public class TCheckboxMenuItem extends TMenuItem implements TItemSelectable, Accessible {
     private static final long serialVersionUID = 6190621106981774043L;
 
     private final AWTListenerList<ItemListener> itemListeners = new AWTListenerList<ItemListener>();
@@ -88,15 +88,15 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
         }
     }
 
-    public CheckboxMenuItem() throws HeadlessException {
+    public TCheckboxMenuItem() throws HeadlessException {
         super();
     }
 
-    public CheckboxMenuItem(String label) throws HeadlessException {
+    public TCheckboxMenuItem(String label) throws HeadlessException {
         this(label, false);
     }
 
-    public CheckboxMenuItem(String label, boolean state) throws HeadlessException {
+    public TCheckboxMenuItem(String label, boolean state) throws HeadlessException {
         super(label);
         toolkit.lockAWT();
         try {

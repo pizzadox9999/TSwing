@@ -18,11 +18,11 @@
  * @author Igor A. Pyankov
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public final class JobAttributes implements Cloneable {
+public final class TJobAttributes implements Cloneable {
 
     private int copies;
     private int fromPage;
@@ -117,7 +117,7 @@ public final class JobAttributes implements Cloneable {
     }
     /* end of the nested classes */
 
-    public JobAttributes() {
+    public TJobAttributes() {
         setDefaultSelection(DefaultSelectionType.ALL);
         setDestination(DestinationType.PRINTER);
         setDialog(DialogType.NATIVE);
@@ -128,11 +128,11 @@ public final class JobAttributes implements Cloneable {
         setMinPage(1);
     }
 
-    public JobAttributes(JobAttributes obj){
+    public TJobAttributes(JobAttributes obj){
             set(obj);
     }
 
-    public JobAttributes(int copies,
+    public TJobAttributes(int copies,
             JobAttributes.DefaultSelectionType defaultSelection,
             JobAttributes.DestinationType destination,
             JobAttributes.DialogType dialog,

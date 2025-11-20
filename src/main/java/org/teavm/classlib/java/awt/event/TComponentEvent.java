@@ -19,10 +19,10 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TComponent;
 
-public class TComponentEvent extends AWTEvent {
+public class TComponentEvent extends TAWTEvent {
 
     private static final long serialVersionUID = 8101406823902992965L;
 
@@ -38,12 +38,12 @@ public class TComponentEvent extends AWTEvent {
 
     public static final int COMPONENT_HIDDEN = 103;
 
-    public TComponentEvent(Component source, int id) {
+    public TComponentEvent(TComponent source, int id) {
         super(source, id);
     }
 
-    public Component getComponent() {
-        return (Component) source;
+    public TComponent getComponent() {
+        return (TComponent) source;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class TComponentEvent extends AWTEvent {
          */
 
         String idString = null;
-        Component c = getComponent();
+        TComponent c = getComponent();
 
         switch (id) {
         case COMPONENT_MOVED:

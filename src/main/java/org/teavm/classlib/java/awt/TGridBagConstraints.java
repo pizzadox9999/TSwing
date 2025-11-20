@@ -17,13 +17,13 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class GridBagConstraints implements Cloneable, Serializable {
+public class TGridBagConstraints implements Cloneable, Serializable {
     private static final long serialVersionUID = -1000070633030801713L;
 
     public static final int RELATIVE = -1;
@@ -68,7 +68,7 @@ public class GridBagConstraints implements Cloneable, Serializable {
     public int ipadx;
     public int ipady;
 
-    public GridBagConstraints(int gridx, int gridy, int gridwidth,
+    public TGridBagConstraints(int gridx, int gridy, int gridwidth,
             int gridheight, double weightx, double weighty, int anchor,
             int fill, Insets insets, int ipadx, int ipady)
     {
@@ -85,7 +85,7 @@ public class GridBagConstraints implements Cloneable, Serializable {
         this.ipady = ipady;
     }
 
-    public GridBagConstraints() {
+    public TGridBagConstraints() {
         gridx = RELATIVE;
         gridy = RELATIVE;
         gridwidth = 1;

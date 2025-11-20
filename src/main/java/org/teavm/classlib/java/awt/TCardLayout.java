@@ -17,14 +17,14 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 import java.util.Hashtable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class CardLayout implements LayoutManager2, Serializable {
+public class TCardLayout implements TLayoutManager2, Serializable {
     private static final long serialVersionUID = -4328196481005934313L;
 
     private static final int DEFAULT_GAP = 0;
@@ -32,27 +32,27 @@ public class CardLayout implements LayoutManager2, Serializable {
     private int vGap;
     private int hGap;
 
-    private Hashtable<String, Component> nameTable;        //Name to component
-    private Hashtable<Component, String> compTable;        //Component to name
-    private int curComponent;
+    private Hashtable<String, TComponent> nameTable;        //Name to component
+    private Hashtable<TComponent, String> compTable;        //TComponent to name
+    private int curTComponent;
 
-    private final Toolkit toolkit = Toolkit.getDefaultToolkit();
+    private final TToolkit toolkit = TToolkit.getDefaultToolkit();
 
-    public CardLayout(int hgap, int vgap) {
+    public TCardLayout(int hgap, int vgap) {
         toolkit.lockAWT();
         try {
             vGap = vgap;
             hGap = hgap;
 
-            nameTable = new Hashtable<String, Component>();
-            compTable = new Hashtable<Component, String>();
-            curComponent = 0;
+            nameTable = new Hashtable<String, TComponent>();
+            compTable = new Hashtable<TComponent, String>();
+            curTComponent = 0;
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public CardLayout() {
+    public TCardLayout() {
         this(DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {
@@ -112,19 +112,19 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public float getLayoutAlignmentX(Container parent) {
+    public float getLayoutAlignmentX(TContainer parent) {
         toolkit.lockAWT();
         try {
-            return Component.CENTER_ALIGNMENT;
+            return TComponent.CENTER_ALIGNMENT;
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public float getLayoutAlignmentY(Container parent) {
+    public float getLayoutAlignmentY(TContainer parent) {
         toolkit.lockAWT();
         try {
-            return Component.CENTER_ALIGNMENT;
+            return TComponent.CENTER_ALIGNMENT;
         } finally {
             toolkit.unlockAWT();
         }
@@ -134,7 +134,7 @@ public class CardLayout implements LayoutManager2, Serializable {
      * @deprecated
      */
     @Deprecated
-    public void addLayoutComponent(String name, Component comp) {
+    public void addLayoutTComponent(String name, TComponent comp) {
         toolkit.lockAWT();
         try {
             if (name == null) {
@@ -155,29 +155,29 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void addLayoutComponent(Component comp, Object constraints) {
+    public void addLayoutTComponent(TComponent comp, Object constraints) {
         toolkit.lockAWT();
         try {
             if (!String.class.isInstance(constraints)) {
-                // awt.131=AddLayoutComponent: constraint object must be String
+                // awt.131=AddLayoutTComponent: constraint object must be String
                 throw new IllegalArgumentException(Messages.getString("awt.131")); //$NON-NLS-1$
             }
-            addLayoutComponent((String) constraints, comp);
+            addLayoutTComponent((String) constraints, comp);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public void removeLayoutComponent(Component comp) {
+    public void removeLayoutTComponent(TComponent comp) {
         toolkit.lockAWT();
         try {
             if (!compTable.containsKey(comp)) {
                 return;
             }
-            Container parent = comp.getParent();
+            TContainer parent = comp.getParent();
             if (parent != null) {
-                int idx = parent.getComponentZOrder(comp);
-                if (idx == curComponent) {
+                int idx = parent.getTComponentZOrder(comp);
+                if (idx == curTComponent) {
                     next(parent);
                 }
             }
@@ -192,7 +192,7 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void invalidateLayout(Container target) {
+    public void invalidateLayout(TContainer target) {
         toolkit.lockAWT();
         try {
             //Nothing to invalidate
@@ -201,10 +201,10 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void layoutContainer(Container parent) {
+    public void layoutTContainer(TContainer parent) {
         toolkit.lockAWT();
         try {
-            if (parent.getComponentCount() == 0) {
+            if (parent.getTComponentCount() == 0) {
                 return;
             }
 
@@ -214,14 +214,14 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private void showCurrent(Container parent) {
+    private void showCurrent(TContainer parent) {
         toolkit.lockAWT();
         try {
-            if (curComponent >= parent.getComponentCount()) {
-                curComponent = 0;
+            if (curTComponent >= parent.getTComponentCount()) {
+                curTComponent = 0;
             }
             Rectangle clientRect = parent.getClient();
-            Component comp = parent.getComponent(curComponent);
+            TComponent comp = parent.getTComponent(curTComponent);
             Rectangle bounds = new Rectangle(clientRect.x + hGap, 
                                              clientRect.y + vGap, 
                                              clientRect.width - 2 * hGap, 
@@ -235,17 +235,17 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void first(Container parent) {
+    public void first(TContainer parent) {
         toolkit.lockAWT();
         try {
             check(parent);
-            int size = parent.getComponentCount(); 
+            int size = parent.getTComponentCount(); 
             if (size == 0) {
                 return;
             }
 
             hideCurrent(parent);
-            curComponent = 0;
+            curTComponent = 0;
 
             showCurrent(parent);
         } finally {
@@ -253,30 +253,30 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private void hideCurrent(Container parent) {
-        if ((curComponent >= 0) && (curComponent < parent.getComponentCount())) {
-            parent.getComponent(curComponent).setVisible(false);
+    private void hideCurrent(TContainer parent) {
+        if ((curTComponent >= 0) && (curTComponent < parent.getTComponentCount())) {
+            parent.getTComponent(curTComponent).setVisible(false);
         }
     }
 
-    private void check(Container parent) {
+    private void check(TContainer parent) {
         if (parent.getLayout() != this) {
             // awt.132=wrong parent for CardLayout
             throw new IllegalArgumentException(Messages.getString("awt.132")); //$NON-NLS-1$
         }
     }
 
-    public void last(Container parent) {
+    public void last(TContainer parent) {
         toolkit.lockAWT();
         try {
             check(parent);
-            int size = parent.getComponentCount(); 
+            int size = parent.getTComponentCount(); 
             if ( size == 0) {
                 return;
             }
 
             hideCurrent(parent);
-            curComponent = size - 1;
+            curTComponent = size - 1;
 
             showCurrent(parent);
         } finally {
@@ -284,40 +284,19 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void next(Container parent) {
+    public void next(TContainer parent) {
         toolkit.lockAWT();
         try {
             check(parent);
-            int size = parent.getComponentCount(); 
+            int size = parent.getTComponentCount(); 
             if ( size == 0) {
                 return;
             }
 
             hideCurrent(parent);
-            curComponent++;
-            if (curComponent >= size) {
-                curComponent = 0;
-            }
-
-            showCurrent(parent);
-        } finally {
-            toolkit.unlockAWT();
-        }
-    }
-
-    public void previous(Container parent) {
-        toolkit.lockAWT();
-        try {
-            check(parent);
-            int size = parent.getComponentCount(); 
-            if ( size == 0) {
-                return;
-            }
-
-            hideCurrent(parent);
-            curComponent --;
-            if (curComponent < 0) {
-                curComponent = size - 1;
+            curTComponent++;
+            if (curTComponent >= size) {
+                curTComponent = 0;
             }
 
             showCurrent(parent);
@@ -326,43 +305,64 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void show(Container parent, String name) {
+    public void previous(TContainer parent) {
         toolkit.lockAWT();
         try {
             check(parent);
-            int size = parent.getComponentCount();
+            int size = parent.getTComponentCount(); 
+            if ( size == 0) {
+                return;
+            }
+
+            hideCurrent(parent);
+            curTComponent --;
+            if (curTComponent < 0) {
+                curTComponent = size - 1;
+            }
+
+            showCurrent(parent);
+        } finally {
+            toolkit.unlockAWT();
+        }
+    }
+
+    public void show(TContainer parent, String name) {
+        toolkit.lockAWT();
+        try {
+            check(parent);
+            int size = parent.getTComponentCount();
             if (size == 0) {
                 return;
             }
 
-            Component comp = nameTable.get(name);
+            TComponent comp = nameTable.get(name);
 
             if (comp == null) {
                 return;
             }
 
             hideCurrent(parent);
-            curComponent = parent.getComponentZOrder(comp);
+            curTComponent = parent.getTComponentZOrder(comp);
             showCurrent(parent);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public Dimension maximumLayoutSize(Container target) {
+    public TDimension maximumLayoutSize(TContainer target) {
         toolkit.lockAWT();
         try {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+            return new TDimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public Dimension minimumLayoutSize(Container parent) {
+    public TDimension minimumLayoutSize(TContainer parent) {
         toolkit.lockAWT();
         try {
-            if (parent.getComponentCount() == 0) {
-                return parent.addInsets(new Dimension(0, 0));
+            if (parent.getTComponentCount() == 0) {
+                return parent.addInsets(new TDimension(0, 0));
             }
 
             return parent.addInsets(layoutSize(parent, false));
@@ -371,11 +371,11 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Dimension preferredLayoutSize(Container parent) {
+    public TDimension preferredLayoutSize(TContainer parent) {
         toolkit.lockAWT();
         try {
-            if (parent.getComponentCount() == 0) {
-                return parent.addInsets(new Dimension(0, 0));
+            if (parent.getTComponentCount() == 0) {
+                return parent.addInsets(new TDimension(0, 0));
             }
 
             return parent.addInsets(layoutSize(parent, true));
@@ -384,20 +384,20 @@ public class CardLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private Dimension layoutSize(Container parent, boolean preferred) {
+    private TDimension layoutSize(TContainer parent, boolean preferred) {
         int maxWidth = 0;
         int maxHeight = 0;
 
-        for (int i = 0; i < parent.getComponentCount(); i++) {
-            Component comp = parent.getComponent(i); 
-            Dimension compSize = (preferred ? comp.getPreferredSize() :
+        for (int i = 0; i < parent.getTComponentCount(); i++) {
+            TComponent comp = parent.getTComponent(i); 
+            TDimension compSize = (preferred ? comp.getPreferredSize() :
                                               comp.getMinimumSize());
 
             maxWidth = Math.max(maxWidth, compSize.width);
             maxHeight = Math.max(maxHeight, compSize.height);
         }
 
-        return new Dimension(maxWidth + 2 * hGap, maxHeight + 2 * vGap);
+        return new TDimension(maxWidth + 2 * hGap, maxHeight + 2 * vGap);
     }
 
 }

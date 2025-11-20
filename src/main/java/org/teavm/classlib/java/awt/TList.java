@@ -15,20 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.font.FontRenderContext;
 import java.util.EventListener;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -44,7 +32,7 @@ import org.apache.harmony.awt.Scrollable;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.ListState;
 
-public class List extends Component implements ItemSelectable, Accessible {
+public class TList extends TComponent implements ItemSelectable, Accessible {
     private static final long serialVersionUID = -3304312411574666869L;
 
     private final static int BORDER_SIZE = 2;
@@ -684,7 +672,7 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public List(int rows) throws HeadlessException {
+    public TList(int rows) throws HeadlessException {
         this(rows, false);
         toolkit.lockAWT();
         try {
@@ -693,7 +681,7 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public List() throws HeadlessException {
+    public TList() throws HeadlessException {
         this(0, false);
         toolkit.lockAWT();
         try {
@@ -702,7 +690,7 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public List(int rows, boolean multipleMode) throws HeadlessException {
+    public TList(int rows, boolean multipleMode) throws HeadlessException {
         toolkit.lockAWT();
         try {
             Toolkit.checkHeadless();

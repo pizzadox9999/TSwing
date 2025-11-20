@@ -19,12 +19,12 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.color.ColorSpace;
-import java.awt.Transparency;
 import java.util.Arrays;
 
 import org.apache.harmony.awt.gl.color.LUTColorConverter;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 
 
 public class TDirectColorModel extends TPackedColorModel {
@@ -44,7 +44,7 @@ public class TDirectColorModel extends TPackedColorModel {
 
     private byte colorLUTs[][];         // Lookup tables for scale color values 
 
-    private boolean is_sRGB;            // ColorModel has sRGB ColorSpace
+    private boolean is_sRGB;            // ColorModel has sRGB TColorSpace
 
     private boolean is_LINEAR_RGB;      // Color Model has Linear RGB Color 
                                         // Space
@@ -53,12 +53,12 @@ public class TDirectColorModel extends TPackedColorModel {
 
     private float fFactor;              // Scale factor
 
-    public TDirectColorModel(ColorSpace space, int bits, int rmask, int gmask,
+    public TDirectColorModel(TColorSpace space, int bits, int rmask, int gmask,
             int bmask, int amask, boolean isAlphaPremultiplied,
             int transferType) {
 
         super(space, bits, rmask, gmask, bmask, amask, isAlphaPremultiplied,
-                (amask == 0 ? Transparency.OPAQUE : Transparency.TRANSLUCENT),
+                (amask == 0 ? TTransparency.OPAQUE : TTransparency.TRANSLUCENT),
                 transferType);
 
         initLUTs();
@@ -67,9 +67,9 @@ public class TDirectColorModel extends TPackedColorModel {
     public TDirectColorModel(int bits, int rmask, int gmask, int bmask,
             int amask) {
 
-        super(ColorSpace.getInstance(ColorSpace.CS_sRGB), bits, rmask, gmask,
+        super(TColorSpace.getInstance(TColorSpace.CS_sRGB), bits, rmask, gmask,
                 bmask, amask, false,
-                (amask == 0 ? Transparency.OPAQUE : Transparency.TRANSLUCENT),
+                (amask == 0 ? TTransparency.OPAQUE : TTransparency.TRANSLUCENT),
                 TColorModel.getTransferType(bits));
 
         initLUTs();
@@ -727,7 +727,7 @@ public class TDirectColorModel extends TPackedColorModel {
 
     /**
      * This method return RGB component value if Color Model has
-     * sRGB ColorSpace
+     * sRGB TColorSpace
      * @param pixel - INT representation of pixel
      * @param idx - index of pixel component
      * @return - value of the pixel component scaled fro 0 to 255
@@ -746,7 +746,7 @@ public class TDirectColorModel extends TPackedColorModel {
 
     /**
      * This method return RGB component value if Color Model has
-     * Linear RGB ColorSpace
+     * Linear RGB TColorSpace
      * @param pixel - INT representation of pixel
      * @param idx - index of pixel component
      * @return - value of the pixel component scaled fro 0 to 255

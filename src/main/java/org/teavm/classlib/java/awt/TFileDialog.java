@@ -17,13 +17,13 @@
 /**
  * @author Pavel Dolgov, Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.FilenameFilter;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class FileDialog extends Dialog {
+public class TFileDialog extends Dialog {
     private static final long serialVersionUID = 5035145889651310422L;
 
     public static final int LOAD = 0;
@@ -35,7 +35,7 @@ public class FileDialog extends Dialog {
     private int mode;
     private FilenameFilter filenameFilter;
 
-    public FileDialog(Frame owner) {
+    public TFileDialog(Frame owner) {
         this(owner, ""); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -44,7 +44,7 @@ public class FileDialog extends Dialog {
         }
     }
 
-    public FileDialog(Frame owner, String title) {
+    public TFileDialog(Frame owner, String title) {
         this(owner, title, LOAD);
         toolkit.lockAWT();
         try {
@@ -53,7 +53,7 @@ public class FileDialog extends Dialog {
         }
     }
 
-    public FileDialog(Frame owner, String title, int mode) {
+    public TFileDialog(Frame owner, String title, int mode) {
         super(owner, title, true); // initially always modal
         toolkit.lockAWT();
         try {
@@ -64,7 +64,7 @@ public class FileDialog extends Dialog {
         }
     }
     
-    public FileDialog(Dialog owner) {
+    public TFileDialog(Dialog owner) {
         this(owner, ""); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -73,7 +73,7 @@ public class FileDialog extends Dialog {
         }
     }
 
-    public FileDialog(Dialog owner, String title) {
+    public TFileDialog(Dialog owner, String title) {
         this(owner, title, LOAD);
         toolkit.lockAWT();
         try {
@@ -82,7 +82,7 @@ public class FileDialog extends Dialog {
         }
     }
 
-    public FileDialog(Dialog owner, String title, int mode) {
+    public TFileDialog(Dialog owner, String title, int mode) {
         super(owner, title, true); // initially always modal
         toolkit.lockAWT();
         try {

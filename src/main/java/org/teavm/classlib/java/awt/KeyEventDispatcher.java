@@ -17,13 +17,13 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.KeyEvent;
+import org.teavm.classlib.java.awt.event.TKeyEvent;
 
 public interface KeyEventDispatcher {
 
-    public boolean dispatchKeyEvent(KeyEvent a0);
+    public boolean dispatchKeyEvent(TKeyEvent a0);
 
 }
 

@@ -21,12 +21,6 @@
 
 package org.apache.harmony.awt.gl.font;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 // XXX - TODO - bidi not implemented yet
 //import java.text.Bidi;
 import java.util.Arrays;

@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -35,7 +35,7 @@ import org.apache.harmony.awt.state.MenuBarState;
 import org.apache.harmony.awt.wtk.NativeWindow;
 
 
-public class MenuBar extends MenuComponent implements MenuContainer, Accessible {
+public class TMenuBar extends TMenuComponent implements TMenuContainer, TAccessible {
 
     private static final long serialVersionUID = -4930327919388951260L;
     private final ArrayList<Menu> menuList;
@@ -154,7 +154,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
         }
     }
 
-    public MenuBar() throws HeadlessException {
+    public TMenuBar() throws HeadlessException {
         toolkit.lockAWT();
         try {
             menuList = new ArrayList<Menu>();

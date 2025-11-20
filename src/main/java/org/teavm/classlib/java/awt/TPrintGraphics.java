@@ -17,11 +17,11 @@
 /**
  * @author Igor A. Pyankov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public interface PrintGraphics {
+public interface TPrintGraphics {
 
-    public PrintJob getPrintJob();
+    public TPrintJob getPrintJob();
 }
 
 

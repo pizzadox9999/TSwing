@@ -17,14 +17,14 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-class GridBagLayoutInfo {
+class TGridBagLayoutInfo {
 
     int widths[];
     int heights[];
 
-    GridBagLayoutInfo(int widths[], int heights[]) {
+    TGridBagLayoutInfo(int widths[], int heights[]) {
         this.widths = widths;
         this.heights = heights;
     }

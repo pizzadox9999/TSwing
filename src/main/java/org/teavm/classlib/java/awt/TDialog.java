@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -28,7 +28,7 @@ import javax.accessibility.AccessibleStateSet;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class Dialog extends Window {
+public class TDialog extends TWindow {
     private static final long serialVersionUID = 5920926903803293709L;
 
     private DialogModalContext modalContext;
@@ -79,7 +79,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
+    public TDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
         super(owner, gc);
         toolkit.lockAWT();
         try {
@@ -91,7 +91,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
+    public TDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
         super(owner, gc);
         toolkit.lockAWT();
         try {
@@ -105,7 +105,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Frame owner, String title, boolean modal) {
+    public TDialog(Frame owner, String title, boolean modal) {
         this(owner, title, modal, null);
         toolkit.lockAWT();
         try {
@@ -114,7 +114,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Frame owner, String title) {
+    public TDialog(Frame owner, String title) {
         this(owner, title, false, null);
         toolkit.lockAWT();
         try {
@@ -123,7 +123,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Dialog owner, String title, boolean modal) {
+    public TDialog(Dialog owner, String title, boolean modal) {
         this(owner, title, modal, null);
         toolkit.lockAWT();
         try {
@@ -132,7 +132,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Dialog owner, String title) {
+    public TDialog(Dialog owner, String title) {
         this(owner, title, false, null);
         toolkit.lockAWT();
         try {
@@ -141,7 +141,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Frame owner, boolean modal) {
+    public TDialog(Frame owner, boolean modal) {
         this(owner, "", modal, null); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -150,7 +150,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Frame owner) {
+    public TDialog(Frame owner) {
         this(owner, "", false, null); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -159,7 +159,7 @@ public class Dialog extends Window {
         }
     }
 
-    public Dialog(Dialog owner) {
+    public TDialog(Dialog owner) {
         this(owner, "", false, null); //$NON-NLS-1$
         toolkit.lockAWT();
         try {

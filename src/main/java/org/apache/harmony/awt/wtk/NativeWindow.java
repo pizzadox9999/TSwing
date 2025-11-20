@@ -19,12 +19,11 @@
  */
 package org.apache.harmony.awt.wtk;
 
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import org.apache.harmony.awt.gl.MultiRectArea;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TInsets;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
 
 
 /**
@@ -77,7 +76,7 @@ public interface NativeWindow {
      * <p/>  If child, position is relative to parent window.
      * @return last notified window bounds
      */
-    Rectangle getBounds();
+    TRectangle getBounds();
 
     /**
      * Returns last notified insets. This means the last insets
@@ -85,7 +84,7 @@ public interface NativeWindow {
      * ocupied by system provided decor, ususally border and titlebar.
      * @return last notified insets
      */
-    Insets getInsets();
+    TInsets getInsets();
 
     /**
      * Enables/disables processing of input (key, mouse) event
@@ -178,7 +177,7 @@ public interface NativeWindow {
      * top-level [decorated] window.
      * @param image the icon image to be displayed
      */
-    void setIconImage(Image image);
+    void setIconImage(TImage image);
 
     /**
      * Makes window top-most if value is true,
@@ -191,12 +190,12 @@ public interface NativeWindow {
      * Fields set to Integer.MAX_VALUE are ignored[system-supplied values are
      * used instead]
      */
-    void setMaximizedBounds(Rectangle bounds);
+    void setMaximizedBounds(TRectangle bounds);
 
     /**
      * Get absolute position on the screen
      */
-    Point getScreenPos();
+    TPoint getScreenPos();
 
     /**
      * Set a window "packed" flag:
@@ -215,5 +214,5 @@ public interface NativeWindow {
      */
     void setIMStyle();
 
-    MultiRectArea getObscuredRegion(Rectangle part);
+    MultiRectArea getObscuredRegion(TRectangle part);
 }

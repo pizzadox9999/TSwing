@@ -19,23 +19,6 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.Image;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.SystemFlavorMap;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,11 +34,28 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
+import org.teavm.classlib.java.awt.datatransfer.TDataFlavor;
+import org.teavm.classlib.java.awt.datatransfer.TSystemFlavorMap;
+import org.teavm.classlib.java.awt.datatransfer.TTransferable;
+import org.teavm.classlib.java.awt.datatransfer.TUnsupportedFlavorException;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TComponentColorModel;
+import org.teavm.classlib.java.awt.image.TDataBuffer;
+import org.teavm.classlib.java.awt.image.TDataBufferByte;
+import org.teavm.classlib.java.awt.image.TDataBufferInt;
+import org.teavm.classlib.java.awt.image.TDataBufferUShort;
+import org.teavm.classlib.java.awt.image.TDirectColorModel;
+import org.teavm.classlib.java.awt.image.TRaster;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
 
 /**
  * Wrapper for native data
  */
-public final class DataProxy implements Transferable {
+public final class DataProxy implements TTransferable {
     
     public static final Class<?>[] unicodeTextClasses = 
             { String.class, Reader.class, CharBuffer.class, char[].class }; 
@@ -63,19 +63,19 @@ public final class DataProxy implements Transferable {
               { byte[].class, ByteBuffer.class, InputStream.class };
     
     private final DataProvider data;
-    private final SystemFlavorMap flavorMap;
+    private final TSystemFlavorMap flavorMap;
     
     public DataProxy(DataProvider data) {
         this.data = data;
-        this.flavorMap = (SystemFlavorMap)SystemFlavorMap.getDefaultFlavorMap();
+        this.flavorMap = (TSystemFlavorMap) TSystemFlavorMap.getDefaultFlavorMap();
     }
     
     public DataProvider getDataProvider() {
         return data;
     }
     
-    public Object getTransferData(DataFlavor flavor)
-            throws UnsupportedFlavorException, IOException {
+    public Object getTransferData(TDataFlavor flavor)
+            throws TUnsupportedFlavorException, IOException {
         
         String mimeType = flavor.getPrimaryType() + "/" + flavor.getSubType(); //$NON-NLS-1$
         if (flavor.isFlavorTextType()) {
@@ -97,31 +97,31 @@ public final class DataProxy implements Transferable {
             return getURL(flavor);
         }
         if (mimeType.equalsIgnoreCase(DataProvider.TYPE_IMAGE) && 
-                Image.class.isAssignableFrom(flavor.getRepresentationClass())) {
+                TImage.class.isAssignableFrom(flavor.getRepresentationClass())) {
             return getImage(flavor);
         }
         
-        throw new UnsupportedFlavorException(flavor);
+        throw new TUnsupportedFlavorException(flavor);
     }
 
-    public DataFlavor[] getTransferDataFlavors() {
-        ArrayList<DataFlavor> result = new ArrayList<DataFlavor>();
+    public TDataFlavor[] getTransferDataFlavors() {
+        ArrayList<TDataFlavor> result = new ArrayList<TDataFlavor>();
         String[] natives = data.getNativeFormats();
         
         for (int i = 0; i < natives.length; i++) {
-            List<DataFlavor> flavors = flavorMap.getFlavorsForNative(natives[i]);
-            for (Iterator<DataFlavor> it = flavors.iterator(); it.hasNext(); ) {
-                DataFlavor f = it.next();
+            List<TDataFlavor> flavors = flavorMap.getFlavorsForNative(natives[i]);
+            for (Iterator<TDataFlavor> it = flavors.iterator(); it.hasNext(); ) {
+                TDataFlavor f = it.next();
                 if (!result.contains(f)) {
                     result.add(f);
                 }
             }
         }
-        return result.toArray(new DataFlavor[result.size()]);
+        return result.toArray(new TDataFlavor[result.size()]);
     }
     
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        DataFlavor[] flavors = getTransferDataFlavors();
+    public boolean isDataFlavorSupported(TDataFlavor flavor) {
+        TDataFlavor[] flavors = getTransferDataFlavors();
         for (int i=0; i<flavors.length; i++) {
             if (flavors[i].equals(flavor)) {
                 return true;
@@ -130,10 +130,10 @@ public final class DataProxy implements Transferable {
         return false;
     }
     
-    private Object getPlainText(DataFlavor f)
-            throws IOException, UnsupportedFlavorException {
+    private Object getPlainText(TDataFlavor f)
+            throws IOException, TUnsupportedFlavorException {
         if (!data.isNativeFormatAvailable(DataProvider.FORMAT_TEXT)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         String str = data.getText();
         if (str == null) {
@@ -143,10 +143,10 @@ public final class DataProxy implements Transferable {
         return getTextRepresentation(str, f);
     }
 
-    private Object getFileList(DataFlavor f) 
-            throws IOException, UnsupportedFlavorException {
+    private Object getFileList(TDataFlavor f) 
+            throws IOException, TUnsupportedFlavorException {
         if (!data.isNativeFormatAvailable(DataProvider.FORMAT_FILE_LIST)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         String[] files = data.getFileList();
         if (files == null) {
@@ -156,10 +156,10 @@ public final class DataProxy implements Transferable {
         return Arrays.asList(files);
     }
 
-    private Object getHTML(DataFlavor f)
-            throws IOException, UnsupportedFlavorException {
+    private Object getHTML(TDataFlavor f)
+            throws IOException, TUnsupportedFlavorException {
         if (!data.isNativeFormatAvailable(DataProvider.FORMAT_HTML)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         String str = data.getHTML();
         if (str == null) {
@@ -169,10 +169,10 @@ public final class DataProxy implements Transferable {
         return getTextRepresentation(str, f);
     }
 
-    private Object getURL(DataFlavor f)
-            throws IOException, UnsupportedFlavorException {
+    private Object getURL(TDataFlavor f)
+            throws IOException, TUnsupportedFlavorException {
         if (!data.isNativeFormatAvailable(DataProvider.FORMAT_URL)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         String str = data.getURL();
         if (str == null) {
@@ -186,15 +186,15 @@ public final class DataProxy implements Transferable {
         if (f.isFlavorTextType()) {
             return getTextRepresentation(url.toString(), f);
         }
-        throw new UnsupportedFlavorException(f);
+        throw new TUnsupportedFlavorException(f);
     }
     
-    private Object getSerializedObject(DataFlavor f)
-            throws IOException, UnsupportedFlavorException {
-        String nativeFormat = SystemFlavorMap.encodeDataFlavor(f);
+    private Object getSerializedObject(TDataFlavor f)
+            throws IOException, TUnsupportedFlavorException {
+        String nativeFormat = TSystemFlavorMap.encodeDataFlavor(f);
         if ((nativeFormat == null) || 
                 !data.isNativeFormatAvailable(nativeFormat)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         byte bytes[] = data.getSerializedObject(f.getRepresentationClass());
         if (bytes == null) {
@@ -209,12 +209,12 @@ public final class DataProxy implements Transferable {
         }
     }
     
-    private String getCharset(DataFlavor f) {
+    private String getCharset(TDataFlavor f) {
         return f.getParameter("charset"); //$NON-NLS-1$
     }
 
-    private Object getTextRepresentation(String text, DataFlavor f)
-            throws UnsupportedFlavorException, IOException {
+    private Object getTextRepresentation(String text, TDataFlavor f)
+            throws TUnsupportedFlavorException, IOException {
         if (f.getRepresentationClass() == String.class) {
             return text;
         }
@@ -242,13 +242,13 @@ public final class DataProxy implements Transferable {
             byte[] bytes = text.getBytes(charset);
             return new ByteArrayInputStream(bytes);
         }
-        throw new UnsupportedFlavorException(f);
+        throw new TUnsupportedFlavorException(f);
     }
 
-    private Image getImage(DataFlavor f) 
-            throws IOException, UnsupportedFlavorException {
+    private TImage getImage(TDataFlavor f) 
+            throws IOException, TUnsupportedFlavorException {
         if (!data.isNativeFormatAvailable(DataProvider.FORMAT_IMAGE)) {
-            throw new UnsupportedFlavorException(f);
+            throw new TUnsupportedFlavorException(f);
         }
         RawBitmap bitmap = data.getRawBitmap();
         if (bitmap == null) {
@@ -266,14 +266,14 @@ public final class DataProxy implements Transferable {
         return b.rMask == 0xFF && b.gMask == 0xFF00 && b.bMask == 0xFF0000;
     }
     
-    private BufferedImage createBufferedImage(RawBitmap b) {
+    private TBufferedImage createBufferedImage(RawBitmap b) {
         if (b == null || b.buffer == null
                 || b.width <= 0 || b.height <= 0) {
             return null;
         }
         
-        ColorModel cm = null;
-        WritableRaster wr = null;
+        TColorModel cm = null;
+        TWritableRaster wr = null;
 
         if (b.bits == 32 && b.buffer instanceof int[]) {
             if (!isRGB(b) && !isBGR(b)) {
@@ -281,9 +281,9 @@ public final class DataProxy implements Transferable {
             }
             int masks[] = { b.rMask, b.gMask, b.bMask };
             int buffer[] = (int [])b.buffer;
-            cm = new DirectColorModel(24, b.rMask, b.gMask, b.bMask);
-            wr = Raster.createPackedRaster(
-                    new DataBufferInt(buffer, buffer.length), 
+            cm = new TDirectColorModel(24, b.rMask, b.gMask, b.bMask);
+            wr = TRaster.createPackedRaster(
+                    new TDataBufferInt(buffer, buffer.length), 
                     b.width, b.height, b.stride,
                     masks, null);
 
@@ -298,23 +298,23 @@ public final class DataProxy implements Transferable {
                 return null;
             }
             byte buffer[] = (byte [])b.buffer;
-            cm = new ComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+            cm = new TComponentColorModel(
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     bits, false, false, 
-                    Transparency.OPAQUE, 
-                    DataBuffer.TYPE_BYTE);
+                    TTransparency.OPAQUE, 
+                    TDataBuffer.TYPE_BYTE);
 
-            wr = Raster.createInterleavedRaster(
-                    new DataBufferByte(buffer, buffer.length),
+            wr = TRaster.createInterleavedRaster(
+                    new TDataBufferByte(buffer, buffer.length),
                     b.width, b.height, b.stride, 3, offsets, null);
 
         } else if ((b.bits == 16 || b.bits == 15)
                 && b.buffer instanceof short[]) {
             int masks[] = { b.rMask, b.gMask, b.bMask };
             short buffer[] = (short [])b.buffer;
-            cm = new DirectColorModel(b.bits, b.rMask, b.gMask, b.bMask);
-            wr = Raster.createPackedRaster(
-                    new DataBufferUShort(buffer, buffer.length), 
+            cm = new TDirectColorModel(b.bits, b.rMask, b.gMask, b.bMask);
+            wr = TRaster.createPackedRaster(
+                    new TDataBufferUShort(buffer, buffer.length), 
                     b.width, b.height, b.stride,
                     masks, null);
         }
@@ -322,7 +322,7 @@ public final class DataProxy implements Transferable {
         if (cm == null || wr == null) {
             return null;
         }
-        return new BufferedImage(cm, wr, false, null);
+        return new TBufferedImage(cm, wr, false, null);
     }
 }
 

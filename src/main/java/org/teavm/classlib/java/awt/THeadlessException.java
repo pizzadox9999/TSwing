@@ -17,20 +17,20 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 /**
  * HeadlessException
  *
  */
-public class HeadlessException extends UnsupportedOperationException {
+public class THeadlessException extends UnsupportedOperationException {
     private static final long serialVersionUID = 167183644944358563L;
 
-    public HeadlessException() {
+    public THeadlessException() {
         super();
     }
 
-    public HeadlessException(String msg) {
+    public THeadlessException(String msg) {
         super(msg);
     }
 }

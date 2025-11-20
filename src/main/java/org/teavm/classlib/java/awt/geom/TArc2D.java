@@ -230,7 +230,7 @@ public abstract class TArc2D extends TRectangularShape {
 
         @Override
         protected TRectangle2D makeBounds(double x, double y, double width, double height) {
-            return new TRectangle2D.Double(x, y, width, height);
+            return new TRectangle2D.TDouble(x, y, width, height);
         }
 
     }
@@ -695,7 +695,7 @@ public abstract class TArc2D extends TRectangularShape {
             return true;
         }
 
-        TRectangle2D r = new TRectangle2D.Double(rx, ry, rw, rh);
+        TRectangle2D r = new TRectangle2D.TDouble(rx, ry, rw, rh);
 
         double cx = getCenterX();
         double cy = getCenterY();
@@ -731,7 +731,7 @@ public abstract class TArc2D extends TRectangularShape {
         double cy = getCenterY();
         TPoint2D p1 = getStartPoint();
         TPoint2D p2 = getEndPoint();
-        TRectangle2D r = new TRectangle2D.Double(rx, ry, rw, rh);
+        TRectangle2D r = new TRectangle2D.TDouble(rx, ry, rw, rh);
 
         // Check: Does rectangle contain arc's points
         if (r.contains(p1) || r.contains(p2) || (type == PIE && r.contains(cx, cy))) {

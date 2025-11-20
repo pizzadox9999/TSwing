@@ -17,15 +17,8 @@
 /**
  * @author Denis M. Kishenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 
@@ -33,7 +26,7 @@ import org.apache.harmony.awt.gl.*;
 import org.apache.harmony.awt.internal.nls.Messages;
 
 
-public class Polygon implements Shape, Serializable {
+public class TPolygon implements TShape, Serializable {
 
     private static final long serialVersionUID = -6460061437900069969L;
 
@@ -45,12 +38,12 @@ public class Polygon implements Shape, Serializable {
     public int npoints;
     public int[] xpoints;
     public int[] ypoints;
-    protected Rectangle bounds;
+    protected TRectangle bounds;
 
     /*
      * Polygon path iterator  
      */
-    class Iterator implements PathIterator {
+    class Iterator implements TPathIterator {
 
         /**
          * The source Polygon object
@@ -60,7 +53,7 @@ public class Polygon implements Shape, Serializable {
         /**
          * The path iterator transformation
          */
-        public AffineTransform t;
+        public TAffineTransform t;
         
         /**
          * The current segmenet index
@@ -72,7 +65,7 @@ public class Polygon implements Shape, Serializable {
          * @param l - the source Line2D object
          * @param at - the AffineTransform object to apply rectangle path
          */
-        public Iterator(AffineTransform at, Polygon p) {
+        public Iterator(TAffineTransform at, TPolygon p) {
             this.p = p;
             this.t = at;
             if (p.npoints == 0) {
@@ -125,12 +118,12 @@ public class Polygon implements Shape, Serializable {
         }
     }
 
-    public Polygon() {
+    public TPolygon() {
         xpoints = new int[BUFFER_CAPACITY];
         ypoints = new int[BUFFER_CAPACITY];
     }
 
-    public Polygon(int[] xpoints, int[] ypoints, int npoints) {
+    public TPolygon(int[] xpoints, int[] ypoints, int npoints) {
         if (npoints > xpoints.length || npoints > ypoints.length) {
             // awt.111=Parameter npoints is greater than array length
             throw new IndexOutOfBoundsException(Messages.getString("awt.111")); //$NON-NLS-1$
@@ -181,12 +174,12 @@ public class Polygon implements Shape, Serializable {
         }
     }
 
-    public Rectangle getBounds() {
+    public TRectangle getBounds() {
         if (bounds != null) {
             return bounds;
         }
         if (npoints == 0) {
-            return new Rectangle();
+            return new TRectangle();
         }
 
         int bx1 = xpoints[0];
@@ -209,18 +202,18 @@ public class Polygon implements Shape, Serializable {
             }
         }
 
-        return bounds = new Rectangle(bx1, by1, bx2 - bx1, by2 - by1);
+        return bounds = new TRectangle(bx1, by1, bx2 - bx1, by2 - by1);
     }
 
     /**
      * @deprecated
      */
     @Deprecated
-    public Rectangle getBoundingBox() {
+    public TRectangle getBoundingBox() {
         return getBounds();
     }
 
-    public Rectangle2D getBounds2D() {
+    public TRectangle2D getBounds2D() {
         return getBounds().getBounds2D();
     }
 
@@ -260,27 +253,27 @@ public class Polygon implements Shape, Serializable {
         return cross == Crossing.CROSSING || Crossing.isInsideEvenOdd(cross);
     }
 
-    public boolean contains(Rectangle2D rect) {
+    public boolean containsT(Rectangle2D rect) {
         return contains(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
     }
 
-    public boolean contains(Point point) {
+    public boolean contains(TPoint point) {
         return contains(point.getX(), point.getY());
     }
 
-    public boolean contains(Point2D point) {
+    public boolean contains(TPoint2D point) {
         return contains(point.getX(), point.getY());
     }
 
-    public boolean intersects(Rectangle2D rect) {
+    public boolean intersects(TRectangle2D rect) {
         return intersects(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
     }
 
-    public PathIterator getPathIterator(AffineTransform t) {
+    public TPathIterator getPathIterator(TAffineTransform t) {
         return new Iterator(t, this);
     }
 
-    public PathIterator getPathIterator(AffineTransform t, double flatness) {
+    public TPathIterator getPathIterator(TAffineTransform t, double flatness) {
         return new Iterator(t, this);
     }
 

@@ -17,21 +17,15 @@
 /**
  * @author Dmitry A. Durnev, Michael Danilov, Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.Dispatcher.MouseGrabManager;
 import java.util.EventListener;
 
 import org.apache.harmony.awt.wtk.NativeEvent;
 import org.apache.harmony.awt.wtk.NativeWindow;
 
 
-class MouseDispatcher {
+class TMouseDispatcher {
 
     // Fields for synthetic mouse click events generation
     private static final int clickDelta = 5;
@@ -81,7 +75,7 @@ class MouseDispatcher {
         return location;
     }
 
-    MouseDispatcher(MouseGrabManager mouseGrabManager,
+    TMouseDispatcher(MouseGrabManager mouseGrabManager,
                     Toolkit toolkit) {
         this.mouseGrabManager = mouseGrabManager;
         this.toolkit = toolkit;

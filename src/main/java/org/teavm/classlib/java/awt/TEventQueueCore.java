@@ -17,7 +17,7 @@
 /** 
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -31,7 +31,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 /**
  * The events storage for EventQueue
  */
-final class EventQueueCore {
+final class TEventQueueCore {
     
     private final LinkedList<EventQueue> queueStack = new LinkedList<EventQueue>();
     private final LinkedList<AWTEvent> events = new LinkedList<AWTEvent>();
@@ -43,14 +43,14 @@ final class EventQueueCore {
     AWTEvent currentEvent;
     long mostRecentEventTime = System.currentTimeMillis();
     
-    EventQueueCore(EventQueue eq) {
+    TEventQueueCore(EventQueue eq) {
         synchronized (this) {
             queueStack.addLast(eq);
             activeQueue = eq;
         }
     }
 
-    EventQueueCore(EventQueue eq, Toolkit t) {
+    TEventQueueCore(EventQueue eq, Toolkit t) {
         synchronized (this) {
             queueStack.addLast(eq);
             activeQueue = eq;

@@ -19,12 +19,11 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.ActiveEvent;
-
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TActiveEvent;
 
-public class TInvocationEvent extends AWTEvent implements ActiveEvent {
+public class TInvocationEvent extends TAWTEvent implements TActiveEvent {
 
     private static final long serialVersionUID = 436056344909459450L;
 

@@ -17,14 +17,14 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
 import org.apache.harmony.misc.HashCode;
 
 
-public class Insets implements Cloneable, Serializable {
+public class TInsets implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -2272572637695466749L;
 
@@ -36,7 +36,7 @@ public class Insets implements Cloneable, Serializable {
 
     public int right;
 
-    public Insets(int top, int left, int bottom, int right) {
+    public TInsets(int top, int left, int bottom, int right) {
         setValues(top, left, bottom, right);
     }
 

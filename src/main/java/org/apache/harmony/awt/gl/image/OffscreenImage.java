@@ -23,44 +23,45 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.IndexColorModel;
-import java.awt.image.WritableRaster;
+import org.teavm.classlib.java.awt.TGraphics;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TComponentColorModel;
+import org.teavm.classlib.java.awt.image.TDataBuffer;
+import org.teavm.classlib.java.awt.image.TDataBufferByte;
+import org.teavm.classlib.java.awt.image.TDataBufferInt;
+import org.teavm.classlib.java.awt.image.TDirectColorModel;
+import org.teavm.classlib.java.awt.image.TImageObserver;
+import org.teavm.classlib.java.awt.image.TImageProducer;
+import org.teavm.classlib.java.awt.image.TIndexColorModel;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
+
 import java.util.ConcurrentModificationException;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
-
 import org.apache.harmony.awt.gl.AwtImageBackdoorAccessor;
+
 import org.apache.harmony.awt.gl.ImageSurface;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
 
 
 /**
- * This class represent implementation of abstact Image class
+ * This class represent implementation of abstact TImage class
  */
-public class OffscreenImage extends Image implements ImageConsumer {
+public class OffscreenImage extends TImage implements TImageConsumer {
 
-    static final ColorModel rgbCM = ColorModel.getRGBdefault();
-    ImageProducer src;
-    BufferedImage image;
-    ColorModel cm;
-    WritableRaster raster;
+    static final TColorModel rgbCM = TColorModel.getRGBdefault();
+    TImageProducer src;
+    TBufferedImage image;
+    TColorModel cm;
+    TWritableRaster raster;
     boolean isIntRGB;
     Hashtable<?, ?> properties;
-    Vector<ImageObserver> observers;
+    Vector<TImageObserver> observers;
     int width;
     int height;
     int imageState;
@@ -71,18 +72,18 @@ public class OffscreenImage extends Image implements ImageConsumer {
     AwtImageBackdoorAccessor ba = AwtImageBackdoorAccessor.getInstance();
 
 
-    public OffscreenImage(ImageProducer ip){
+    public OffscreenImage(TImageProducer ip){
         imageState = 0;
         src = ip;
         width = -1;
         height = -1;
-        observers = new Vector<ImageObserver>();
+        observers = new Vector<TImageObserver>();
         producing = false;
         done = false;
     }
 
     @Override
-    public Object getProperty(String name, ImageObserver observer) {
+    public Object getProperty(String name, TImageObserver observer) {
         if(name == null) {
             // awt.38=Property name is not defined
             throw new NullPointerException(Messages.getString("awt.38")); //$NON-NLS-1$
@@ -101,35 +102,35 @@ public class OffscreenImage extends Image implements ImageConsumer {
     }
 
     @Override
-    public ImageProducer getSource() {
+    public TImageProducer getSource() {
         return src;
     }
 
     @Override
-    public int getWidth(ImageObserver observer) {
-        if(!done && (imageState & ImageObserver.WIDTH) == 0){
+    public int getWidth(TImageObserver observer) {
+        if(!done && (imageState & TImageObserver.WIDTH) == 0){
             startProduction(observer);
         }
         return width;
     }
 
     @Override
-    public int getHeight(ImageObserver observer) {
-        if(!done && (imageState & ImageObserver.HEIGHT) == 0){
+    public int getHeight(TImageObserver observer) {
+        if(!done && (imageState & TImageObserver.HEIGHT) == 0){
             startProduction(observer);
         }
         return height;
     }
 
     @Override
-    public Graphics getGraphics() {
-        // awt.39=This method is not implemented for image obtained from ImageProducer
+    public TGraphics getGraphics() {
+        // awt.39=This method is not implemented for image obtained from TImageProducer
         throw new UnsupportedOperationException(Messages.getString("awt.39")); //$NON-NLS-1$
     }
 
     @Override
     public void flush() {
-        imageUpdate(ImageObserver.ABORT, -1, -1, -1, -1);
+        imageUpdate(TImageObserver.ABORT, -1, -1, -1, -1);
         synchronized (this) {
             imageState = 0;
             image = null;
@@ -146,24 +147,24 @@ public class OffscreenImage extends Image implements ImageConsumer {
         synchronized (this) {
             this.properties = properties;
         }
-        imageUpdate(ImageObserver.PROPERTIES);
+        imageUpdate(TImageObserver.PROPERTIES);
     }
 
-    public synchronized void setColorModel(ColorModel cm) {
+    public synchronized void setColorModel(TColorModel cm) {
         this.cm = cm;
     }
 
     /*
-     * We suppose what in case loading JPEG image then image has DirectColorModel
+     * We suppose what in case loading JPEG image then image has TDirectColorModel
      * and for infill image Raster will use setPixels method with int array.
      *
      * In case loading GIF image, for raster infill, is used setPixels method with
-     * byte array and Color Model is IndexColorModel. But Color Model may
+     * byte array and Color Model is TIndexColorModel. But Color Model may
      * be changed during this process. Then is called setPixels method with
      * int array and image force to default color model - int ARGB. The rest
-     * pixels are sending in DirectColorModel.
+     * pixels are sending in TDirectColorModel.
      */
-    public void setPixels(int x, int y, int w, int h, ColorModel model,
+    public void setPixels(int x, int y, int w, int h, TColorModel model,
             int[] pixels, int off, int scansize) {
 
         if(raster == null){
@@ -184,16 +185,16 @@ public class OffscreenImage extends Image implements ImageConsumer {
             forceToIntARGB();
         }
 
-        DataBuffer db = raster.getDataBuffer();
+        TDataBuffer db = raster.getDataBuffer();
         Object surfData = ba.getData(db);
 
         synchronized(surfData){
-            if(cm == model && model.getTransferType() == DataBuffer.TYPE_INT &&
+            if(cm == model && model.getTransferType() == TDataBuffer.TYPE_INT &&
                     raster.getNumDataElements() == 1){
 
                 int data[] = (int[])surfData;
                 int scanline = raster.getWidth();
-                DataBufferInt dbi = (DataBufferInt) db;
+                TDataBufferInt dbi = (TDataBufferInt) db;
                 int rof = dbi.getOffset() + y * scanline + x;
                 for(int lineOff = off, line = y; line < y + h;
                     line++, lineOff += scansize, rof += scanline){
@@ -205,7 +206,7 @@ public class OffscreenImage extends Image implements ImageConsumer {
                 int buff[] = new int[w];
                 int data[] = (int[])surfData;
                 int scanline = raster.getWidth();
-                DataBufferInt dbi = (DataBufferInt) db;
+                TDataBufferInt dbi = (TDataBufferInt) db;
                 int rof = dbi.getOffset() + y * scanline + x;
                 for (int sy = y, sOff = off; sy < y + h; sy++, sOff += scansize,
                     rof += scanline) {
@@ -229,13 +230,13 @@ public class OffscreenImage extends Image implements ImageConsumer {
         
         ba.releaseData(db);
         if (imageSurf != null) {
-            imageSurf.addDirtyRegion(new Rectangle(x, y, w, h));
+            imageSurf.addDirtyRegion(new TRectangle(x, y, w, h));
         }
 
-        imageUpdate(ImageObserver.SOMEBITS);
+        imageUpdate(TImageObserver.SOMEBITS);
     }
 
-    public void setPixels(int x, int y, int w, int h, ColorModel model,
+    public void setPixels(int x, int y, int w, int h, TColorModel model,
             byte[] pixels, int off, int scansize) {
         if(raster == null){
             if(cm == null){
@@ -254,7 +255,7 @@ public class OffscreenImage extends Image implements ImageConsumer {
             forceToIntARGB();
         }
 
-        DataBuffer db = raster.getDataBuffer();
+        TDataBuffer db = raster.getDataBuffer();
         Object surfData = ba.getData(db);
 
         synchronized(surfData){
@@ -262,11 +263,11 @@ public class OffscreenImage extends Image implements ImageConsumer {
                 int buff[] = new int[w];
                 int data[] = (int[])surfData;
                 int scanline = raster.getWidth();
-                DataBufferInt dbi = (DataBufferInt) db;
+                TDataBufferInt dbi = (TDataBufferInt) db;
                 int rof = dbi.getOffset() + y * scanline + x;
-                if(model instanceof IndexColorModel){
+                if(model instanceof TIndexColorModel){
 
-                    IndexColorModel icm = (IndexColorModel) model;
+                    TIndexColorModel icm = (TIndexColorModel) model;
                     int colorMap[] = new int[icm.getMapSize()];
                     icm.getRGBs(colorMap);
 
@@ -287,19 +288,19 @@ public class OffscreenImage extends Image implements ImageConsumer {
                         System.arraycopy(buff, 0, data, rof, w);
                     }
                 }
-            }else if(model == cm && model.getTransferType() == DataBuffer.TYPE_BYTE &&
+            }else if(model == cm && model.getTransferType() == TDataBuffer.TYPE_BYTE &&
                     raster.getNumDataElements() == 1){
 
                 byte data[] = (byte[])surfData;
                 int scanline = raster.getWidth();
-                DataBufferByte dbb = (DataBufferByte) db;
+                TDataBufferByte dbb = (TDataBufferByte) db;
                 int rof = dbb.getOffset() + y * scanline + x;
                 for(int lineOff = off, line = y; line < y + h;
                     line++, lineOff += scansize, rof += scanline){
                     System.arraycopy(pixels, lineOff, data, rof, w);
                 }
-            }else if(model == cm && model.getTransferType() == DataBuffer.TYPE_BYTE &&
-                    cm instanceof ComponentColorModel){
+            }else if(model == cm && model.getTransferType() == TDataBuffer.TYPE_BYTE &&
+                    cm instanceof TComponentColorModel){
 
                 byte stride[] = new byte[scansize];
                 for (int sy = y, sOff = off; sy < y + h; sy++, sOff += scansize) {
@@ -319,10 +320,10 @@ public class OffscreenImage extends Image implements ImageConsumer {
 
         ba.releaseData(db);
         if (imageSurf != null) {
-            imageSurf.addDirtyRegion(new Rectangle(x, y, w, h));
+            imageSurf.addDirtyRegion(new TRectangle(x, y, w, h));
         }
 
-        imageUpdate(ImageObserver.SOMEBITS);
+        imageUpdate(TImageObserver.SOMEBITS);
     }
 
     public void setDimensions(int width, int height) {
@@ -334,7 +335,7 @@ public class OffscreenImage extends Image implements ImageConsumer {
             this.width = width;
             this.height = height;
         }
-        imageUpdate(ImageObserver.WIDTH | ImageObserver.HEIGHT);
+        imageUpdate(TImageObserver.WIDTH | TImageObserver.HEIGHT);
 
     }
 
@@ -348,72 +349,72 @@ public class OffscreenImage extends Image implements ImageConsumer {
         int flag;
         switch(state){
         case IMAGEABORTED:
-            flag = ImageObserver.ABORT;
+            flag = TImageObserver.ABORT;
             break;
         case IMAGEERROR:
-            flag = ImageObserver.ERROR | ImageObserver.ABORT;
+            flag = TImageObserver.ERROR | TImageObserver.ABORT;
             break;
         case SINGLEFRAMEDONE:
-            flag = ImageObserver.FRAMEBITS;
+            flag = TImageObserver.FRAMEBITS;
             break;
         case STATICIMAGEDONE:
-            flag = ImageObserver.ALLBITS;
+            flag = TImageObserver.ALLBITS;
             break;
         default:
-            // awt.3B=Incorrect ImageConsumer completion status
+            // awt.3B=Incorrect TImageConsumer completion status
             throw new IllegalArgumentException(Messages.getString("awt.3B")); //$NON-NLS-1$
         }
 
         imageUpdate(flag);
-        if((imageState & (ImageObserver.ERROR | ImageObserver.ABORT |
-                ImageObserver.ALLBITS)) != 0 ) {
+        if((imageState & (TImageObserver.ERROR | TImageObserver.ABORT |
+                TImageObserver.ALLBITS)) != 0 ) {
             
             stopProduction();
         }
 
     }
 
-    public BufferedImage getBufferedImage(){
+    public TBufferedImage getBufferedImage(){
         if(image == null){
-            ColorModel model = getColorModel();
-            WritableRaster wr = getRaster();
+            TColorModel model = getColorModel();
+            TWritableRaster wr = getRaster();
             if(model != null && wr != null) {
-                image = new BufferedImage(model, wr, model.isAlphaPremultiplied(), null);
+                image = new TBufferedImage(model, wr, model.isAlphaPremultiplied(), null);
             }
         }
         return image;
     }
 
-    public int checkImage(ImageObserver observer){
+    public int checkTImage(TImageObserver observer){
         synchronized (this) {
             addObserver(observer);
         }
         return imageState;
     }
 
-    public boolean prepareImage(ImageObserver observer){
+    public boolean prepareTImage(TImageObserver observer){
         if(!done){
-            if((imageState & ImageObserver.ERROR) != 0){
+            if((imageState & TImageObserver.ERROR) != 0){
                 if(observer != null){
-                    observer.imageUpdate(this, ImageObserver.ERROR |
-                            ImageObserver.ABORT, -1, -1, -1, -1);
+                    observer.imageUpdate(this, TImageObserver.ERROR |
+                            TImageObserver.ABORT, -1, -1, -1, -1);
                 }
                 return false;
             }
             startProduction(observer);
         }
         
-        return ((imageState & ImageObserver.ALLBITS) != 0);
+        return ((imageState & TImageObserver.ALLBITS) != 0);
     }
 
-    public ColorModel getColorModel(){
+    public TColorModel getColorModel(){
         if(cm == null) {
             startProduction(null);
         }
         return cm;
     }
 
-    public WritableRaster getRaster(){
+    public TWritableRaster getRaster(){
         if(raster == null) {
             startProduction(null);
         }
@@ -424,18 +425,18 @@ public class OffscreenImage extends Image implements ImageConsumer {
         return imageState;
     }
 
-    private void addObserver(ImageObserver observer){
+    private void addObserver(TImageObserver observer){
         if(observer != null){
             if(observers.contains(observer)) return;
 
-            if((imageState & ImageObserver.ERROR) != 0){
-                observer.imageUpdate(this, ImageObserver.ERROR |
-                    ImageObserver.ABORT, -1, -1, -1, -1);
+            if((imageState & TImageObserver.ERROR) != 0){
+                observer.imageUpdate(this, TImageObserver.ERROR |
+                    TImageObserver.ABORT, -1, -1, -1, -1);
           
                 return;
             }
 
-            if((imageState & ImageObserver.ALLBITS) != 0){
+            if((imageState & TImageObserver.ALLBITS) != 0){
                 observer.imageUpdate(this, imageState, 0, 0, width, height);
 
                 return;
@@ -446,11 +447,11 @@ public class OffscreenImage extends Image implements ImageConsumer {
         }
     }
 
-    private void startProduction(ImageObserver observer){
+    private void startProduction(TImageObserver observer){
         addObserver(observer);
         if(!producing && !done){
             synchronized(this){
-                imageState &= ~ImageObserver.ABORT;
+                imageState &= ~TImageObserver.ABORT;
                 producing = true;
                 src.startProduction(this);
             }
@@ -469,9 +470,9 @@ public class OffscreenImage extends Image implements ImageConsumer {
         try{
             raster = cm.createCompatibleWritableRaster(width, height);
             isIntRGB = false;
-            if(cm instanceof DirectColorModel){
-                DirectColorModel dcm = (DirectColorModel) cm;
-                if(dcm.getTransferType() == DataBuffer.TYPE_INT &&
+            if(cm instanceof TDirectColorModel){
+                TDirectColorModel dcm = (TDirectColorModel) cm;
+                if(dcm.getTransferType() == TDataBuffer.TYPE_INT &&
                         dcm.getRedMask() == 0xff0000 &&
                         dcm.getGreenMask() == 0xff00 &&
                         dcm.getBlueMask() == 0xff){
@@ -479,7 +480,7 @@ public class OffscreenImage extends Image implements ImageConsumer {
                 }
             }
         }catch(Exception e){
-            cm = ColorModel.getRGBdefault();
+            cm = TColorModel.getRGBdefault();
             raster = cm.createCompatibleWritableRaster(width, height);
             isIntRGB = true;
         }
@@ -492,13 +493,13 @@ public class OffscreenImage extends Image implements ImageConsumer {
     private void imageUpdate(int state, int x, int y, int width, int height){
         synchronized(this){
             imageState |= state;
-            if((imageState & (ImageObserver.ALLBITS)) != 0 ) {
+            if((imageState & (TImageObserver.ALLBITS)) != 0 ) {
                 done = true;
             }
         }
-        ImageObserver observer = null;
+        TImageObserver observer = null;
 
-        for (Iterator<ImageObserver> i = observers.iterator(); i.hasNext();) {
+        for (Iterator<TImageObserver> i = observers.iterator(); i.hasNext();) {
             try {
                 observer = i.next();
             } catch (ConcurrentModificationException e) {
@@ -515,13 +516,13 @@ public class OffscreenImage extends Image implements ImageConsumer {
         int w = raster.getWidth();
         int h = raster.getHeight();
 
-        WritableRaster destRaster = rgbCM.createCompatibleWritableRaster(w, h);
+        TWritableRaster destRaster = rgbCM.createCompatibleWritableRaster(w, h);
 
         Object obj = null;
         int pixels[] = new int[w];
 
-        if(cm instanceof IndexColorModel){
-            IndexColorModel icm = (IndexColorModel) cm;
+        if(cm instanceof TIndexColorModel){
+            TIndexColorModel icm = (TIndexColorModel) cm;
             int colorMap[] = new int[icm.getMapSize()];
             icm.getRGBs(colorMap);
 
@@ -561,8 +562,8 @@ public class OffscreenImage extends Image implements ImageConsumer {
 
     public ImageSurface getImageSurface() {
         if (imageSurf == null) {
-            ColorModel model = getColorModel();
-            WritableRaster wr = getRaster();
+            TColorModel model = getColorModel();
+            TWritableRaster wr = getRaster();
             if(model != null && wr != null) {
                 imageSurf = new ImageSurface(model, wr);
             }

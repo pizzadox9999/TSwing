@@ -193,7 +193,7 @@ public abstract class TQuadCurve2D implements TShape, Cloneable {
             double ry0 = Math.min(Math.min(y1, y2), ctrly);
             double rx1 = Math.max(Math.max(x1, x2), ctrlx);
             double ry1 = Math.max(Math.max(y1, y2), ctrly);
-            return new TRectangle2D.Double(rx0, ry0, rx1 - rx0, ry1 - ry0);
+            return new TRectangle2D.TDouble(rx0, ry0, rx1 - rx0, ry1 - ry0);
         }
     }
 

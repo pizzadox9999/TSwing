@@ -20,11 +20,6 @@
 
 package org.apache.harmony.awt.gl.font;
 
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.font.TextHitInfo;
-import java.awt.geom.Rectangle2D;
-
 /**
  * Abstract class which represents the segment of the text with constant attributes
  * running in one direction (i.e. constant level).

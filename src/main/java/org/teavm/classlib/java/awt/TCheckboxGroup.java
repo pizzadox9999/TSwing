@@ -17,18 +17,18 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
-public class CheckboxGroup implements Serializable {
+public class TCheckboxGroup implements Serializable {
     private static final long serialVersionUID = 3729780091441768983L;
 
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     private Checkbox current = null;
 
-    public CheckboxGroup() {
+    public TCheckboxGroup() {
         toolkit.lockAWT();
         try {
         } finally {

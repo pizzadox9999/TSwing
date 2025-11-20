@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -27,7 +27,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.ScrollbarState;
 import org.apache.harmony.awt.wtk.NativeWindow;
 
-public class ScrollPaneAdjustable implements Adjustable, Serializable {
+public class TScrollPaneAdjustable implements TAdjustable, Serializable {
     private static final long serialVersionUID = -3359745691033257079L;
 
     private final AWTListenerList<AdjustmentListener> adjustmentListeners = new AWTListenerList<AdjustmentListener>();
@@ -246,7 +246,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
         }
     }
 
-    ScrollPaneAdjustable(Component comp, int orientation) {
+    TScrollPaneAdjustable(Component comp, int orientation) {
         this.comp = comp;
         this.orientation = orientation;
         unitIncrement = 1;

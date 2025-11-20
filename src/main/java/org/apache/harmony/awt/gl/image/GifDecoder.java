@@ -17,15 +17,15 @@
 
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.image.ColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.IndexColorModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
+import org.teavm.classlib.java.awt.image.TIndexColorModel;
 
 public class GifDecoder extends ImageDecoder {
     // initializes proper field IDs
@@ -38,11 +38,11 @@ public class GifDecoder extends ImageDecoder {
 
     // ImageConsumer hints: common
     private static final int baseHints =
-            ImageConsumer.SINGLEPASS | ImageConsumer.COMPLETESCANLINES |
-            ImageConsumer.SINGLEFRAME;
+            TImageConsumer.SINGLEPASS | TImageConsumer.COMPLETESCANLINES |
+            TImageConsumer.SINGLEFRAME;
     // ImageConsumer hints: interlaced
     private static final int interlacedHints =
-            baseHints | ImageConsumer.RANDOMPIXELORDER;
+            baseHints | TImageConsumer.RANDOMPIXELORDER;
 
     // Impossible color value - no translucent pixels allowed
     static final int IMPOSSIBLE_VALUE = 0x0FFFFFFF;
@@ -73,7 +73,7 @@ public class GifDecoder extends ImageDecoder {
     private byte screenBuffer[];
     private int screenRGBBuffer[];
 
-    ColorModel gcm;
+    TColorModel gcm;
 
     public GifDecoder(DecodingImageSource src, InputStream is) {
         super(src, is);
@@ -134,7 +134,7 @@ public class GifDecoder extends ImageDecoder {
 
         currBlock = gifDataStream.graphicBlocks.get(0);
         if (forceRGB) {
-            setColorModel(ColorModel.getRGBdefault());
+            setColorModel(TColorModel.getRGBdefault());
         } else {
             gcm = gls.globalColorTable.getColorModel(currBlock.transparentColor);
             setColorModel(gcm);
@@ -284,7 +284,7 @@ public class GifDecoder extends ImageDecoder {
                                 gb.imageTop,
                                 gb.imageWidth,
                                 gb.imageHeight,
-                                ColorModel.getRGBdefault(),
+                                TColorModel.getRGBdefault(),
                                 gb.getRgbImageData(),
                                 0,
                                 gb.imageWidth
@@ -306,7 +306,7 @@ public class GifDecoder extends ImageDecoder {
             ImageLoader.endAnimation();
         }
 
-        imageComplete(ImageConsumer.STATICIMAGEDONE);
+        imageComplete(TImageConsumer.STATICIMAGEDONE);
     }
 
     void setComment(String newComment) {
@@ -449,7 +449,7 @@ public class GifDecoder extends ImageDecoder {
                         imageTop + currY,
                         imageWidth,
                         numLines,
-                        ColorModel.getRGBdefault(),
+                        TColorModel.getRGBdefault(),
                         getRgbImageData(),
                         currY*imageWidth,
                         imageWidth
@@ -471,7 +471,7 @@ public class GifDecoder extends ImageDecoder {
         }
 
         public void dispose() {
-            imageComplete(ImageConsumer.SINGLEFRAMEDONE);
+            imageComplete(TImageConsumer.SINGLEFRAMEDONE);
 
             // Show current frame until delayInterval will not elapse
             if (delayTime > 0) {
@@ -515,7 +515,7 @@ public class GifDecoder extends ImageDecoder {
                                 imageTop,
                                 imageWidth,
                                 imageHeight,
-                                ColorModel.getRGBdefault(),
+                                TColorModel.getRGBdefault(),
                                 data,
                                 0,
                                 imageWidth
@@ -650,7 +650,7 @@ public class GifDecoder extends ImageDecoder {
                         imageTop,
                         imageWidth,
                         imageHeight,
-                        ColorModel.getRGBdefault(),
+                        TColorModel.getRGBdefault(),
                         (int [])toSend,
                         offset,
                         imageWidth
@@ -674,11 +674,11 @@ public class GifDecoder extends ImageDecoder {
         //  Indicates that reading of this block accomplished
         boolean completed = false;
 
-        IndexColorModel cm = null;
+        TIndexColorModel cm = null;
         int size = 0; // Actual number of colors in the color table
         byte colors[] = new byte[256*3];
 
-        IndexColorModel getColorModel(int transparentColor) {
+        TIndexColorModel getColorModel(int transparentColor) {
             if (cm != null) {
                 if (transparentColor != cm.getTransparentPixel()) {
                     return cm = null; // Force default ARGB color model
@@ -688,14 +688,14 @@ public class GifDecoder extends ImageDecoder {
                 if (completed && size > 0) {
                     if (transparentColor == IMPOSSIBLE_VALUE) {
                         return cm =
-                                new IndexColorModel(8, size, colors, 0, false);
+                                new TIndexColorModel(8, size, colors, 0, false);
                     }
 
                     if (transparentColor > size) {
                         size = transparentColor + 1;
                     }
                     return cm =
-                            new IndexColorModel(8, size, colors, 0, false, transparentColor);
+                            new TIndexColorModel(8, size, colors, 0, false, transparentColor);
                 }
 
             return cm = null; // Force default ARGB color model

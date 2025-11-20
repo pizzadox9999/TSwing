@@ -17,7 +17,7 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +34,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.wtk.NativeWindow;
 
 
-public class BorderLayout implements LayoutManager2, Serializable {
+public class TBorderLayout implements TLayoutManager2, Serializable {
     private static final long serialVersionUID = -8658291919501921765L;
 
     public static final String BEFORE_LINE_BEGINS = "Before"; //$NON-NLS-1$
@@ -94,7 +94,7 @@ public class BorderLayout implements LayoutManager2, Serializable {
         supportedConstraints.add(EAST);
     }
 
-    public BorderLayout(int hgap, int vgap) {
+    public TBorderLayout(int hgap, int vgap) {
         toolkit = Toolkit.getDefaultToolkit();
 
         toolkit.lockAWT();
@@ -118,7 +118,7 @@ public class BorderLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public BorderLayout() {
+    public TBorderLayout() {
         this(DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {

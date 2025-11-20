@@ -17,11 +17,11 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
-public class Event implements Serializable {
+public class TEvent implements Serializable {
     private static final long serialVersionUID = 5488922509400504703L;
     public static final int SHIFT_MASK = 1;
 
@@ -169,17 +169,17 @@ public class Event implements Serializable {
 
     public Object arg;
 
-    public Event evt;
+    public TEvent evt;
 
-    public Event(Object target, int id, Object arg) {
+    public TEvent(Object target, int id, Object arg) {
         this(target, 0l, id, 0, 0, 0, 0, arg);
     }
 
-    public Event(Object target, long when, int id, int x, int y, int key, int modifiers) {
+    public TEvent(Object target, long when, int id, int x, int y, int key, int modifiers) {
         this(target, when, id, x, y, key, modifiers, null);
     }
 
-    public Event(Object target, long when, int id, int x, int y, int key, int modifiers, Object arg) {
+    public TEvent(Object target, long when, int id, int x, int y, int key, int modifiers, Object arg) {
         this.target = target;
         this.when = when;
         this.id = id;

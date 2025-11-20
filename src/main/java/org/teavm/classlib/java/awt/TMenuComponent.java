@@ -15,11 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.peer.MenuComponentPeer;
 import java.io.Serializable;
 import java.util.Locale;
 import javax.accessibility.Accessible;
@@ -31,9 +28,8 @@ import javax.accessibility.AccessibleStateSet;
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.state.MenuItemState;
 import org.apache.harmony.awt.state.MenuState;
-import org.apache.harmony.luni.util.NotImplementedException;
 
-public abstract class MenuComponent implements Serializable {
+public abstract class TMenuComponent implements Serializable {
     private static final long serialVersionUID = -4536902356223894379L;
 
     private String name;
@@ -368,7 +364,7 @@ public abstract class MenuComponent implements Serializable {
         }
     }
 
-    public MenuComponent() throws HeadlessException {
+    public TMenuComponent() throws HeadlessException {
         toolkit.lockAWT();
         try {
             Toolkit.checkHeadless();

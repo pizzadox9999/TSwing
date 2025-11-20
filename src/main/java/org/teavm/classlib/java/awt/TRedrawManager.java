@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.PaintEvent;
 import java.util.IdentityHashMap;
@@ -31,9 +31,9 @@ import org.apache.harmony.awt.gl.MultiRectArea;
 /**
  * The collection of component regions that need to be painted
  */
-class RedrawManager {
+class TRedrawManager {
 
-    final Window window;
+    final TWindow window;
 
     private boolean paintNeeded;
     private boolean updateNeeded;
@@ -42,7 +42,7 @@ class RedrawManager {
     private final Map<Component, MultiRectArea> updateRegions = new IdentityHashMap<Component, MultiRectArea>();
 
 
-    public RedrawManager(Window window) {
+    public TRedrawManager(Window window) {
         this.window = window;
     }
 

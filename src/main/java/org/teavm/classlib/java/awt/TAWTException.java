@@ -19,11 +19,10 @@
  */
 package org.teavm.classlib.java.awt;
 
-
 public class TAWTException extends Exception {
     private static final long serialVersionUID = -1900414231151323879L;
 
-    public AWTException(String msg) {
+    public TAWTException(String msg) {
         super(msg);
     }
 

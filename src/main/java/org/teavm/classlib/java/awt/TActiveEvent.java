@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt;
 
-public interface ActiveEvent {
+public interface TActiveEvent {
 
     public void dispatch();
 

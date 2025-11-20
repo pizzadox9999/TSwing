@@ -19,32 +19,32 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.geom.AffineTransform;
 import java.io.Serializable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
 
 public final class TTransformAttribute implements Serializable {
     private static final long serialVersionUID = 3356247357827709530L;
 
     // affine transform of this TransformAttribute instance
-    private AffineTransform fTransform;
+    private TAffineTransform fTransform;
 
-    public TTransformAttribute(AffineTransform transform) {
+    public TTransformAttribute(TAffineTransform transform) {
         if (transform == null) {
             // awt.94=transform can not be null
             throw new IllegalArgumentException(Messages.getString("awt.94")); //$NON-NLS-1$
         }
         if (!transform.isIdentity()){
-            this.fTransform = new AffineTransform(transform);
+            this.fTransform = new TAffineTransform(transform);
         }
     }
 
-    public AffineTransform getTransform() {
+    public TAffineTransform getTransform() {
         if (fTransform != null){
-            return new AffineTransform(fTransform);
+            return new TAffineTransform(fTransform);
         }
-        return new AffineTransform();
+        return new TAffineTransform();
     }
 
     public boolean isIdentity() {

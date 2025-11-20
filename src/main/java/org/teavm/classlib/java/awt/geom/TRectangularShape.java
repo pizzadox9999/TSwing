@@ -64,7 +64,7 @@ public abstract class TRectangularShape implements TShape, Cloneable {
     }
 
     public TRectangle2D getFrame() {
-        return new TRectangle2D.Double(getX(), getY(), getWidth(), getHeight());
+        return new TRectangle2D.TDouble(getX(), getY(), getWidth(), getHeight());
     }
 
     public void setFrame(TPoint2D loc, TDimension2D size) {

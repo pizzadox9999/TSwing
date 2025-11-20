@@ -19,10 +19,10 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.Adjustable;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TAdjustable;
 
-public class TAdjustmentEvent extends AWTEvent {
+public class TAdjustmentEvent extends TAWTEvent {
 
     private static final long serialVersionUID = 5700290645205279921L;
 
@@ -46,11 +46,11 @@ public class TAdjustmentEvent extends AWTEvent {
     private int value;
     private boolean isAdjusting;
 
-    public TAdjustmentEvent(Adjustable source, int id, int type, int value) {
+    public TAdjustmentEvent(TAdjustable source, int id, int type, int value) {
         this(source, id, type, value, false);
     }
 
-    public TAdjustmentEvent(Adjustable source, int id, int type, int value, 
+    public TAdjustmentEvent(TAdjustable source, int id, int type, int value, 
                            boolean isAdjusting) {
         super(source, id);
         this.type = type;
@@ -70,8 +70,8 @@ public class TAdjustmentEvent extends AWTEvent {
         return isAdjusting;
     }
 
-    public Adjustable getAdjustable() {
-        return (Adjustable) source;
+    public TAdjustable getAdjustable() {
+        return (TAdjustable) source;
     }
 
     @Override

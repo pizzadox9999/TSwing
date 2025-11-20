@@ -17,13 +17,13 @@
 /**
  * @author Michael Danilov, Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.InvocationEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EmptyStackException;
 
-public class EventQueue {
+public class TEventQueue {
     
     private final EventQueueCoreAtomicReference coreRef = 
             new EventQueueCoreAtomicReference();
@@ -102,11 +102,11 @@ public class EventQueue {
         return getCore().getCurrentEvent();
     }
 
-    public EventQueue() {
+    public TEventQueue() {
         setCore(new EventQueueCore(this));
     }
 
-    EventQueue(Toolkit t) {
+    TEventQueue(Toolkit t) {
         setCore(new EventQueueCore(this, t));
     }
 

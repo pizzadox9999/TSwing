@@ -17,17 +17,17 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public class IllegalComponentStateException extends IllegalStateException {
+public class TIllegalComponentStateException extends IllegalStateException {
 
     private static final long serialVersionUID = -1889339587208144238L;
 
-    public IllegalComponentStateException(String s) {
+    public TIllegalComponentStateException(String s) {
         super(s);
     }
 
-    public IllegalComponentStateException() {
+    public TIllegalComponentStateException() {
     }
 
 }

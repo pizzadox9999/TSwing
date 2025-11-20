@@ -19,11 +19,12 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.Point;
-import java.awt.dnd.DragSourceContext;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.dnd.TDragSourceContext;
+import org.teavm.classlib.java.awt.dnd.TDragSourceDragEvent;
+import org.teavm.classlib.java.awt.dnd.TDragSourceDropEvent;
+import org.teavm.classlib.java.awt.dnd.TDragSourceEvent;
+
 
 /**
  * Dispatches DragSource events on event dispatch thread 
@@ -37,7 +38,7 @@ public class DragSourceEventProxy implements Runnable {
     public static final int DRAG_EXIT = 5;
     public static final int DRAG_DROP_END = 6;
     
-    private final DragSourceContext context;
+    private final TDragSourceContext context;
     
     private final int type;
     private final int userAction;
@@ -47,9 +48,9 @@ public class DragSourceEventProxy implements Runnable {
     private final int modifiers;
     private final boolean success;
     
-    public DragSourceEventProxy(DragSourceContext context, 
+    public DragSourceEventProxy(TDragSourceContext context, 
             int type, int userAction, int targetActions,
-            Point location, int modifiers) {
+            TPoint location, int modifiers) {
         this.context = context;
         this.type = type;
         this.userAction = userAction;
@@ -60,9 +61,9 @@ public class DragSourceEventProxy implements Runnable {
         this.success = false;
     }
     
-    public DragSourceEventProxy(DragSourceContext context,
+    public DragSourceEventProxy(TDragSourceContext context,
             int type, int userAction, boolean success,
-            Point location, int modifiers) {
+            TPoint location, int modifiers) {
         this.context = context;
         this.type = type;
         this.userAction = userAction;
@@ -88,17 +89,17 @@ public class DragSourceEventProxy implements Runnable {
             context.dragMouseMoved(newDragSourceDragEvent());
             break;
         case DRAG_EXIT:
-            context.dragExit(new DragSourceEvent(context, x, y));
+            context.dragExit(new TDragSourceEvent(context, x, y));
             break;
         case DRAG_DROP_END:
-            context.dragExit(new DragSourceDropEvent(
+            context.dragExit(new TDragSourceDropEvent(
                     context, userAction, success, x, y));
             break;
         }
     }
     
-    private DragSourceDragEvent newDragSourceDragEvent() {
-        return new DragSourceDragEvent(
+    private TDragSourceDragEvent newDragSourceDragEvent() {
+        return new TDragSourceDragEvent(
                 context, userAction, targetActions, modifiers, x, y);
     }
 }

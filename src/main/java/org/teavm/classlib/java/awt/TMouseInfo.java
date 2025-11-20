@@ -17,11 +17,11 @@
 /**
  * @author Dmitry A. Durnev, Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.wtk.NativeMouseInfo;
 
-public class MouseInfo {
+public class TMouseInfo {
 
     public static int getNumberOfButtons() throws HeadlessException {
         Toolkit.checkHeadless();
@@ -51,7 +51,7 @@ public class MouseInfo {
         return new PointerInfo(gd, location);
     }
 
-    private MouseInfo() {
+    private TMouseInfo() {
         //this class can't be instantiated
     }
 

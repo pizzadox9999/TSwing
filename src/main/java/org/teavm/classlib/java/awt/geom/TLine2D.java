@@ -182,7 +182,7 @@ public abstract class TLine2D implements TShape, Cloneable {
                 ry = y2;
                 rh = y1 - y2;
             }
-            return new TRectangle2D.Double(rx, ry, rw, rh);
+            return new TRectangle2D.TDouble(rx, ry, rw, rh);
         }
     }
 
@@ -497,7 +497,7 @@ public abstract class TLine2D implements TShape, Cloneable {
     }
 
     public boolean intersects(double rx, double ry, double rw, double rh) {
-        return intersects(new TRectangle2D.Double(rx, ry, rw, rh));
+        return intersects(new TRectangle2D.TDouble(rx, ry, rw, rh));
     }
 
     public boolean intersects(TRectangle2D r) {

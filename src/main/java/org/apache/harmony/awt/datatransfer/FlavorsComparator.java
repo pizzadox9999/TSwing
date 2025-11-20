@@ -19,15 +19,15 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.datatransfer.DataFlavor;
 import java.util.Comparator;
+import org.teavm.classlib.java.awt.datatransfer.TDataFlavor;
 
 /**
  * Flavors comparator. Used for sorting text flavors.
  */
-public class FlavorsComparator implements Comparator<DataFlavor> {
+public class FlavorsComparator implements Comparator<TDataFlavor> {
 
-    public int compare(DataFlavor flav1, DataFlavor flav2) {
+    public int compare(TDataFlavor flav1, TDataFlavor flav2) {
 
         if (!flav1.isFlavorTextType() && !flav2.isFlavorTextType()) {
             return 0;
@@ -36,7 +36,7 @@ public class FlavorsComparator implements Comparator<DataFlavor> {
         } else if (flav1.isFlavorTextType() && !flav2.isFlavorTextType()) {
             return 1;
         } else {
-            DataFlavor df = DataFlavor.selectBestTextFlavor(new DataFlavor[] { flav1, flav2 });
+            TDataFlavor df = TDataFlavor.selectBestTextFlavor(new TDataFlavor[] { flav1, flav2 });
             return (df == flav1) ? -1 : 1;
         }
     }

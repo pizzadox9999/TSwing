@@ -17,9 +17,9 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public final class DisplayMode {
+public final class TDisplayMode {
     private final int width;
 
     private final int height;
@@ -44,7 +44,7 @@ public final class DisplayMode {
     *
     ***************************************************************************/
 
-    public DisplayMode(int width, int height, int bitDepth, int refreshRate) {
+    public TDisplayMode(int width, int height, int bitDepth, int refreshRate) {
         this.width = width;
         this.height = height;
         this.bitDepth = bitDepth;

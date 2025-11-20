@@ -192,7 +192,7 @@ public class TArea implements TShape, Cloneable {
 			maxY = Math.max(maxY, coords[i++]);
 		}
 		
-		return new TRectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
+		return new TRectangle2D.TDouble(minX, minY, maxX - minX, maxY - minY);
 	}
 
 	public TPathIterator getPathIterator(TAffineTransform t) {

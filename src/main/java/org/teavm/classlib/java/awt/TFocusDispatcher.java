@@ -17,7 +17,7 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.FocusEvent;
 
@@ -35,11 +35,11 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  * window, and post all Focus(Window)Events to EventQueue
  */
 
-class FocusDispatcher {
+class TFocusDispatcher {
     private Window nativeFocusedWindow;
     private final Toolkit toolkit;
 
-    FocusDispatcher(Toolkit toolkit) {
+    TFocusDispatcher(Toolkit toolkit) {
         this.toolkit = toolkit;
     }
 

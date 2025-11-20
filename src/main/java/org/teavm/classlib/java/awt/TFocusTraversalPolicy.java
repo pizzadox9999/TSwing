@@ -17,14 +17,14 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 
-public abstract class FocusTraversalPolicy {
+public abstract class TFocusTraversalPolicy {
 
     Toolkit toolkit; // for locking/unlocking only
 
-    public FocusTraversalPolicy() {
+    public TFocusTraversalPolicy() {
         toolkit = Toolkit.getDefaultToolkit();
     }
 

@@ -24,5 +24,5 @@ package org.teavm.classlib.java.awt;
  *
  */
 public interface TStroke {
-    public Shape createStrokedShape(Shape p);
+    public TShape createStrokedShape(TShape p);
 }

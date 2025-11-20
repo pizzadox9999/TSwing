@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Image;
+import org.teavm.classlib.java.awt.TImage;
 
 public interface TImageObserver {
 
@@ -39,7 +39,7 @@ public interface TImageObserver {
 
     public static final int ABORT = 128;
 
-    public boolean imageUpdate(Image img, int infoflags, int x, int y,
+    public boolean imageUpdate(TImage img, int infoflags, int x, int y,
             int width, int height);
 
 }

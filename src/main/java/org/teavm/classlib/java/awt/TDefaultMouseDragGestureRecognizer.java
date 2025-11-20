@@ -15,22 +15,16 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-class DefaultMouseDragGestureRecognizer extends MouseDragGestureRecognizer {
+class TDefaultMouseDragGestureRecognizer extends TMouseDragGestureRecognizer {
     private static final long serialVersionUID = 1L;
 
     private boolean active;
 
-    protected DefaultMouseDragGestureRecognizer(DragSource ds, Component c, int act,
+    protected TDefaultMouseDragGestureRecognizer(DragSource ds, Component c, int act,
             DragGestureListener dgl) {
         super(ds, c, act, dgl);
         events = new ArrayList<InputEvent>();

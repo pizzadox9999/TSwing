@@ -15,14 +15,11 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.util.Set;
 
-public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
+public class TDefaultKeyboardFocusManager extends TKeyboardFocusManager {
 
     private static Window prevFocusedWindow;
     private static Component prevFocusOwner;

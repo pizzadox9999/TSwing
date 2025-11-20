@@ -17,16 +17,13 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.image.BufferStrategy;
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
 
-import org.apache.harmony.luni.util.NotImplementedException;
-
-public class Canvas extends Component implements Accessible {
+public class TCanvas extends TComponent implements Accessible {
     private static final long serialVersionUID = -2284879212465893870L;
 
     protected class AccessibleAWTCanvas extends AccessibleAWTComponent {
@@ -38,7 +35,7 @@ public class Canvas extends Component implements Accessible {
         }
     }
 
-    public Canvas() {
+    public TCanvas() {
         toolkit.lockAWT();
         try {
         } finally {
@@ -46,7 +43,7 @@ public class Canvas extends Component implements Accessible {
         }
     }
 
-    public Canvas(GraphicsConfiguration a0) {
+    public TCanvas(GraphicsConfiguration a0) {
         this();
         toolkit.lockAWT();
         try {

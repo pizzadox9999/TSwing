@@ -15,16 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.Iterator;
@@ -39,7 +31,7 @@ import org.apache.harmony.awt.ChoiceStyle;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.ChoiceState;
 
-public class Choice extends Component implements ItemSelectable, Accessible {
+public class TChoice extends TComponent implements TItemSelectable, Accessible {
     private static final long serialVersionUID = -4075310674757313071L;
 
     private static final int BORDER_SIZE = 2;
@@ -242,7 +234,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @param choiceStyle style of custom choice: defines custom list popup
      *        window location and size
      */
-    Choice(ChoiceStyle choiceStyle) {
+    TChoice(ChoiceStyle choiceStyle) {
         super();
         state = new State();
         popupStyle = choiceStyle;
@@ -254,7 +246,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
         addAWTMouseWheelListener(stateController);
     }
 
-    public Choice() throws HeadlessException {
+    public TChoice() throws HeadlessException {
         this(new ChoiceStyle() {
 
             public int getPopupX(int x, int width, int choiceWidth, int screenWidth) {

@@ -19,11 +19,11 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
 import java.util.Arrays;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 
 public abstract class TPackedColorModel extends TColorModel {
 
@@ -33,7 +33,7 @@ public abstract class TPackedColorModel extends TColorModel {
 
     float scales[];
 
-    public TPackedColorModel(ColorSpace space, int bits, int colorMaskArray[],
+    public TPackedColorModel(TColorSpace space, int bits, int colorMaskArray[],
             int alphaMask, boolean isAlphaPremultiplied, int trans,
             int transferType) {
 
@@ -54,14 +54,14 @@ public abstract class TPackedColorModel extends TColorModel {
         if (hasAlpha) {
             componentMasks[numColorComponents] = alphaMask;
             if (this.bits[numColorComponents] == 1) {
-                transparency = Transparency.BITMASK;
+                transparency = TTransparency.BITMASK;
             }
         }
 
         parseComponents();
     }
 
-    public TPackedColorModel(ColorSpace space, int bits, int rmask, int gmask,
+    public TPackedColorModel(TColorSpace space, int bits, int rmask, int gmask,
             int bmask, int amask, boolean isAlphaPremultiplied, int trans,
             int transferType) {
 
@@ -74,7 +74,7 @@ public abstract class TPackedColorModel extends TColorModel {
             throw new IllegalArgumentException(Messages.getString("awt.236")); //$NON-NLS-1$
         }
 
-        if (cs.getType() != ColorSpace.TYPE_RGB) {
+        if (cs.getType() != TColorSpace.TYPE_RGB) {
             // awt.239=The space is not a TYPE_RGB space
             throw new IllegalArgumentException(Messages.getString("awt.239")); //$NON-NLS-1$
         }
@@ -93,7 +93,7 @@ public abstract class TPackedColorModel extends TColorModel {
         if (hasAlpha) {
             componentMasks[3] = amask;
             if (this.bits[3] == 1) {
-                transparency = Transparency.BITMASK;
+                transparency = TTransparency.BITMASK;
             }
         }
 

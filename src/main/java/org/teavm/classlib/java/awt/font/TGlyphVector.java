@@ -19,16 +19,13 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.font.GlyphMetrics;
+import org.teavm.classlib.java.awt.TFont;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TPoint2D;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 
 public abstract class TGlyphVector implements Cloneable {
 
@@ -45,70 +42,70 @@ public abstract class TGlyphVector implements Cloneable {
     public TGlyphVector() {
     }
 
-    public Rectangle getPixelBounds(FontRenderContext frc, float x, float y) {
-        // default implementation - integer Rectangle, that encloses visual 
+    public TRectangle getPixelBounds(TFontRenderContext frc, float x, float y) {
+        // default implementation - integer TRectangle, that encloses visual 
         // bounds rectangle
-        Rectangle2D visualRect = getVisualBounds();
+        TRectangle2D visualRect = getVisualBounds();
 
         int minX = (int)Math.floor(visualRect.getMinX() + x);
         int minY = (int)Math.floor(visualRect.getMinY() + y);
         int width = (int)Math.ceil(visualRect.getMaxX() + x) - minX;
         int height = (int)Math.ceil(visualRect.getMaxY() + y) - minY;
 
-        return new Rectangle(minX, minY, width, height);
+        return new TRectangle(minX, minY, width, height);
     }
 
-    public Rectangle getGlyphPixelBounds(int index, FontRenderContext frc, 
+    public TRectangle getGlyphPixelBounds(int index, TFontRenderContext frc, 
             float x, float y) {
-        Rectangle2D visualRect = getGlyphVisualBounds(index).getBounds2D();
+        TRectangle2D visualRect = getGlyphVisualBounds(index).getBounds2D();
 
         int minX = (int)Math.floor(visualRect.getMinX() + x);
         int minY = (int)Math.floor(visualRect.getMinY() + y);
         int width = (int)Math.ceil(visualRect.getMaxX() + x) - minX;
         int height = (int)Math.ceil(visualRect.getMaxY() + y) - minY;
 
-        return new Rectangle(minX, minY, width, height);
+        return new TRectangle(minX, minY, width, height);
     }
 
-    public abstract Rectangle2D getVisualBounds();
+    public abstract TRectangle2D getVisualBounds();
 
-    public abstract Rectangle2D getLogicalBounds();
+    public abstract TRectangle2D getLogicalBounds();
 
-    public abstract void setGlyphPosition(int glyphIndex, Point2D newPos);
+    public abstract void setGlyphPosition(int glyphIndex, TPoint2D newPos);
 
-    public abstract Point2D getGlyphPosition(int glyphIndex);
+    public abstract TPoint2D getGlyphPosition(int glyphIndex);
 
     public abstract void setGlyphTransform(int glyphIndex, 
-            AffineTransform trans);
+            TAffineTransform trans);
 
-    public abstract AffineTransform getGlyphTransform(int glyphIndex);
+    public abstract TAffineTransform getGlyphTransform(int glyphIndex);
 
     public abstract boolean equals(TGlyphVector glyphVector);
 
-    public abstract GlyphMetrics getGlyphMetrics(int glyphIndex);
+    public abstract TGlyphMetrics getTGlyphMetrics(int glyphIndex);
 
-    public abstract GlyphJustificationInfo getGlyphJustificationInfo(
+    public abstract TGlyphJustificationInfo getTGlyphJustificationInfo(
             int glyphIndex);
 
-    public abstract FontRenderContext getFontRenderContext();
+    public abstract TFontRenderContext getTFontRenderContext();
 
-    public Shape getGlyphOutline(int glyphIndex, float x, float y) {
-        Shape initialShape = getGlyphOutline(glyphIndex);
-        AffineTransform trans = AffineTransform.getTranslateInstance(x, y);
-        return trans.createTransformedShape(initialShape);
+    public TShape getGlyphOutline(int glyphIndex, float x, float y) {
+        TShape initialTShape = getGlyphOutline(glyphIndex);
+        TAffineTransform trans = TAffineTransform.getTranslateInstance(x, y);
+        return trans.createTransformedShape(initialTShape);
     }
 
-    public abstract Shape getGlyphVisualBounds(int glyphIndex);
+    public abstract TShape getGlyphVisualBounds(int glyphIndex);
 
-    public abstract Shape getGlyphOutline(int glyphIndex);
+    public abstract TShape getGlyphOutline(int glyphIndex);
 
-    public abstract Shape getGlyphLogicalBounds(int glyphIndex);
+    public abstract TShape getGlyphLogicalBounds(int glyphIndex);
 
-    public abstract Shape getOutline(float x, float y);
+    public abstract TShape getOutline(float x, float y);
 
-    public abstract Shape getOutline();
+    public abstract TShape getOutline();
 
-    public abstract Font getFont();
+    public abstract TFont getTFont();
 
     public abstract int[] getGlyphCodes(int beginGlyphIndex, int numEntries, 
             int[] codeReturn);

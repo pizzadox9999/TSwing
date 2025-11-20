@@ -19,11 +19,11 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Container;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.TContainer;
 
-public class THierarchyEvent extends AWTEvent {
+public class THierarchyEvent extends TAWTEvent {
 
     private static final long serialVersionUID = -5337576970038043990L;
 
@@ -43,17 +43,17 @@ public class THierarchyEvent extends AWTEvent {
 
     public static final int SHOWING_CHANGED = 4;
 
-    private Container changedParent;
-    private Component changed;
+    private TContainer changedParent;
+    private TComponent changed;
     private long changeFlag;
 
-    public THierarchyEvent(Component source, int id, Component changed, 
-                          Container changedParent) {
+    public THierarchyEvent(TComponent source, int id, TComponent changed, 
+                          TContainer changedParent) {
         this(source, id, changed, changedParent, 0l);
     }
 
-    public THierarchyEvent(Component source, int id, Component changed,
-                          Container changedParent, long changeFlags) {
+    public THierarchyEvent(TComponent source, int id, TComponent changed,
+                          TContainer changedParent, long changeFlags) {
         super(source, id);
 
         this.changed = changed;
@@ -61,19 +61,19 @@ public class THierarchyEvent extends AWTEvent {
         this.changeFlag = changeFlags;
     }
 
-    public Component getComponent() {
-        return (Component) source;
+    public TComponent getTComponent() {
+        return (TComponent) source;
     }
 
     public long getChangeFlags() {
         return changeFlag;
     }
 
-    public Component getChanged() {
+    public TComponent getChanged() {
         return changed;
     }
 
-    public Container getChangedParent() {
+    public TContainer getChangedParent() {
         return changedParent;
     }
 
@@ -84,7 +84,7 @@ public class THierarchyEvent extends AWTEvent {
          * 
          * HierarchyEvent e = new HierarchyEvent(new Button("Button"),
          *          HierarchyEvent.HIERARCHY_CHANGED,
-         *          new Panel(), new Container());
+         *          new Panel(), new TContainer());
          * System.out.println(e);
          */
         String paramString = null;

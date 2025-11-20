@@ -17,9 +17,8 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.WindowEvent;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,7 +31,7 @@ import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.wtk.NativeWindow;
 
 
-public class Frame extends Window implements MenuContainer {
+public class TFrame extends TWindow implements TMenuContainer {
     private static final long serialVersionUID = 2673458971256075116L;
 
     @Deprecated
@@ -114,7 +113,7 @@ public class Frame extends Window implements MenuContainer {
         }
     }
 
-    public Frame(String title, GraphicsConfiguration gc) {
+    public TFrame(String title, GraphicsConfiguration gc) {
         super(null, gc);
         toolkit.lockAWT();
         try {
@@ -126,7 +125,7 @@ public class Frame extends Window implements MenuContainer {
         }
     }
 
-    public Frame(String title) throws HeadlessException {
+    public TFrame(String title) throws HeadlessException {
         this(title, null);
         toolkit.lockAWT();
         try {
@@ -135,7 +134,7 @@ public class Frame extends Window implements MenuContainer {
         }
     }
 
-    public Frame() throws HeadlessException {
+    public TFrame() throws HeadlessException {
         this(""); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -144,7 +143,7 @@ public class Frame extends Window implements MenuContainer {
         }
     }
 
-    public Frame(GraphicsConfiguration gc) {
+    public TFrame(GraphicsConfiguration gc) {
         this("", gc); //$NON-NLS-1$
         toolkit.lockAWT();
         try {

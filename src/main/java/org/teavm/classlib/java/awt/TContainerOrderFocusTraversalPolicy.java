@@ -15,19 +15,19 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
+public class TContainerOrderFocusTraversalPolicy extends TFocusTraversalPolicy
         implements Serializable {
     private static final long serialVersionUID = 486933713763926351L;
 
     private boolean implicitDownCycleTraversal = true;
 
-    public ContainerOrderFocusTraversalPolicy() {
+    public TContainerOrderFocusTraversalPolicy() {
     }
 
     protected boolean accept(Component aComp) {

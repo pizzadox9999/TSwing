@@ -19,8 +19,8 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
-import java.awt.Container;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.TContainer;
 
 public class TContainerEvent extends TComponentEvent {
 
@@ -34,19 +34,19 @@ public class TContainerEvent extends TComponentEvent {
 
     public static final int COMPONENT_REMOVED = 301;
 
-    private Component child;
+    private TComponent child;
 
-    public TContainerEvent(Component src, int id, Component child) {
+    public TContainerEvent(TComponent src, int id, TComponent child) {
         super(src, id);
         this.child = child;
     }
 
-    public Component getChild() {
+    public TComponent getChild() {
         return child;
     }
 
-    public Container getContainer() {
-        return (Container) source;
+    public TContainer getContainer() {
+        return (TContainer) source;
     }
 
     @Override

@@ -18,12 +18,15 @@
  * @author Igor V. Stolyarov
  */
 package org.teavm.classlib.java.awt;
-import java.awt.ImageCapabilities;
+
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.teavm.classlib.java.awt.image.TImageProducer;
 import org.teavm.classlib.java.awt.image.TImageObserver;
 import org.teavm.classlib.java.awt.image.TAreaAveragingScaleFilter;
 import org.teavm.classlib.java.awt.image.TImageFilter;
+import org.teavm.classlib.java.awt.image.TReplicateScaleFilter;
+import org.teavm.classlib.java.awt.image.TFilteredImageSource;
+
 
 public abstract class TImage {
 
@@ -41,7 +44,7 @@ public abstract class TImage {
 
     protected float accelerationPriority = 0.5f;
 
-    private static final ImageCapabilities capabilities = new ImageCapabilities(false);
+    private static final TImageCapabilities capabilities = new TImageCapabilities(false);
 
     public abstract Object getProperty(String name, TImageObserver observer);
 
@@ -58,11 +61,11 @@ public abstract class TImage {
         } else {
             filter = new TReplicateScaleFilter(width, height);
         }
-        ImageProducer producer = new FilteredImageSource(getSource(), filter);
-        return Toolkit.getDefaultToolkit().createImage(producer);
+        TImageProducer producer = new TFilteredImageSource(getSource(), filter);
+        return TToolkit.getDefaultToolkit().createImage(producer);
     }
 
-    public abstract Graphics getGraphics();
+    public abstract TGraphics getGraphics();
 
     public abstract void flush();
 
@@ -78,7 +81,7 @@ public abstract class TImage {
         accelerationPriority = priority;
     }
 
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
+    public TImageCapabilities getCapabilities(TGraphicsConfiguration gc) {
         // Note: common image is not accelerated.
         return capabilities;
     }

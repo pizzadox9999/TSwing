@@ -19,17 +19,17 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 
 import org.apache.harmony.misc.HashCode;
 
 
 public final class TImageGraphicAttribute extends TGraphicAttribute {
 
-    // Image object rendered by this ImageGraphicAttribute
-    private Image fImage;
+    // TImage object rendered by this TImageGraphicAttribute
+    private TImage fTImage;
 
     // X coordinate of the origin point
     private float fOriginX;
@@ -43,20 +43,20 @@ public final class TImageGraphicAttribute extends TGraphicAttribute {
     // the height of the image object
     private float fImgHeight;
 
-    public TImageGraphicAttribute(Image image, int alignment, float originX, 
+    public TImageGraphicAttribute(TImage image, int alignment, float originX, 
             float originY) {
         super(alignment);
 
-        this.fImage = image;
+        this.fTImage = image;
         this.fOriginX = originX;
         this.fOriginY = originY;
 
-        this.fImgWidth = fImage.getWidth(null);
-        this.fImgHeight = fImage.getHeight(null);
+        this.fImgWidth = fTImage.getWidth(null);
+        this.fImgHeight = fTImage.getHeight(null);
 
     }
 
-    public TImageGraphicAttribute(Image image, int alignment) {
+    public TImageGraphicAttribute(TImage image, int alignment) {
         this(image, alignment, 0, 0);
     }
 
@@ -64,7 +64,7 @@ public final class TImageGraphicAttribute extends TGraphicAttribute {
     public int hashCode() {
         HashCode hash = new HashCode();
 
-        hash.append(fImage.hashCode());
+        hash.append(fTImage.hashCode());
         hash.append(getAlignment());
         return hash.hashCode();
     }
@@ -81,7 +81,7 @@ public final class TImageGraphicAttribute extends TGraphicAttribute {
         return (fOriginX == iga.fOriginX &&
                 fOriginY == iga.fOriginY &&
                 getAlignment() == iga.getAlignment() &&
-                fImage.equals(iga.fImage));
+                fTImage.equals(iga.fTImage));
     }
 
     @Override
@@ -96,8 +96,8 @@ public final class TImageGraphicAttribute extends TGraphicAttribute {
     }
 
     @Override
-    public void draw(Graphics2D g2, float x, float y) {
-        g2.drawImage(fImage, (int)(x - fOriginX), (int)(y - fOriginY), null);
+    public void draw(TGraphics2D g2, float x, float y) {
+        g2.drawImage(fTImage, (int)(x - fOriginX), (int)(y - fOriginY), null);
     }
 
     @Override
@@ -111,8 +111,8 @@ public final class TImageGraphicAttribute extends TGraphicAttribute {
     }
 
     @Override
-    public Rectangle2D getBounds() {
-        return new Rectangle2D.Float(-fOriginX, -fOriginY, fImgWidth, fImgHeight);
+    public TRectangle2D getBounds() {
+        return new TRectangle2D.TFloat(-fOriginX, -fOriginY, fImgWidth, fImgHeight);
     }
 
     @Override

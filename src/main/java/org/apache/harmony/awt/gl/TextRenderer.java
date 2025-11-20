@@ -19,8 +19,8 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Graphics2D;
-import java.awt.font.GlyphVector;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.font.TGlyphVector;
 
 public abstract class TextRenderer {
     
@@ -32,7 +32,7 @@ public abstract class TextRenderer {
      * @param x start X position to draw
      * @param y start Y position to draw
      */
-    public abstract void drawString(Graphics2D g, String str, float x, float y);
+    public abstract void drawString(TGraphics2D g, String str, float x, float y);
 
     /**
      * Draws string on specified Graphics at desired position.
@@ -42,7 +42,7 @@ public abstract class TextRenderer {
      * @param x start X position to draw
      * @param y start Y position to draw
      */    
-    public void drawString(Graphics2D g, String str, int x, int y){
+    public void drawString(TGraphics2D g, String str, int x, int y){
         drawString(g, str, (float)x, (float)y);
     }
 
@@ -54,5 +54,5 @@ public abstract class TextRenderer {
      * @param x start X position to draw
      * @param y start Y position to draw
      */
-    public abstract void drawGlyphVector(Graphics2D g, GlyphVector glyphVector, float x, float y);
+    public abstract void drawGlyphVector(TGraphics2D g, TGlyphVector glyphVector, float x, float y);
 }

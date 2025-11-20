@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -28,7 +28,7 @@ import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.MenuState;
 
-public class Menu extends MenuItem implements MenuContainer, Accessible {
+public class TMenu extends TMenuItem implements TMenuContainer, Accessible {
     private static final long serialVersionUID = -8809584163345499784L;
 
     final static int LAST_ELEMENT = Integer.MAX_VALUE;
@@ -100,7 +100,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
 
     final State menuState = new State();
 
-    public Menu(String label) throws HeadlessException {
+    public TMenu(String label) throws HeadlessException {
         this(label, false);
         toolkit.lockAWT();
         try {
@@ -109,7 +109,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
         }
     }
 
-    public Menu(String label, boolean tearOff) throws HeadlessException {
+    public TMenu(String label, boolean tearOff) throws HeadlessException {
         super(label);
         toolkit.lockAWT();
         try {
@@ -119,7 +119,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
         }
     }
 
-    public Menu() throws HeadlessException {
+    public TMenu() throws HeadlessException {
         this("", false); //$NON-NLS-1$
         toolkit.lockAWT();
         try {

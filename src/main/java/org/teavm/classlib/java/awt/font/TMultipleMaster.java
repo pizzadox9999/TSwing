@@ -19,14 +19,14 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.Font;
+import org.teavm.classlib.java.awt.TFont;
 
 public interface TMultipleMaster {
 
-    public Font deriveMMFont(float[] glyphWidths, float avgStemWidth,
+    public TFont deriveMMFont(float[] glyphWidths, float avgStemWidth,
             float typicalCapHeight, float typicalXHeight, float italicAngle);
 
-    public Font deriveMMFont(float[] axes);
+    public TFont deriveMMFont(float[] axes);
 
     public float[] getDesignAxisDefaults();
 

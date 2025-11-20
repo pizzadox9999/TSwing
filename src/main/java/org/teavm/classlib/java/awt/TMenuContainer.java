@@ -17,10 +17,10 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 
-public interface MenuContainer {
+public interface TMenuContainer {
 
     public void remove(MenuComponent c);
 
@@ -30,7 +30,7 @@ public interface MenuContainer {
      * @deprecated
      */
     @Deprecated
-    public boolean postEvent(Event e);
+    public boolean postEvent(TEvent e);
 
 }
 

@@ -19,26 +19,25 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Composite;
-import java.awt.CompositeContext;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.TCompositeContext;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TRaster;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
 
-import org.apache.harmony.awt.gl.ImageSurface;
 import org.apache.harmony.awt.gl.render.NativeImageBlitter;
 import org.apache.harmony.awt.internal.nls.Messages;
 
 
 /**
- * This class represent implementation of the CompositeContext interface
+ * This class represent implementation of the TCompositeContext interface
  */
-public class ICompositeContext implements CompositeContext {
-    Composite composite;
-    ColorModel srcCM, dstCM;
+public class ICompositeContext implements TCompositeContext {
+    TComposite composite;
+    TColorModel srcCM, dstCM;
     ImageSurface srcSurf, dstSurf;
 
-    public ICompositeContext(Composite comp, ColorModel src, ColorModel dst){
+    public ICompositeContext(TComposite comp, TColorModel src, TColorModel dst){
         composite = comp;
         srcCM = src;
         dstCM = dst;
@@ -49,28 +48,28 @@ public class ICompositeContext implements CompositeContext {
         dstSurf.dispose();
     }
 
-    public void compose(Raster srcIn, Raster dstIn, WritableRaster dstOut) {
+    public void compose(TRaster srcIn, TRaster dstIn, TWritableRaster dstOut) {
 
         if(!srcCM.isCompatibleRaster(srcIn)) {
-            // awt.48=The srcIn raster is incompatible with src ColorModel
+            // awt.48=The srcIn raster is incompatible with src TColorModel
             throw new IllegalArgumentException(Messages.getString("awt.48")); //$NON-NLS-1$
         }
 
         if(!dstCM.isCompatibleRaster(dstIn)) {
-            // awt.49=The dstIn raster is incompatible with dst ColorModel
+            // awt.49=The dstIn raster is incompatible with dst TColorModel
             throw new IllegalArgumentException(Messages.getString("awt.49")); //$NON-NLS-1$
         }
 
         if(dstIn != dstOut){
             if(!dstCM.isCompatibleRaster(dstOut)) {
-                // awt.4A=The dstOut raster is incompatible with dst ColorModel
+                // awt.4A=The dstOut raster is incompatible with dst TColorModel
                 throw new IllegalArgumentException(Messages.getString("awt.4A")); //$NON-NLS-1$
             }
             dstOut.setDataElements(0, 0, dstIn);
         }
-        WritableRaster src;
-        if(srcIn instanceof WritableRaster){
-            src = (WritableRaster) srcIn;
+        TWritableRaster src;
+        if(srcIn instanceof TWritableRaster){
+            src = (TWritableRaster) srcIn;
         }else{
             src = srcIn.createCompatibleWritableRaster();
             src.setDataElements(0, 0, srcIn);

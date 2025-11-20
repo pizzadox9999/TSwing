@@ -20,46 +20,44 @@
 package org.apache.harmony.awt.gl;
 
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.Toolkit;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.WritableRaster;
-import java.awt.image.renderable.RenderableImage;
+import org.teavm.classlib.java.awt.TAlphaComposite;
+import org.teavm.classlib.java.awt.TBasicStroke;
+import org.teavm.classlib.java.awt.TColor;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.TFont;
+import org.teavm.classlib.java.awt.TFontMetrics;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TGraphicsConfiguration;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TPaint;
+import org.teavm.classlib.java.awt.TPaintContext;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TPolygon;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TRenderingHints;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.TStroke;
+import org.teavm.classlib.java.awt.TToolkit;
+import org.teavm.classlib.java.awt.font.TFontRenderContext;
+import org.teavm.classlib.java.awt.font.TGlyphVector;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TArc2D;
+import org.teavm.classlib.java.awt.geom.TEllipse2D;
+import org.teavm.classlib.java.awt.geom.TLine2D;
+import org.teavm.classlib.java.awt.geom.TPathIterator;
+import org.teavm.classlib.java.awt.geom.TRoundRectangle2D;
+import org.teavm.classlib.java.awt.image.TAffineTransformOp;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TBufferedImageOp;
+import org.teavm.classlib.java.awt.image.TImageObserver;
+import org.teavm.classlib.java.awt.image.TRaster;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
 import java.text.AttributedCharacterIterator;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.harmony.awt.gl.font.FontManager;
+import org.apache.harmony.awt.gl.font.TFontManager;
 import org.apache.harmony.awt.gl.font.fontlib.FLTextRenderer;
 import org.apache.harmony.awt.gl.image.OffscreenImage;
 import org.apache.harmony.awt.gl.render.Blitter;
@@ -73,25 +71,25 @@ import org.apache.harmony.awt.gl.render.NullBlitter;
  * List of abstract methods to implement in subclusses
  * Graphics.copyArea(int x, int y, int width, int height, int dx, int dy)
  * Graphics.create()
- * Graphics2D.getDeviceConfiguration()
- * CommonGraphics2D.fillMultiRectAreaColor(MultiRectArea mra);
- * CommonGraphics2D.fillMultiRectAreaPaint(MultiRectArea mra);
+ * TGraphics2D.getDeviceConfiguration()
+ * CommonGraphics2D.fillMultiRectAreaTColor(MultiRectArea mra);
+ * CommonGraphics2D.fillMultiRectAreaTPaint(MultiRectArea mra);
  */
 
 /**
  * CommonGraphics2D class is a super class for all system-dependent
- * implementations. It implements major part of Graphics and Graphics2D
+ * implementations. It implements major part of Graphics and TGraphics2D
  * abstract methods.
  * <h2>CommonGraphics2D Class Internals</h2>
- * <h3>Line and Shape Rasterizers</h3>
+ * <h3>Line and TShape TRasterizers</h3>
  * <p>
  * The CommonGraphics2D class splits all shapes into a set of rectangles 
  * to unify the drawing process for different operating systems and architectures. 
  * For this purpose Java 2D* uses the JavaShapeRasterizer and the JavaLineRasterizer 
  * classes from the org.apache.harmony.awt.gl.render package. The JavaShapeRasterizer 
- * class splits an object implementing a Shape interface into a set of rectangles and 
+ * class splits an object implementing a TShape interface into a set of rectangles and 
  * produces a MultiRectArea object. The JavaLineRasterizer class makes line drawing 
- * more accurate and processes lines with strokes, which are instances of the BasicStroke 
+ * more accurate and processes lines with strokes, which are instances of the TBasicStroke 
  * class.
  * </p>
  * <p>
@@ -115,7 +113,7 @@ import org.apache.harmony.awt.gl.render.NullBlitter;
  * </ul></p>
  * <p>
  * DRL Java 2D* also uses blitters to fill the shapes and the user-defined subclasses 
- * of the java.awt.Paint class with paints, which the system does not support.
+ * of the java.awt.TPaint class with paints, which the system does not support.
  * </p>
  *
  *<h3>Text Renderers</h3>
@@ -125,57 +123,57 @@ import org.apache.harmony.awt.gl.render.NullBlitter;
  *</p>
  *
  */
-public abstract class CommonGraphics2D extends Graphics2D {
+public abstract class CommonGraphics2D extends TGraphics2D {
 	
-	private static final Map<RenderingHints.Key, Object> DEFAULT_RENDERING_HINTS;
+	private static final Map<TRenderingHints.Key, Object> DEFAULT_RENDERING_HINTS;
 
 	static {
-		final Map<RenderingHints.Key, Object> m = new HashMap<RenderingHints.Key, Object>();
+		final Map<TRenderingHints.Key, Object> m = new HashMap<TRenderingHints.Key, Object>();
 
-		m.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
-		m.put(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_OFF);
-		m.put(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_DEFAULT);
+		m.put(TRenderingHints.KEY_TEXT_ANTIALIASING,
+				TRenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+		m.put(TRenderingHints.KEY_ANTIALIASING,
+				TRenderingHints.VALUE_ANTIALIAS_OFF);
+		m.put(TRenderingHints.KEY_STROKE_CONTROL,
+				TRenderingHints.VALUE_STROKE_DEFAULT);
 
 		DEFAULT_RENDERING_HINTS = Collections.unmodifiableMap(m);
 	}
 	
     protected Surface dstSurf = null;
     protected Blitter blitter = NullBlitter.getInstance();
-    protected RenderingHints hints = new RenderingHints(DEFAULT_RENDERING_HINTS);
+    protected TRenderingHints hints = new TRenderingHints(DEFAULT_RENDERING_HINTS);
 
     // Clipping things
     protected MultiRectArea clip = null;
 
-    protected Paint paint = Color.WHITE;
-    protected Color fgColor = Color.WHITE;
-    protected Color bgColor = Color.BLACK;
+    protected TPaint paint = TColor.WHITE;
+    protected TColor fgTColor = TColor.WHITE;
+    protected TColor bgTColor = TColor.BLACK;
 
-    protected Composite composite = AlphaComposite.SrcOver;
+    protected TComposite composite = TAlphaComposite.SrcOver;
 
-    protected Stroke stroke = new BasicStroke();
+    protected TStroke stroke = new TBasicStroke();
 
-    //TODO: Think more about FontRenderContext
-    protected FontRenderContext frc = null;
+    //TODO: Think more about TFontRenderContext
+    protected TFontRenderContext frc = null;
 
     protected JavaShapeRasterizer jsr = new JavaShapeRasterizer();
 
-    protected Font font = new Font("Dialog", Font.PLAIN, 12);; //$NON-NLS-1$
+    protected TFont font = new TFont("Dialog", TFont.PLAIN, 12);; //$NON-NLS-1$
 
     protected TextRenderer jtr = 
-        FontManager.IS_FONTLIB ? 
+        TFontManager.IS_FONTLIB ? 
                 FLTextRenderer.getInstance() : 
                     JavaTextRenderer.inst;
 
     // Current graphics transform
-    protected AffineTransform transform = new AffineTransform();
+    protected TAffineTransform transform = new TAffineTransform();
     protected double[] matrix = new double[6];
 
     // Original user->device translation as transform and point
-    //public AffineTransform origTransform = new AffineTransform();
-    public Point origPoint = new Point(0, 0);
+    //public TAffineTransform origTransform = new TAffineTransform();
+    public TPoint origTPoint = new TPoint(0, 0);
 
 
     // Print debug output or not
@@ -190,9 +188,9 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     protected CommonGraphics2D(int tx, int ty, MultiRectArea clip) {
-        setTransform(AffineTransform.getTranslateInstance(tx, ty));
-        //origTransform = AffineTransform.getTranslateInstance(tx, ty);
-        origPoint = new Point(tx, ty);
+        setTransform(TAffineTransform.getTranslateInstance(tx, ty));
+        //origTransform = TAffineTransform.getTranslateInstance(tx, ty);
+        origTPoint = new TPoint(tx, ty);
         setClip(clip);
     }
 
@@ -204,8 +202,8 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     @Override
     public void clearRect(int x, int y, int width, int height) {
-        Color c = getColor();
-        Paint p = getPaint();
+        TColor c = getColor();
+        TPaint p = getPaint();
         setColor(getBackground());
         fillRect(x, y, width, height);
         setColor(c);
@@ -217,12 +215,12 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     @Override
     public void clipRect(int x, int y, int width, int height) {
-        clip(new Rectangle(x, y, width, height));
+        clip(new TRectangle(x, y, width, height));
     }
 
 
     @Override
-    public void clip(Shape s) {
+    public void clip(TShape s) {
         if (s == null) {
             clip = null;
             return;
@@ -234,10 +232,10 @@ public abstract class CommonGraphics2D extends Graphics2D {
             mra.translate((int)transform.getTranslateX(), (int)transform.getTranslateY());
         } else {
             int type = transform.getType();
-            if(s instanceof Rectangle && (type == AffineTransform.TYPE_IDENTITY ||
-                type == AffineTransform.TYPE_TRANSLATION )) {
-                    mra = new MultiRectArea((Rectangle)s);
-                    if(type == AffineTransform.TYPE_TRANSLATION){
+            if(s instanceof TRectangle && (type == TAffineTransform.TYPE_IDENTITY ||
+                type == TAffineTransform.TYPE_TRANSLATION )) {
+                    mra = new MultiRectArea((TRectangle)s);
+                    if(type == TAffineTransform.TYPE_TRANSLATION){
                         mra.translate((int)transform.getTranslateX(), (int)transform.getTranslateY());
                     }
             } else {
@@ -269,12 +267,12 @@ public abstract class CommonGraphics2D extends Graphics2D {
      ***************************************************************************/
 
     @Override
-    public void draw(Shape s) {
-        if (stroke instanceof BasicStroke && ((BasicStroke)stroke).getLineWidth() <= 1) {
+    public void draw(TShape s) {
+        if (stroke instanceof TBasicStroke && ((TBasicStroke)stroke).getLineWidth() <= 1) {
             //TODO: Think about drawing the shape in one fillMultiRectArea call
-            BasicStroke bstroke = (BasicStroke)stroke;
+            TBasicStroke bstroke = (TBasicStroke)stroke;
             JavaLineRasterizer.LineDasher ld = (bstroke.getDashArray() == null)?null:new JavaLineRasterizer.LineDasher(bstroke.getDashArray(), bstroke.getDashPhase());
-            PathIterator pi = s.getPathIterator(transform, 0.5);
+            TPathIterator pi = s.getPathIterator(transform, 0.5);
             float []points = new float[6];
             int x1 = Integer.MIN_VALUE;
             int y1 = Integer.MIN_VALUE;
@@ -282,20 +280,20 @@ public abstract class CommonGraphics2D extends Graphics2D {
             int cy1 = Integer.MIN_VALUE;
             while (!pi.isDone()) {
                 switch (pi.currentSegment(points)) {
-                    case PathIterator.SEG_MOVETO:
+                    case TPathIterator.SEG_MOVETO:
                         x1 = (int)Math.floor(points[0]);
                         y1 = (int)Math.floor(points[1]);
                         cx1 = x1;
                         cy1 = y1;
                         break;
-                    case PathIterator.SEG_LINETO:
+                    case TPathIterator.SEG_LINETO:
                         int x2 = (int)Math.floor(points[0]);
                         int y2 = (int)Math.floor(points[1]);
                         fillMultiRectArea(JavaLineRasterizer.rasterize(x1, y1, x2, y2, null, ld, false));
                         x1 = x2;
                         y1 = y2;
                         break;
-                    case PathIterator.SEG_CLOSE:
+                    case TPathIterator.SEG_CLOSE:
                         x2 = cx1;
                         y2 = cy1;
                         fillMultiRectArea(JavaLineRasterizer.rasterize(x1, y1, x2, y2, null, ld, false));
@@ -314,22 +312,22 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     @Override
     public void drawArc(int x, int y, int width, int height, int sa, int ea) {
-        if (stroke instanceof BasicStroke && ((BasicStroke)stroke).getLineWidth() <= 1 &&
-                ((BasicStroke)stroke).getDashArray() == null && 
-                (transform.isIdentity() || transform.getType() == AffineTransform.TYPE_TRANSLATION)) {
-            Point p = new Point(x, y);
+        if (stroke instanceof TBasicStroke && ((TBasicStroke)stroke).getLineWidth() <= 1 &&
+                ((TBasicStroke)stroke).getDashArray() == null && 
+                (transform.isIdentity() || transform.getType() == TAffineTransform.TYPE_TRANSLATION)) {
+            TPoint p = new TPoint(x, y);
             transform.transform(p, p);
             MultiRectArea mra = JavaArcRasterizer.rasterize(x, y, width, height, sa, ea, clip);
             fillMultiRectArea(mra);
             return;
         }
-        draw(new Arc2D.Float(x, y, width, height, sa, ea, Arc2D.OPEN));
+        draw(new TArc2D.TFloat(x, y, width, height, sa, ea, TArc2D.OPEN));
     }
 
 
     @Override
-    public boolean drawImage(Image image, int x, int y, Color bgcolor,
-            ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int x, int y, TColor bgcolor,
+            TImageObserver imageObserver) {
 
         if(image == null) {
             return true;
@@ -340,11 +338,11 @@ public abstract class CommonGraphics2D extends Graphics2D {
         Surface srcSurf = null;
         if(image instanceof OffscreenImage){
             OffscreenImage oi = (OffscreenImage) image;
-            if((oi.getState() & ImageObserver.ERROR) != 0) {
+            if((oi.getState() & TImageObserver.ERROR) != 0) {
                 return false;
             }
             done = oi.prepareImage(imageObserver);
-            somebits = (oi.getState() & ImageObserver.SOMEBITS) != 0;
+            somebits = (oi.getState() & TImageObserver.SOMEBITS) != 0;
             srcSurf = oi.getImageSurface();
         }else{
             done = true;
@@ -354,20 +352,20 @@ public abstract class CommonGraphics2D extends Graphics2D {
         if(done || somebits) {
             int w = srcSurf.getWidth();
             int h = srcSurf.getHeight();
-            blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h, (AffineTransform) transform.clone(),
+            blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h, (TAffineTransform) transform.clone(),
                     composite, bgcolor, clip);
         }
         return done;
     }
 
     @Override
-    public boolean drawImage(Image image, int x, int y, ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int x, int y, TImageObserver imageObserver) {
         return drawImage(image, x, y, null, imageObserver);
     }
 
     @Override
-    public boolean drawImage(Image image, int x, int y, int width, int height,
-            Color bgcolor, ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int x, int y, int width, int height,
+            TColor bgcolor, TImageObserver imageObserver) {
 
         if(image == null) {
             return true;
@@ -382,11 +380,11 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
         if(image instanceof OffscreenImage){
             OffscreenImage oi = (OffscreenImage) image;
-            if((oi.getState() & ImageObserver.ERROR) != 0) {
+            if((oi.getState() & TImageObserver.ERROR) != 0) {
                 return false;
             }
             done = oi.prepareImage(imageObserver);
-            somebits = (oi.getState() & ImageObserver.SOMEBITS) != 0;
+            somebits = (oi.getState() & TImageObserver.SOMEBITS) != 0;
             srcSurf = oi.getImageSurface();
         }else{
             done = true;
@@ -398,13 +396,13 @@ public abstract class CommonGraphics2D extends Graphics2D {
             int h = srcSurf.getHeight();
             if(w == width && h == height){
                 blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h,
-                        (AffineTransform) transform.clone(),
+                        (TAffineTransform) transform.clone(),
                         composite, bgcolor, clip);
             }else{
-                AffineTransform xform = new AffineTransform();
+                TAffineTransform xform = new TAffineTransform();
                 xform.setToScale((float)width / w, (float)height / h);
                 blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h,
-                        (AffineTransform) transform.clone(),
+                        (TAffineTransform) transform.clone(),
                         xform, composite, bgcolor, clip);
             }
         }
@@ -412,15 +410,15 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public boolean drawImage(Image image, int x, int y, int width, int height,
-            ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int x, int y, int width, int height,
+            TImageObserver imageObserver) {
         return drawImage(image, x, y, width, height, null, imageObserver);
     }
 
     @Override
-    public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
-            int sx1, int sy1, int sx2, int sy2, Color bgcolor,
-            ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int dx1, int dy1, int dx2, int dy2,
+            int sx1, int sy1, int sx2, int sy2, TColor bgcolor,
+            TImageObserver imageObserver) {
 
         if(image == null) {
             return true;
@@ -434,11 +432,11 @@ public abstract class CommonGraphics2D extends Graphics2D {
         Surface srcSurf = null;
         if(image instanceof OffscreenImage){
             OffscreenImage oi = (OffscreenImage) image;
-            if((oi.getState() & ImageObserver.ERROR) != 0) {
+            if((oi.getState() & TImageObserver.ERROR) != 0) {
                 return false;
             }
             done = oi.prepareImage(imageObserver);
-            somebits = (oi.getState() & ImageObserver.SOMEBITS) != 0;
+            somebits = (oi.getState() & TImageObserver.SOMEBITS) != 0;
             srcSurf = oi.getImageSurface();
         }else{
             done = true;
@@ -459,13 +457,13 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
             if(srcW == dstW && srcH == dstH){
                 blitter.blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf, srcW, srcH,
-                        (AffineTransform) transform.clone(),
+                        (TAffineTransform) transform.clone(),
                         composite, bgcolor, clip);
             }else{
-                AffineTransform xform = new AffineTransform();
+                TAffineTransform xform = new TAffineTransform();
                 xform.setToScale((float)dstW / srcW, (float)dstH / srcH);
                 blitter.blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf, srcW, srcH,
-                        (AffineTransform) transform.clone(),
+                        (TAffineTransform) transform.clone(),
                         xform, composite, bgcolor, clip);
             }
         }
@@ -473,15 +471,15 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
-            int sx1, int sy1, int sx2, int sy2, ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, int dx1, int dy1, int dx2, int dy2,
+            int sx1, int sy1, int sx2, int sy2, TImageObserver imageObserver) {
 
         return drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null,
                 imageObserver);
      }
 
     @Override
-    public void drawImage(BufferedImage bufImage, BufferedImageOp op,
+    public void drawImage(BufferedTImage bufImage, TBufferedImageOp op,
             int x, int y) {
 
         if(bufImage == null) {
@@ -490,14 +488,14 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
         if(op == null) {
             drawImage(bufImage, x, y, null);
-        } else if(op instanceof AffineTransformOp){
-            AffineTransformOp atop = (AffineTransformOp) op;
-            AffineTransform xform = atop.getTransform();
+        } else if(op instanceof TAffineTransformOp){
+            TAffineTransformOp atop = (TAffineTransformOp) op;
+            TAffineTransform xform = atop.getTransform();
             Surface srcSurf = Surface.getImageSurface(bufImage);
             int w = srcSurf.getWidth();
             int h = srcSurf.getHeight();
             blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h,
-                    (AffineTransform) transform.clone(), xform,
+                    (TAffineTransform) transform.clone(), xform,
                     composite, null, clip);
         } else {
             bufImage = op.filter(bufImage, null);
@@ -505,14 +503,14 @@ public abstract class CommonGraphics2D extends Graphics2D {
             int w = srcSurf.getWidth();
             int h = srcSurf.getHeight();
             blitter.blit(0, 0, srcSurf, x, y, dstSurf, w, h,
-                    (AffineTransform) transform.clone(),
+                    (TAffineTransform) transform.clone(),
                     composite, null, clip);
         }
     }
 
     @Override
-    public boolean drawImage(Image image, AffineTransform trans,
-            ImageObserver imageObserver) {
+    public boolean drawImage(TImage image, TAffineTransform trans,
+            TImageObserver imageObserver) {
 
         if(image == null) {
             return true;
@@ -526,11 +524,11 @@ public abstract class CommonGraphics2D extends Graphics2D {
         Surface srcSurf = null;
         if(image instanceof OffscreenImage){
             OffscreenImage oi = (OffscreenImage) image;
-            if((oi.getState() & ImageObserver.ERROR) != 0) {
+            if((oi.getState() & TImageObserver.ERROR) != 0) {
                 return false;
             }
             done = oi.prepareImage(imageObserver);
-            somebits = (oi.getState() & ImageObserver.SOMEBITS) != 0;
+            somebits = (oi.getState() & TImageObserver.SOMEBITS) != 0;
             srcSurf = oi.getImageSurface();
         }else{
             done = true;
@@ -540,7 +538,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
         if(done || somebits) {
             int w = srcSurf.getWidth();
             int h = srcSurf.getHeight();
-            AffineTransform xform = (AffineTransform) transform.clone();
+            TAffineTransform xform = (TAffineTransform) transform.clone();
             xform.concatenate(trans);
             blitter.blit(0, 0, srcSurf, 0, 0, dstSurf, w, h, xform, composite,
                     null, clip);
@@ -554,10 +552,10 @@ public abstract class CommonGraphics2D extends Graphics2D {
             System.err.println("CommonGraphics2D.drawLine("+x1+", "+y1+", "+x2+", "+y2+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         }
 
-        if (stroke instanceof BasicStroke && ((BasicStroke)stroke).getLineWidth() <= 1) {
-            BasicStroke bstroke = (BasicStroke)stroke;
-            Point p1 = new Point(x1, y1);
-            Point p2 = new Point(x2, y2);
+        if (stroke instanceof TBasicStroke && ((TBasicStroke)stroke).getLineWidth() <= 1) {
+            TBasicStroke bstroke = (TBasicStroke)stroke;
+            TPoint p1 = new TPoint(x1, y1);
+            TPoint p2 = new TPoint(x2, y2);
             transform.transform(p1, p1);
             transform.transform(p2, p2);
             JavaLineRasterizer.LineDasher ld = (bstroke.getDashArray() == null)?null:new JavaLineRasterizer.LineDasher(bstroke.getDashArray(), bstroke.getDashPhase());
@@ -565,30 +563,30 @@ public abstract class CommonGraphics2D extends Graphics2D {
             fillMultiRectArea(mra);
             return;
         }
-        draw(new Line2D.Float(x1, y1, x2, y2));
+        draw(new TLine2D.TFloat(x1, y1, x2, y2));
     }
 
     @Override
     public void drawOval(int x, int y, int width, int height) {
-        if (stroke instanceof BasicStroke && ((BasicStroke)stroke).getLineWidth() <= 1 &&
-                ((BasicStroke)stroke).getDashArray() == null && 
-                (transform.isIdentity() || transform.getType() == AffineTransform.TYPE_TRANSLATION)) {
-            Point p = new Point(x, y);
+        if (stroke instanceof TBasicStroke && ((TBasicStroke)stroke).getLineWidth() <= 1 &&
+                ((TBasicStroke)stroke).getDashArray() == null && 
+                (transform.isIdentity() || transform.getType() == TAffineTransform.TYPE_TRANSLATION)) {
+            TPoint p = new TPoint(x, y);
             transform.transform(p, p);
             MultiRectArea mra = JavaArcRasterizer.rasterize(p.x, p.y, width, height, 0, 360, clip);
             fillMultiRectArea(mra);
             return;
         }
-        draw(new Ellipse2D.Float(x, y, width, height));
+        draw(new TEllipse2D.TFloat(x, y, width, height));
     }
 
     @Override
     public void drawPolygon(int[] xpoints, int[] ypoints, int npoints) {
-        draw(new Polygon(xpoints, ypoints, npoints));
+        draw(new TPolygon(xpoints, ypoints, npoints));
     }
 
     @Override
-    public void drawPolygon(Polygon polygon) {
+    public void drawPolygon(TPolygon polygon) {
         draw(polygon);
     }
 
@@ -600,7 +598,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+    public void drawRenderableImage(RenderableTImage img, TAffineTransform xform) {
         if (img == null) {
             return;
         }
@@ -612,25 +610,25 @@ public abstract class CommonGraphics2D extends Graphics2D {
         } else {
             int width = (int)Math.round(img.getWidth()*scaleX);
             int height = (int)Math.round(img.getHeight()*scaleY);
-            xform = (AffineTransform)xform.clone();
+            xform = (TAffineTransform)xform.clone();
             xform.scale(1, 1);
             drawRenderedImage(img.createScaledRendering(width, height, null), xform);
         }
     }
 
     @Override
-    public void drawRenderedImage(RenderedImage rimg, AffineTransform xform) {
+    public void drawRenderedImage(RenderedTImage rimg, TAffineTransform xform) {
         if (rimg == null) {
             return;
         }
 
-        Image img = null;
+        TImage img = null;
 
-        if (rimg instanceof Image) {
-            img = (Image)rimg;
+        if (rimg instanceof TImage) {
+            img = (TImage)rimg;
         } else {
-            //TODO: Create new class to provide Image interface for RenderedImage or rewrite this method
-            img = new BufferedImage(rimg.getColorModel(), rimg.copyData(null), false, null);
+            //TODO: Create new class to provide TImage interface for RenderedTImage or rewrite this method
+            img = new TBufferedImage(rimg.getColorModel(), rimg.copyData(null), false, null);
         }
 
         drawImage(img, xform, null);
@@ -642,7 +640,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
             System.err.println("CommonGraphics2D.drawRoundRect("+x+", "+y+", "+width+", "+height+","+arcWidth+", "+arcHeight+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
         }
 
-        draw(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
+        draw(new TRoundRectangle2D.TFloat(x, y, width, height, arcWidth, arcHeight));
     }
 
 
@@ -657,7 +655,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     @Override
     public void drawString(AttributedCharacterIterator iterator, float x, float y) {
-        GlyphVector gv = font.createGlyphVector(frc, iterator);
+        TGlyphVector gv = font.createGlyphVector(frc, iterator);
         drawGlyphVector(gv, x, y);
     }
 
@@ -679,7 +677,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
      ***************************************************************************/
 
     @Override
-    public void fill(Shape s) {
+    public void fill(TShape s) {
         s = transform.createTransformedShape(s);
         MultiRectArea mra = jsr.rasterize(s, 0.5);
         fillMultiRectArea(mra);
@@ -687,21 +685,21 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     @Override
     public void fillArc(int x, int y, int width, int height, int sa, int ea) {
-        fill(new Arc2D.Float(x, y, width, height, sa, ea, Arc2D.PIE));
+        fill(new TArc2D.TFloat(x, y, width, height, sa, ea, TArc2D.PIE));
     }
 
     @Override
     public void fillOval(int x, int y, int width, int height) {
-        fill(new Ellipse2D.Float(x, y, width, height));
+        fill(new TEllipse2D.TFloat(x, y, width, height));
     }
 
     @Override
     public void fillPolygon(int[] xpoints, int[] ypoints, int npoints) {
-        fill(new Polygon(xpoints, ypoints, npoints));
+        fill(new TPolygon(xpoints, ypoints, npoints));
     }
 
     @Override
-    public void fillPolygon(Polygon polygon) {
+    public void fillPolygon(TPolygon polygon) {
         fill(polygon);
     }
 
@@ -711,7 +709,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
             System.err.println("CommonGraphics2D.fillRect("+x+", "+y+", "+width+", "+height+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
         }
 
-        fill(new Rectangle(x, y, width, height));
+        fill(new TRectangle(x, y, width, height));
     }
 
     @Override
@@ -720,7 +718,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
             System.err.println("CommonGraphics2D.fillRoundRect("+x+", "+y+", "+width+", "+height+","+arcWidth+", "+arcHeight+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
         }
 
-        fill(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
+        fill(new TRoundRectangle2D.TFloat(x, y, width, height, arcWidth, arcHeight));
     }
 
 
@@ -733,12 +731,12 @@ public abstract class CommonGraphics2D extends Graphics2D {
      ***************************************************************************/
 
     @Override
-    public Color getBackground() {
-        return bgColor;
+    public TColor getBackground() {
+        return bgTColor;
     }
 
     @Override
-    public Shape getClip() {
+    public TShape getClip() {
         if (clip == null) {
             return null;
         }
@@ -749,42 +747,42 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public Rectangle getClipBounds() {
+    public TRectangle getClipBounds() {
         if (clip == null) {
             return null;
         }
 
-        Rectangle res = (Rectangle) clip.getBounds().clone();
+        TRectangle res = (TRectangle) clip.getBounds().clone();
         res.translate(-Math.round((float)transform.getTranslateX()), -Math.round((float)transform.getTranslateY()));
         return res;
     }
 
     @Override
-    public Color getColor() {
-        return fgColor;
+    public TColor getColor() {
+        return fgTColor;
     }
 
     @Override
-    public Composite getComposite() {
+    public TComposite getComposite() {
         return composite;
     }
 
     @Override
-    public Font getFont() {
+    public TFont getFont() {
         return font;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public FontMetrics getFontMetrics(Font font) {
-        return Toolkit.getDefaultToolkit().getFontMetrics(font);
+    public TFontMetrics getFontMetrics(TFont font) {
+        return TToolkit.getDefaultToolkit().getFontMetrics(font);
     }
 
     @Override
-    public FontRenderContext getFontRenderContext() {
-        AffineTransform at;
+    public TFontRenderContext getFontRenderContext() {
+        TAffineTransform at;
         if (frc == null){
-            GraphicsConfiguration gc = getDeviceConfiguration();
+            TGraphicsConfiguration gc = getDeviceConfiguration();
             if (gc != null){
                 at = gc.getDefaultTransform();
                 at.concatenate(gc.getNormalizingTransform());
@@ -792,42 +790,42 @@ public abstract class CommonGraphics2D extends Graphics2D {
             else 
                 at = null;
 
-            boolean isAa = (hints.get(RenderingHints.KEY_TEXT_ANTIALIASING) == 
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            boolean isFm = (hints.get(RenderingHints.KEY_FRACTIONALMETRICS) == 
-                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-            frc = new FontRenderContext(at,isAa,isFm);
+            boolean isAa = (hints.get(TRenderingHints.KEY_TEXT_ANTIALIASING) == 
+                TRenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            boolean isFm = (hints.get(TRenderingHints.KEY_FRACTIONALMETRICS) == 
+                TRenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            frc = new TFontRenderContext(at,isAa,isFm);
         }
         return frc;
     }
 
     @Override
-    public Paint getPaint() {
+    public TPaint getPaint() {
         return paint;
     }
 
     @Override
-    public Object getRenderingHint(RenderingHints.Key key) {
+    public Object getRenderingHint(TRenderingHints.Key key) {
         return hints.get(key);
     }
 
     @Override
-    public RenderingHints getRenderingHints() {
+    public TRenderingHints getRenderingHints() {
         return hints;
     }
 
     @Override
-    public Stroke getStroke() {
+    public TStroke getStroke() {
         return stroke;
     }
 
     @Override
-    public AffineTransform getTransform() {
-        return (AffineTransform)transform.clone();
+    public TAffineTransform getTransform() {
+        return (TAffineTransform)transform.clone();
     }
 
     @Override
-    public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
+    public boolean hit(TRectangle rect, TShape s, boolean onTStroke) {
         //TODO: Implement method....
         return false;
     }
@@ -866,7 +864,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void transform(AffineTransform at) {
+    public void transform(TAffineTransform at) {
         transform.concatenate(at);
         transform.getMatrix(matrix);
     }
@@ -901,17 +899,17 @@ public abstract class CommonGraphics2D extends Graphics2D {
      ***************************************************************************/
 
     @Override
-    public void setBackground(Color color) {
-        bgColor = color;
+    public void setBackground(TColor color) {
+        bgTColor = color;
     }
 
     @Override
     public void setClip(int x, int y, int width, int height) {
-        setClip(new Rectangle(x, y, width, height));
+        setClip(new TRectangle(x, y, width, height));
     }
 
     @Override
-    public void setClip(Shape s) {
+    public void setClip(TShape s) {
         if (s == null) {
             setTransformedClip(null);
             if (debugOutput) {
@@ -930,10 +928,10 @@ public abstract class CommonGraphics2D extends Graphics2D {
             setTransformedClip(nclip);
         } else {
             int type = transform.getType();
-            if(s instanceof Rectangle && (type == AffineTransform.TYPE_IDENTITY ||
-                type == AffineTransform.TYPE_TRANSLATION )) {
-                    MultiRectArea nclip = new MultiRectArea((Rectangle)s);
-                    if(type == AffineTransform.TYPE_TRANSLATION){
+            if(s instanceof TRectangle && (type == TAffineTransform.TYPE_IDENTITY ||
+                type == TAffineTransform.TYPE_TRANSLATION )) {
+                    MultiRectArea nclip = new MultiRectArea((TRectangle)s);
+                    if(type == TAffineTransform.TYPE_TRANSLATION){
                         nclip.translate((int)transform.getTranslateX(), (int)transform.getTranslateY());
                     }
                     setTransformedClip(nclip);
@@ -945,41 +943,41 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void setColor(Color color) {
+    public void setColor(TColor color) {
         if (color != null) {
-            fgColor = color;
+            fgTColor = color;
             paint = color;
         }
     }
 
     @Override
-    public void setComposite(Composite composite) {
+    public void setComposite(TComposite composite) {
         this.composite = composite;
     }
 
     @Override
-    public void setFont(Font font) {
+    public void setFont(TFont font) {
         this.font = font;
     }
 
     @Override
-    public void setPaint(Paint paint) {
+    public void setPaint(TPaint paint) {
         if (paint == null)
             return;
             
         this.paint = paint;
-        if (paint instanceof Color) {
-            fgColor = (Color)paint;
+        if (paint instanceof TColor) {
+            fgTColor = (TColor)paint;
         }
     }
 
     @Override
     public void setPaintMode() {
-        composite = AlphaComposite.SrcOver;
+        composite = TAlphaComposite.SrcOver;
     }
 
     @Override
-    public void setRenderingHint(RenderingHints.Key key, Object value) {
+    public void setRenderingHint(TRenderingHints.Key key, Object value) {
         hints.put(key, value);
     }
 
@@ -991,19 +989,19 @@ public abstract class CommonGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void setStroke(Stroke stroke) {
+    public void setStroke(TStroke stroke) {
         this.stroke = stroke;
     }
 
     @Override
-    public void setTransform(AffineTransform transform) {
+    public void setTransform(TAffineTransform transform) {
         this.transform = transform;
 
         transform.getMatrix(matrix);
     }
 
     @Override
-    public void setXORMode(Color color) {
+    public void setXORMode(TColor color) {
         composite = new XORComposite(color);
     }
 
@@ -1015,7 +1013,7 @@ public abstract class CommonGraphics2D extends Graphics2D {
 
     /**
      * This method fills the given MultiRectArea with current paint.
-     * It calls fillMultiRectAreaColor and fillMultiRectAreaPaint 
+     * It calls fillMultiRectAreaTColor and fillMultiRectAreaTPaint 
      * methods depending on the type of current paint.
      * @param mra MultiRectArea to fill
      */
@@ -1033,10 +1031,10 @@ public abstract class CommonGraphics2D extends Graphics2D {
             System.err.println("CommonGraphics2D.fillMultiRectArea("+mra+")"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        if (paint instanceof Color){
-            fillMultiRectAreaColor(mra);
+        if (paint instanceof TColor){
+            fillMultiRectAreaTColor(mra);
         }else{
-            fillMultiRectAreaPaint(mra);
+            fillMultiRectAreaTPaint(mra);
         }
     }
 
@@ -1044,16 +1042,16 @@ public abstract class CommonGraphics2D extends Graphics2D {
      * This method fills the given MultiRectArea with solid color.
      * @param mra MultiRectArea to fill
      */
-    protected void fillMultiRectAreaColor(MultiRectArea mra) {
-        fillMultiRectAreaPaint(mra);
+    protected void fillMultiRectAreaTColor(MultiRectArea mra) {
+        fillMultiRectAreaTPaint(mra);
     }
 
     /**
      * This method fills the given MultiRectArea with any paint.
      * @param mra MultiRectArea to fill
      */
-    protected void fillMultiRectAreaPaint(MultiRectArea mra) {
-        Rectangle rec = mra.getBounds();
+    protected void fillMultiRectAreaTPaint(MultiRectArea mra) {
+        TRectangle rec = mra.getBounds();
         int x = rec.x;
         int y = rec.y;
         int w = rec.width;
@@ -1061,11 +1059,11 @@ public abstract class CommonGraphics2D extends Graphics2D {
         if(w <= 0 || h <= 0) {
             return;
         }
-        PaintContext pc = paint.createContext(null, rec, rec, transform, hints);
-        Raster r = pc.getRaster(x, y, w, h);
-        WritableRaster wr;
-        if(r instanceof WritableRaster){
-            wr = (WritableRaster) r;
+        TPaintContext pc = paint.createContext(null, rec, rec, transform, hints);
+        TRaster r = pc.getRaster(x, y, w, h);
+        TWritableRaster wr;
+        if(r instanceof TWritableRaster){
+            wr = (TWritableRaster) r;
         }else{
             wr = r.createCompatibleWritableRaster();
             wr.setRect(r);
@@ -1088,15 +1086,15 @@ public abstract class CommonGraphics2D extends Graphics2D {
         } else {
             copy.setTransformedClip(new MultiRectArea(clip));
         }
-        copy.setBackground(bgColor);
-        copy.setColor(fgColor);
+        copy.setBackground(bgTColor);
+        copy.setColor(fgTColor);
         copy.setPaint(paint);
         copy.setComposite(composite);
         copy.setStroke(stroke);
         copy.setFont(font);
-        copy.setTransform(new AffineTransform(transform));
-        //copy.origTransform = new AffineTransform(origTransform);
-        copy.origPoint = new Point(origPoint);
+        copy.setTransform(new TAffineTransform(transform));
+        //copy.origTransform = new TAffineTransform(origTransform);
+        copy.origTPoint = new TPoint(origTPoint);
     }
 
     public void flush(){}

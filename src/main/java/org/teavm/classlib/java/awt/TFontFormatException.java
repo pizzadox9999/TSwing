@@ -17,12 +17,12 @@
 /**
  * @author Ilya S. Okomin
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public class FontFormatException extends Exception {
+public class TFontFormatException extends Exception {
     private static final long serialVersionUID = -4481290147811361272L;
 
-    public FontFormatException(String reason) {
+    public TFontFormatException(String reason) {
         super(reason);
     }
 

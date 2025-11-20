@@ -22,14 +22,11 @@
 
 package org.apache.harmony.awt.gl.font;
 
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.*;
-
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.font.TTextHitInfo;
+import org.teavm.classlib.java.awt.geom.TGeneralPath;
+import org.teavm.classlib.java.awt.geom.TLine2D;
 
 /**
  * This class provides functionality for creating caret and highlight shapes
@@ -83,22 +80,22 @@ public class CaretManager {
      * @param visual - visual position
      * @return text hit info
      */
-    private TextHitInfo getHitInfoFromVisual(int visual) {
+    private TTextHitInfo getHitInfoFromVisual(int visual) {
         final boolean first = visual == 0;
 
         if (!(first || visual == breaker.getCharCount())) {
             int logical = breaker.getLogicalFromVisual(visual);
             return (breaker.getLevel(logical) & 0x1) == 0x0 ?
-                    TextHitInfo.leading(logical) : // LTR
-                    TextHitInfo.trailing(logical); // RTL
+                    TTextHitInfo.leading(logical) : // LTR
+                    TTextHitInfo.trailing(logical); // RTL
         } else if (first) {
             return breaker.isLTR() ?
-                    TextHitInfo.trailing(-1) :
-                    TextHitInfo.leading(breaker.getCharCount());
+                    TTextHitInfo.trailing(-1) :
+                    TTextHitInfo.leading(breaker.getCharCount());
         } else { // Last
             return breaker.isLTR() ?
-                    TextHitInfo.leading(breaker.getCharCount()) :
-                    TextHitInfo.trailing(-1);
+                    TTextHitInfo.leading(breaker.getCharCount()) :
+                    TTextHitInfo.trailing(-1);
         }
     }
 
@@ -151,7 +148,7 @@ public class CaretManager {
             return null;
         }
 
-        TextHitInfo newInfo;
+        TTextHitInfo newInfo;
 
         while(visual <= breaker.getCharCount()) {
             visual++;
@@ -193,7 +190,7 @@ public class CaretManager {
             return null;
         }
 
-        TextHitInfo newInfo;
+        TTextHitInfo newInfo;
 
         while(visual >= 0) {
             visual--;
@@ -297,7 +294,7 @@ public class CaretManager {
             }
         }
 
-        return resIsLeading ? TextHitInfo.leading(resIdx) : TextHitInfo.trailing(resIdx);
+        return resIsLeading ? TTextHitInfo.leading(resIdx) : TTextHitInfo.trailing(resIdx);
     }
 
     public Line2D getCaretShape(TextHitInfo hitInfo, TextLayout layout) {
@@ -367,7 +364,7 @@ public class CaretManager {
             }
         }
 
-        return new Line2D.Float(x1, y1, x2, y2);
+        return new TLine2D.TFloat(x1, y1, x2, y2);
     }
 
     /**
@@ -384,20 +381,20 @@ public class CaretManager {
             int offset, Rectangle2D bounds,
             TextLayout.CaretPolicy policy, TextLayout layout
     ) {
-        TextHitInfo hit1 = TextHitInfo.afterOffset(offset);
-        TextHitInfo hit2 = getVisualOtherHit(hit1);
+        TTextHitInfo hit1 = TTextHitInfo.afterOffset(offset);
+        TTextHitInfo hit2 = getVisualOtherHit(hit1);
 
-        Shape caret1 = getCaretShape(hit1, layout);
+        TShape caret1 = getCaretShape(hit1, layout);
 
         if (getVisualFromHitInfo(hit1) == getVisualFromHitInfo(hit2)) {
-            return new Shape[] {caret1, null};
+            return new TShape[] {caret1, null};
         }
-        Shape caret2 = getCaretShape(hit2, layout);
+        TShape caret2 = getCaretShape(hit2, layout);
 
-        TextHitInfo strongHit = policy.getStrongCaret(hit1, hit2, layout);
+        TTextHitInfo strongHit = policy.getStrongCaret(hit1, hit2, layout);
         return strongHit.equals(hit1) ?
-                new Shape[] {caret1, caret2} :
-                new Shape[] {caret2, caret1};
+                new TShape[] {caret1, caret2} :
+                new TShape[] {caret2, caret1};
     }
 
     /**
@@ -406,8 +403,8 @@ public class CaretManager {
      * @param caret2 - 2nd caret
      * @return highlight shape
      */
-    GeneralPath connectCarets(Line2D caret1, Line2D caret2) {
-        GeneralPath path = new GeneralPath(GeneralPath.WIND_NON_ZERO);
+    TGeneralPath connectCarets(Line2D caret1, Line2D caret2) {
+        TGeneralPath path = new TGeneralPath(TGeneralPath.WIND_NON_ZERO);
         path.moveTo((float) caret1.getX1(), (float) caret1.getY1());
         path.lineTo((float) caret2.getX1(), (float) caret2.getY1());
         path.lineTo((float) caret2.getX2(), (float) caret2.getY2());
@@ -434,8 +431,8 @@ public class CaretManager {
         checkHit(hit1);
         checkHit(hit2);
 
-        Line2D caret1 = getCaretShape(hit1, layout, false, true, bounds);
-        Line2D caret2 = getCaretShape(hit2, layout, false, true, bounds);
+        TLine2D caret1 = getCaretShape(hit1, layout, false, true, bounds);
+        TLine2D caret2 = getCaretShape(hit2, layout, false, true, bounds);
 
         return connectCarets(caret1, caret2);
     }
@@ -505,19 +502,19 @@ public class CaretManager {
      * @param layout - text layout
      * @return highlight shape
      */
-    public Shape getLogicalHighlightShape(
+    public TShape getLogicalHighlightShape(
             int firstEndpoint, int secondEndpoint,
             Rectangle2D bounds, TextLayout layout
     ) {
-        GeneralPath res = new GeneralPath();
+        TGeneralPath res = new TGeneralPath();
 
         for (int i=firstEndpoint; i<=secondEndpoint; i++) {
             int endRun = breaker.getLevelRunLimit(i, secondEndpoint);
-            TextHitInfo hit1 = TextHitInfo.leading(i);
-            TextHitInfo hit2 = TextHitInfo.trailing(endRun-1);
+            TTextHitInfo hit1 = TTextHitInfo.leading(i);
+            TTextHitInfo hit2 = TTextHitInfo.trailing(endRun-1);
 
-            Line2D caret1 = getCaretShape(hit1, layout, false, true, bounds);
-            Line2D caret2 = getCaretShape(hit2, layout, false, true, bounds);
+            TLine2D caret1 = getCaretShape(hit1, layout, false, true, bounds);
+            TLine2D caret2 = getCaretShape(hit2, layout, false, true, bounds);
 
             res.append(connectCarets(caret1, caret2), false);
 

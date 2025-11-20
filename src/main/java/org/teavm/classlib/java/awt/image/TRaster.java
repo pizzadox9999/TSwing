@@ -19,11 +19,10 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import org.apache.harmony.awt.gl.image.OrdinaryWritableRaster;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
 
 
 public class TRaster {
@@ -52,7 +51,7 @@ public class TRaster {
 
     public static TWritableRaster createBandedRaster(TDataBuffer dataBuffer,
             int w, int h, int scanlineStride, int bankIndices[],
-            int bandOffsets[], Point location) {
+            int bandOffsets[], TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -60,7 +59,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -96,7 +95,7 @@ public class TRaster {
 
     public static TWritableRaster createBandedRaster(int dataType, int w, int h,
             int scanlineStride, int bankIndices[], int bandOffsets[],
-            Point location) {
+            TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -104,7 +103,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -158,7 +157,7 @@ public class TRaster {
     }
 
     public static TWritableRaster createBandedRaster(int dataType, int w, int h,
-            int bands, Point location) {
+            int bands, TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -166,7 +165,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -193,7 +192,7 @@ public class TRaster {
 
     public static TWritableRaster createInterleavedRaster(TDataBuffer dataBuffer,
             int w, int h, int scanlineStride, int pixelStride,
-            int bandOffsets[], Point location) {
+            int bandOffsets[], TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -201,7 +200,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -241,7 +240,7 @@ public class TRaster {
 
     public static TWritableRaster createInterleavedRaster(int dataType, int w,
             int h, int scanlineStride, int pixelStride, int bandOffsets[],
-            Point location) {
+            TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -249,7 +248,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -292,7 +291,7 @@ public class TRaster {
     }
 
     public static TWritableRaster createInterleavedRaster(int dataType, int w,
-            int h, int bands, Point location) {
+            int h, int bands, TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -300,7 +299,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -325,7 +324,7 @@ public class TRaster {
     }
 
     public static TWritableRaster createPackedRaster(TDataBuffer dataBuffer,
-            int w, int h, int scanlineStride, int bandMasks[], Point location) {
+            int w, int h, int scanlineStride, int bandMasks[], TPoint location) {
         if (dataBuffer == null) {
             // awt.278=dataBuffer is null
             throw new NullPointerException(Messages.getString("awt.278")); //$NON-NLS-1$
@@ -337,7 +336,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -372,7 +371,7 @@ public class TRaster {
     }
 
     public static TWritableRaster createPackedRaster(TDataBuffer dataBuffer,
-            int w, int h, int bitsPerPixel, Point location) {
+            int w, int h, int bitsPerPixel, TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -380,7 +379,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -414,7 +413,7 @@ public class TRaster {
     }
 
     public static TWritableRaster createPackedRaster(int dataType, int w, int h,
-            int bands, int bitsPerBand, Point location) {
+            int bands, int bitsPerBand, TPoint location) {
 
         if (w <= 0 || h <= 0) {
             // awt.22E=w or h is less than or equal to zero
@@ -422,7 +421,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -494,7 +493,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         if ((long) location.x + w > Integer.MAX_VALUE
@@ -534,7 +533,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         return new TRaster(sm, db, location);
@@ -549,7 +548,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         return new OrdinaryWritableRaster(sm, db, location);
@@ -564,7 +563,7 @@ public class TRaster {
         }
 
         if (location == null) {
-            location = new Point(0, 0);
+            location = new TPoint(0, 0);
         }
 
         return createWritableRaster(sm, sm.createDataBuffer(), location);
@@ -573,7 +572,7 @@ public class TRaster {
     protected TRaster(TSampleModel sampleModel, TDataBuffer dataBuffer,
             Point origin) {
 
-        this(sampleModel, dataBuffer, new Rectangle(origin.x, origin.y,
+        this(sampleModel, dataBuffer, new TRectangle(origin.x, origin.y,
                 sampleModel.getWidth(), sampleModel.getHeight()), origin, null);
     }
 
@@ -618,8 +617,8 @@ public class TRaster {
 
     }
 
-    protected TRaster(TSampleModel sampleModel, Point origin) {
-        this(sampleModel, sampleModel.createDataBuffer(), new Rectangle(
+    protected TRaster(TSampleModel sampleModel, TPoint origin) {
+        this(sampleModel, sampleModel.createDataBuffer(), new TRectangle(
                 origin.x, origin.y, sampleModel.getWidth(), sampleModel
                         .getHeight()), origin, null);
     }
@@ -672,14 +671,14 @@ public class TRaster {
         int childTranslateX = childMinX - parentX;
         int childTranslateY = childMinY - parentY;
 
-        return new TRaster(childModel, dataBuffer, new Rectangle(childMinX,
-                childMinY, width, height), new Point(childTranslateX
+        return new TRaster(childModel, dataBuffer, new TRectangle(childMinX,
+                childMinY, width, height), new TPoint(childTranslateX
                 + sampleModelTranslateX, childTranslateY
                 + sampleModelTranslateY), this);
     }
 
     public TWritableRaster createCompatibleWritableRaster() {
-        return new OrdinaryWritableRaster(sampleModel, new Point(0, 0));
+        return new OrdinaryWritableRaster(sampleModel, new TPoint(0, 0));
     }
 
     public TWritableRaster createCompatibleWritableRaster(int w, int h) {
@@ -690,7 +689,7 @@ public class TRaster {
 
         TSampleModel sm = sampleModel.createCompatibleSampleModel(w, h);
 
-        return new OrdinaryWritableRaster(sm, new Point(0, 0));
+        return new OrdinaryWritableRaster(sm, new TPoint(0, 0));
     }
 
     public TWritableRaster createCompatibleWritableRaster(int x, int y, int w,
@@ -716,8 +715,8 @@ public class TRaster {
                 null);
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(minX, minY, width, height);
+    public TRectangle getBounds() {
+        return new TRectangle(minX, minY, width, height);
     }
 
     public TDataBuffer getDataBuffer() {

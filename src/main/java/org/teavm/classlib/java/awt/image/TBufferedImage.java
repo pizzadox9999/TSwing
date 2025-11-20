@@ -19,14 +19,6 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -35,8 +27,12 @@ import org.apache.harmony.awt.gl.ImageSurface;
 import org.apache.harmony.awt.gl.Surface;
 import org.apache.harmony.awt.gl.image.BufferedImageSource;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TGraphics;
 import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
 import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 
 
 public class TBufferedImage extends TImage implements TWritableRenderedImage, TTransparency {
@@ -192,7 +188,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
 
         case TYPE_INT_ARGB_PRE:
             cm = new TDirectColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     32,
                     RED_MASK,
                     GREEN_MASK,
@@ -217,11 +213,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
             int bits[] = { 8, 8, 8 };
             int bandOffsets[] = { 2, 1, 0 };
             cm = new TComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     bits, 
                     false, 
                     false, 
-                    Transparency.OPAQUE, 
+                    TTransparency.OPAQUE, 
                     TDataBuffer.TYPE_BYTE);
 
             raster = TRaster.createInterleavedRaster(TDataBuffer.TYPE_BYTE,
@@ -233,11 +229,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
             int bits[] = { 8, 8, 8, 8 };
             int bandOffsets[] = { 3, 2, 1, 0 };
             cm = new TComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     bits, 
                     true, 
                     false, 
-                    Transparency.TRANSLUCENT, 
+                    TTransparency.TRANSLUCENT, 
                     TDataBuffer.TYPE_BYTE);
 
             raster = TRaster.createInterleavedRaster(TDataBuffer.TYPE_BYTE,
@@ -249,11 +245,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
             int bits[] = { 8, 8, 8, 8 };
             int bandOffsets[] = { 3, 2, 1, 0 };
             cm = new TComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(SCALE_FAST).getInstance(TColorSpace.CS_sRGB),
                     bits, 
                     true, 
                     true, 
-                    Transparency.TRANSLUCENT, TDataBuffer.TYPE_BYTE);
+                    TTransparency.TRANSLUCENT, TDataBuffer.TYPE_BYTE);
 
             raster = TRaster.createInterleavedRaster(TDataBuffer.TYPE_BYTE,
                     width, height, width * 4, 4, bandOffsets, null);
@@ -262,7 +258,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
 
         case TYPE_USHORT_565_RGB:
             cm = new TDirectColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     16,
                     RED_565_MASK,
                     GREEN_565_MASK,
@@ -276,7 +272,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
 
         case TYPE_USHORT_555_RGB:
             cm = new TDirectColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                    TColorSpace.getInstance(TColorSpace.CS_sRGB),
                     15,
                     RED_555_MASK,
                     GREEN_555_MASK,
@@ -291,11 +287,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
         case TYPE_BYTE_GRAY: {
             int bits[] = { 8 };
             cm = new TComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                    TColorSpace.getInstance(TColorSpace.CS_GRAY),
                     bits, 
                     false, 
                     false, 
-                    Transparency.OPAQUE, 
+                    TTransparency.OPAQUE, 
                     TDataBuffer.TYPE_BYTE);
 
             raster = cm.createCompatibleWritableRaster(width, height);
@@ -305,11 +301,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
         case TYPE_USHORT_GRAY: {
             int bits[] = { 16 };
             cm = new TComponentColorModel(
-                    ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                    TColorSpace.getInstance(TColorSpace.CS_GRAY),
                     bits, 
                     false, 
                     false, 
-                    Transparency.OPAQUE, 
+                    TTransparency.OPAQUE, 
                     TDataBuffer.TYPE_USHORT);
             raster = cm.createCompatibleWritableRaster(width, height);
             }
@@ -367,11 +363,11 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
             throw new NullPointerException(Messages.getString("awt.225")); //$NON-NLS-1$
         }
         if (properties == null) {
-            return Image.UndefinedProperty;
+            return TImage.UndefinedProperty;
         }
         Object property = properties.get(name);
         if (property == null) {
-            property = Image.UndefinedProperty;
+            property = TImage.UndefinedProperty;
         }
         return property;
     }
@@ -379,7 +375,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
     public TWritableRaster copyData(TWritableRaster outRaster) {
         if (outRaster == null) {
             outRaster = TRaster.createWritableRaster(raster.getSampleModel(),
-                    new Point(raster.getSampleModelTranslateX(),
+                    new TPoint(raster.getSampleModelTranslateX(),
                             raster.getSampleModelTranslateY()));
         }
 
@@ -396,7 +392,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
         return outRaster;
     }
 
-    public TRaster getData(Rectangle rect) {
+    public TRaster getData(TRectangle rect) {
         int minX = rect.x;
         int minY = rect.y;
         int w = rect.width;
@@ -469,9 +465,9 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
 
     public void setData(TRaster r) {
 
-        Rectangle from = r.getBounds();
-        Rectangle to = raster.getBounds();
-        Rectangle intersection = to.intersection(from);
+        TRectangle from = r.getBounds();
+        TRectangle to = raster.getBounds();
+        TRectangle intersection = to.intersection(from);
 
         int minX = intersection.x;
         int minY = intersection.y;
@@ -500,7 +496,7 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
 
         TWritableRaster outr = TRaster.createWritableRaster(
                 raster.getSampleModel(),
-                new Point(raster.getSampleModelTranslateX(),
+                new TPoint(raster.getSampleModelTranslateX(),
                 raster.getSampleModelTranslateY()));
 
         Object data = null;
@@ -535,20 +531,19 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
         return new TBufferedImage(cm, wr, cm.isAlphaPremultiplied(), properties);
     }
 
-    public Point[] getWritableTileIndices() {
-        Point points[] = new Point[1];
-        points[0] = new Point(0, 0);
+    public TPoint[] getWritableTileIndices() {
+        TPoint points[] = new TPoint[1];
+        points[0] = new TPoint(0, 0);
         return points;
     }
 
-    public Graphics2D createGraphics() {
-        GraphicsEnvironment ge = 
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
+    public TGraphics2D createGraphics() {
+        TGraphicsEnvironment ge = TGraphicsEnvironment.getLocalGraphicsEnvironment();
         return ge.createGraphics(this);
     }
 
     @Override
-    public Graphics getGraphics() {
+    public TGraphics getGraphics() {
         return createGraphics();
     }
 
@@ -679,8 +674,8 @@ public class TBufferedImage extends TImage implements TWritableRenderedImage, TT
         return imageSurf;
     }
 
-    public int getTransparency() {
-        return cm.getTransparency();
+    public int getTTransparency() {
+        return cm.getTTransparency();
     }
 }
 

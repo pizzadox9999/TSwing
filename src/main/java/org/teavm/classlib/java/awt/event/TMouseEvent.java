@@ -19,11 +19,10 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Toolkit;
-
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TToolkit;
 
 public class TMouseEvent extends TInputEvent {
 
@@ -63,13 +62,13 @@ public class TMouseEvent extends TInputEvent {
     private int x;
     private int y;
     
-    public TMouseEvent(Component source, int id, long when, int modifiers,
+    public TMouseEvent(TComponent source, int id, long when, int modifiers,
             int x, int y, int clickCount, boolean popupTrigger) {
         this(source, id, when, modifiers, x, y, clickCount, popupTrigger,
                 NOBUTTON);
     }
 
-    public TMouseEvent(Component source, int id, long when, int modifiers,
+    public TMouseEvent(TComponent source, int id, long when, int modifiers,
             int x, int y, int clickCount, boolean popupTrigger, int button) {
         super(source, id, when, modifiers);
 
@@ -98,36 +97,36 @@ public class TMouseEvent extends TInputEvent {
         final StringBuilder text = new StringBuilder();
 
         if ((modifiers & META_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.meta", "Meta")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.meta", "Meta")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & SHIFT_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.shift", "Shift")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.shift", "Shift")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & CTRL_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.control", "Ctrl")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.control", "Ctrl")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & ALT_MASK) != 0) {
             // XXX: The following hook is required to avoid conflicts between
             // ALT_MASK and BUTTON2_MASK which have the same value.
             if ((modifiers & BUTTON2_DOWN_MASK) != 0) {
                 if ((modifiers & ALT_DOWN_MASK) != 0) {
-                    text.append(Toolkit.getProperty("AWT.alt", "Alt")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    text.append(TToolkit.getProperty("AWT.alt", "Alt")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             } else {
-                text.append(Toolkit.getProperty("AWT.alt", "Alt")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                text.append(TToolkit.getProperty("AWT.alt", "Alt")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
         }
         if ((modifiers & ALT_GRAPH_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.altGraph", "Alt Graph")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.altGraph", "Alt Graph")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & BUTTON1_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.button1", "Button1")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.button1", "Button1")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & BUTTON2_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.button2", "Button2")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.button2", "Button2")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         if ((modifiers & BUTTON3_MASK) != 0) {
-            text.append(Toolkit.getProperty("AWT.button3", "Button3")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            text.append(TToolkit.getProperty("AWT.button3", "Button3")).append("+"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
 
         return text.length() == 0 ? text.toString() : text.substring(0, text
@@ -137,15 +136,15 @@ public class TMouseEvent extends TInputEvent {
     static String addMouseModifiersExText(String text, int modifiersEx) {
         if ((modifiersEx & TInputEvent.BUTTON1_DOWN_MASK) != 0) {
             text += ((text.length() > 0) ? "+" : "") + //$NON-NLS-1$ //$NON-NLS-2$
-                    Toolkit.getProperty("AWT.button1", "Button1"); //$NON-NLS-1$ //$NON-NLS-2$
+                    TToolkit.getProperty("AWT.button1", "Button1"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if ((modifiersEx & TInputEvent.BUTTON2_DOWN_MASK) != 0) {
             text += ((text.length() > 0) ? "+" : "") + //$NON-NLS-1$ //$NON-NLS-2$
-                    Toolkit.getProperty("AWT.button2", "Button2"); //$NON-NLS-1$ //$NON-NLS-2$
+                    TToolkit.getProperty("AWT.button2", "Button2"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         if ((modifiersEx & TInputEvent.BUTTON3_DOWN_MASK) != 0) {
             text += ((text.length() > 0) ? "+" : "") + //$NON-NLS-1$ //$NON-NLS-2$
-                    Toolkit.getProperty("AWT.button3", "Button3"); //$NON-NLS-1$ //$NON-NLS-2$
+                    TToolkit.getProperty("AWT.button3", "Button3"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         return text;
@@ -159,8 +158,8 @@ public class TMouseEvent extends TInputEvent {
         return clickCount;
     }
 
-    public Point getPoint() {
-        return new Point(x, y);
+    public TPoint getPoint() {
+        return new TPoint(x, y);
     }
 
     public int getX() {

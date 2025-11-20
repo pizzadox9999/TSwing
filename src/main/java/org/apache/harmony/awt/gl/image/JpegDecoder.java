@@ -19,14 +19,18 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.image.*;
-import java.awt.color.ColorSpace;
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TComponentColorModel;
+import org.teavm.classlib.java.awt.image.TDataBuffer;
+import org.teavm.classlib.java.awt.image.TDirectColorModel;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
 
 public class JpegDecoder extends ImageDecoder {
     // Only 2 output colorspaces expected. Others are converted into
@@ -38,12 +42,12 @@ public class JpegDecoder extends ImageDecoder {
 
     // Flags for the consumer, progressive JPEG
     private static final int hintflagsProgressive =
-            ImageConsumer.SINGLEFRAME | // JPEG is a static image
-            ImageConsumer.TOPDOWNLEFTRIGHT | // This order is only one possible
-            ImageConsumer.COMPLETESCANLINES; // Don't deliver incomplete scanlines
+            TImageConsumer.SINGLEFRAME | // JPEG is a static image
+            TImageConsumer.TOPDOWNLEFTRIGHT | // This order is only one possible
+            TImageConsumer.COMPLETESCANLINES; // Don't deliver incomplete scanlines
     // Flags for the consumer, singlepass JPEG
     private static final int hintflagsSingle =
-            ImageConsumer.SINGLEPASS |
+            TImageConsumer.SINGLEPASS |
             hintflagsProgressive;
 
     // Buffer for the stream
@@ -53,8 +57,8 @@ public class JpegDecoder extends ImageDecoder {
     private byte buffer[];
 
     // 3 possible color models only
-    private static ColorModel cmRGB;
-    private static ColorModel cmGray;
+    private static TColorModel cmRGB;
+    private static TColorModel cmGray;
 
     // initializes proper field IDs
     private static native void initIDs();
@@ -78,19 +82,19 @@ public class JpegDecoder extends ImageDecoder {
     // Stores current scanline returned by the decoder
     private int currScanline = 0;
 
-    private ColorModel cm = null;
+    private TColorModel cm = null;
 
     static {
         org.apache.harmony.awt.Utils.loadLibrary("jpegdecoder"); //$NON-NLS-1$
 
-        cmGray = new ComponentColorModel(
-                ColorSpace.getInstance(ColorSpace.CS_GRAY),
+        cmGray = new TComponentColorModel(
+                TColorSpace.getInstance(TColorSpace.CS_GRAY),
                 false, false,
-                Transparency.OPAQUE, DataBuffer.TYPE_BYTE
+                TTransparency.OPAQUE, TDataBuffer.TYPE_BYTE
         );
 
         // Create RGB color model
-        cmRGB = new DirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
+        cmRGB = new TDirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
 
         initIDs();
     }
@@ -194,7 +198,7 @@ public class JpegDecoder extends ImageDecoder {
                     break; // Probably image is truncated
                 }
             }
-            imageComplete(ImageConsumer.STATICIMAGEDONE);
+            imageComplete(TImageConsumer.STATICIMAGEDONE);
         } catch (IOException e) {
             throw e;
         } finally {

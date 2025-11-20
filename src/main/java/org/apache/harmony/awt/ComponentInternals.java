@@ -19,16 +19,16 @@
  */
 package org.apache.harmony.awt;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.awt.Choice;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.TContainer;
+import org.teavm.classlib.java.awt.TDialog;
+import org.teavm.classlib.java.awt.TDimension;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.TInsets;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TWindow;
+import org.teavm.classlib.java.awt.TChoice;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
@@ -43,7 +43,7 @@ import org.apache.harmony.awt.wtk.NativeWindow;
 public abstract class ComponentInternals {
 
     /**
-     * @return the ComponentInternals instance to serve the requests
+     * @return the TComponentInternals instance to serve the requests
      */
     public static ComponentInternals getComponentInternals() {
         return ContextStorage.getComponentInternals();
@@ -51,7 +51,7 @@ public abstract class ComponentInternals {
 
     /**
      * This method must be called by AWT to establish the connection
-     * @param internals - implementation of ComponentInternals created by AWT
+     * @param internals - implementation of TComponentInternals created by AWT
      */
     public static void setComponentInternals(ComponentInternals internals) {
         ContextStorage.setComponentInternals(internals);
@@ -62,7 +62,7 @@ public abstract class ComponentInternals {
      * It returns non-<code>null</code> value only if component
      * already has the native resource
      */
-    public abstract NativeWindow getNativeWindow(Component component);
+    public abstract NativeWindow getNativeWindow(TComponent component);
 
     /**
      * Connect Window object to existing native resource
@@ -70,7 +70,7 @@ public abstract class ComponentInternals {
      * @return Window object with special behaviour that
      * restricts manupulation with that window
      */
-    public abstract Window attachNativeWindow(long nativeWindowId);
+    public abstract TWindow attachNativeWindow(long nativeWindowId);
 
     /**
      * Start mouse grab in "client" mode.
@@ -83,7 +83,7 @@ public abstract class ComponentInternals {
      * @param grabWindow - window that will own the grab
      * @param whenCanceled - callback called when grab is canceled by user's action
      */
-    public abstract void startMouseGrab(Window grabWindow, Runnable whenCanceled);
+    public abstract void startMouseGrab(TWindow grabWindow, Runnable whenCanceled);
 
     /**
      * End mouse grab and resume normal processing of mouse events
@@ -96,7 +96,7 @@ public abstract class ComponentInternals {
      * Call this method before the window is shown first time
      * @param window - the window that should become popup one
      */
-    public abstract void makePopup(Window window);
+    public abstract void makePopup(TWindow window);
 
     /**
      * This method must be called by Graphics at the beginning of drawImage()
@@ -110,8 +110,8 @@ public abstract class ComponentInternals {
      * @param source - area of the image to be drawn on the component.
      *                  Equals to null if src parameters omitted in drawImage.
      */
-    public abstract void onDrawImage(Component comp, Image image, Point destLocation,
-            Dimension destSize, Rectangle source);
+    public abstract void onDrawImage(TComponent comp, TImage image, TPoint destLocation,
+            TDimension destSize, TRectangle source);
 
     /**
      * Sets system's caret position.
@@ -120,7 +120,7 @@ public abstract class ComponentInternals {
      * @param x
      * @param y
      */
-    public abstract void setCaretPos(Component c, int x, int y);
+    public abstract void setCaretPos(TComponent c, int x, int y);
 
     /**
      * NEVER USE IT. FORGET IT. IT DOES NOT EXIST.
@@ -133,13 +133,13 @@ public abstract class ComponentInternals {
     public abstract void unsafeInvokeAndWait(Runnable runnable)
             throws InterruptedException, InvocationTargetException;
 
-    public abstract TextKit getTextKit(Component comp);
+    public abstract TextKit getTextKit(TComponent comp);
 
-    public abstract void setTextKit(Component comp, TextKit kit);
+    public abstract void setTextKit(TComponent comp, TextKit kit);
 
-    public abstract TextFieldKit getTextFieldKit(Component comp);
+    public abstract TextFieldKit getTextFieldKit(TComponent comp);
 
-    public abstract void setTextFieldKit(Component comp, TextFieldKit kit);
+    public abstract void setTextFieldKit(TComponent comp, TextFieldKit kit);
 
     /**
      * Terminate event dispatch thread, completely destroy AWT context.<br>
@@ -156,35 +156,35 @@ public abstract class ComponentInternals {
     /**
      * Create customized Choice using style
      */
-    public abstract Choice createCustomChoice(ChoiceStyle style);
+    public abstract TChoice createCustomChoice(ChoiceStyle style);
 
-    public abstract Insets getNativeInsets(Window w);
+    public abstract TInsets getNativeInsets(TWindow w);
 
     /**
      * Region to be repainted (could be null). Use this in overridden repaint()
      */
-    public abstract MultiRectArea getRepaintRegion(Component c);
+    public abstract MultiRectArea getRepaintRegion(TComponent c);
 
-    public abstract MultiRectArea subtractPendingRepaintRegion(Component c, MultiRectArea mra);
+    public abstract MultiRectArea subtractPendingRepaintRegion(TComponent c, MultiRectArea mra);
 
     /**
      * Returns true if the window was at least once painted due to native paint events
      */
-    public abstract boolean wasPainted(Window w);
+    public abstract boolean wasPainted(TWindow w);
 
     /**
      * The component's region hidden behind top-level windows
      * (belonging to both this Java app and all other apps), and behind
      * heavyweight components overlapping with passed component
      */
-    public abstract MultiRectArea getObscuredRegion(Component c);
+    public abstract MultiRectArea getObscuredRegion(TComponent c);
     
     /**
-     * An accessor to Container.addObscuredRegions() method
-     * @see java.awt.Container#addObscuredRegions(MultiRectArea, Component)
+     * An accessor to TContainer.addObscuredRegions() method
+     * @see java.awt.TContainer#addObscuredRegions(MultiRectArea, TComponent)
      */
-    public abstract void addObscuredRegions(MultiRectArea mra, Component c,
-                                            Container container);
+    public abstract void addObscuredRegions(MultiRectArea mra, TComponent c,
+                                            TContainer container);
     
     /**
      * Makes it possible to call protected Toolkit.setDesktopProperty()
@@ -196,13 +196,13 @@ public abstract class ComponentInternals {
      * Makes it possible to start/stop dialog modal loop
      * from anywhere outside of java.awt package
      */
-    public abstract void runModalLoop(Dialog dlg);
-    public abstract void endModalLoop(Dialog dlg);
+    public abstract void runModalLoop(TDialog dlg);
+    public abstract void endModalLoop(TDialog dlg);
     
     /**
      * Sets component's visible flag only
      * (the component is not actually shown/hidden)
      */
-    public abstract void setVisibleFlag(Component comp, boolean visible);
+    public abstract void setVisibleFlag(TComponent comp, boolean visible);
     
 }

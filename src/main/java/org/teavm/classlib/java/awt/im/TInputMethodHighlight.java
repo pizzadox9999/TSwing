@@ -20,9 +20,9 @@
 package org.teavm.classlib.java.awt.im;
 
 import java.util.Map;
-import java.awt.font.TextAttribute;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.font.TTextAttribute;
 
 public class TInputMethodHighlight {
 
@@ -47,14 +47,14 @@ public class TInputMethodHighlight {
     private boolean selected;
     private int state;
     private int variation;
-    private Map<TextAttribute,?> style;
+    private Map<TTextAttribute,?> style;
 
     public TInputMethodHighlight(boolean selected, int state, int variation) {
         this(selected, state, variation, null);
     }
 
     public TInputMethodHighlight(boolean selected, int state,
-                                int variation, Map<java.awt.font.TextAttribute, ?> style) {
+                                int variation, Map<TTextAttribute, ?> style) {
         if ((state != RAW_TEXT) && (state != CONVERTED_TEXT)) {
             // awt.20B=unknown input method highlight state
             throw new IllegalArgumentException(Messages.getString("awt.20B")); //$NON-NLS-1$
@@ -73,7 +73,7 @@ public class TInputMethodHighlight {
         return state;
     }
 
-    public Map<java.awt.font.TextAttribute, ?> getStyle() {
+    public Map<TTextAttribute, ?> getStyle() {
         return style;
     }
 

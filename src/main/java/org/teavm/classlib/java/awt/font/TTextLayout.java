@@ -21,12 +21,12 @@
 package org.teavm.classlib.java.awt.font;
 
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.GeneralPath;
+import org.teavm.classlib.java.awt.TFont;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
+import org.teavm.classlib.java.awt.geom.TGeneralPath;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.Map;
@@ -69,7 +69,7 @@ public final class TTextLayout implements Cloneable {
     private CaretManager caretManager;
     float justificationWidth = -1;
 
-    public TTextLayout(String string, Font font, TFontRenderContext frc) {
+    public TTextLayout(String string, TFont font, TFontRenderContext frc) {
         if (string == null){
             // awt.01='{0}' parameter is null
             throw new IllegalArgumentException(Messages.getString("awt.01", "string")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -170,7 +170,7 @@ public final class TTextLayout implements Cloneable {
         return super.toString();
     }
 
-    public void draw(Graphics2D g2d, float x, float y) {
+    public void draw(TGraphics2D g2d, float x, float y) {
         updateMetrics();
         breaker.drawSegments(g2d, x ,y);
     }
@@ -204,7 +204,7 @@ public final class TTextLayout implements Cloneable {
         return tmc.getBaselineOffsets();
     }
 
-    public Shape getBlackBoxBounds(int firstEndpoint, int secondEndpoint) {
+    public TShape getBlackBoxBounds(int firstEndpoint, int secondEndpoint) {
         updateMetrics();
         if (firstEndpoint < secondEndpoint) {
             return breaker.getBlackBoxBounds(firstEndpoint, secondEndpoint);
@@ -212,7 +212,7 @@ public final class TTextLayout implements Cloneable {
         return breaker.getBlackBoxBounds(secondEndpoint, firstEndpoint);
     }
 
-    public Rectangle2D getBounds() {
+    public TRectangle2D getBounds() {
         updateMetrics();
         return breaker.getVisualBounds();
     }
@@ -222,30 +222,30 @@ public final class TTextLayout implements Cloneable {
         return caretManager.getCaretInfo(hitInfo);
     }
 
-    public float[] getCaretInfo(TTextHitInfo hitInfo, Rectangle2D bounds) {
+    public float[] getCaretInfo(TTextHitInfo hitInfo, TRectangle2D bounds) {
         updateMetrics();
         return caretManager.getCaretInfo(hitInfo);
     }
 
-    public Shape getCaretShape(TTextHitInfo hitInfo, Rectangle2D bounds) {
+    public TShape getCaretTShape(TTextHitInfo hitInfo, TRectangle2D bounds) {
         updateMetrics();
         return caretManager.getCaretShape(hitInfo, this);
     }
 
-    public Shape getCaretShape(TTextHitInfo hitInfo) {
+    public TShape getCaretTShape(TTextHitInfo hitInfo) {
         updateMetrics();
         return caretManager.getCaretShape(hitInfo, this);
     }
 
-    public Shape[] getCaretShapes(int offset) {
-        return getCaretShapes(offset, null, TTextLayout.DEFAULT_CARET_POLICY);
+    public TShape[] getCaretTShapes(int offset) {
+        return getCaretTShapes(offset, null, TTextLayout.DEFAULT_CARET_POLICY);
     }
 
-    public Shape[] getCaretShapes(int offset, Rectangle2D bounds) {
-        return getCaretShapes(offset, bounds, TTextLayout.DEFAULT_CARET_POLICY);
+    public TShape[] getCaretTShapes(int offset, TRectangle2D bounds) {
+        return getCaretTShapes(offset, bounds, TTextLayout.DEFAULT_CARET_POLICY);
     }
 
-    public Shape[] getCaretShapes(int offset, Rectangle2D bounds, TTextLayout.CaretPolicy policy) {
+    public TShape[] getCaretTShapes(int offset, TRectangle2D bounds, TTextLayout.CaretPolicy policy) {
         if (offset < 0 || offset > breaker.getCharCount()) {
             // awt.195=Offset is out of bounds
             throw new IllegalArgumentException(Messages.getString("awt.195")); //$NON-NLS-1$
@@ -291,15 +291,15 @@ public final class TTextLayout implements Cloneable {
         return metrics.getLeading();
     }
 
-    public Shape getLogicalHighlightShape(int firstEndpoint, int secondEndpoint) {
+    public TShape getLogicalHighlightTShape(int firstEndpoint, int secondEndpoint) {
         updateMetrics();
-        return getLogicalHighlightShape(firstEndpoint, secondEndpoint, breaker.getLogicalBounds());
+        return getLogicalHighlightTShape(firstEndpoint, secondEndpoint, breaker.getLogicalBounds());
     }
 
-    public Shape getLogicalHighlightShape(
+    public TShape getLogicalHighlightTShape(
             int firstEndpoint,
             int secondEndpoint,
-            Rectangle2D bounds
+            TRectangle2D bounds
     ) {
         updateMetrics();
 
@@ -381,10 +381,10 @@ public final class TTextLayout implements Cloneable {
         return null;
     }
 
-    public Shape getOutline(AffineTransform xform) {
+    public TShape getOutline(TAffineTransform xform) {
         breaker.createAllSegments();
 
-        GeneralPath outline = breaker.getOutline();
+        TGeneralPath outline = breaker.getOutline();
 
         if (outline != null && xform != null) {
             outline.transform(xform);
@@ -422,11 +422,11 @@ public final class TTextLayout implements Cloneable {
         }
     }
 
-    public Shape getVisualHighlightShape(TTextHitInfo hit1, TTextHitInfo hit2, Rectangle2D bounds) {
+    public TShape getVisualHighlightTShape(TTextHitInfo hit1, TTextHitInfo hit2, TRectangle2D bounds) {
         return caretManager.getVisualHighlightShape(hit1, hit2, bounds, this);
     }
 
-    public Shape getVisualHighlightShape(TTextHitInfo hit1, TTextHitInfo hit2) {
+    public TShape getVisualHighlightTShape(TTextHitInfo hit1, TTextHitInfo hit2) {
         breaker.createAllSegments();
         return caretManager.getVisualHighlightShape(hit1, hit2, breaker.getLogicalBounds(), this);
     }
@@ -458,7 +458,7 @@ public final class TTextLayout implements Cloneable {
         return hitTestChar(x, y, getBounds());
     }
 
-    public TTextHitInfo hitTestChar(float x, float y, Rectangle2D bounds) {
+    public TTextHitInfo hitTestChar(float x, float y, TRectangle2D bounds) {
         if (x > bounds.getMaxX()) {
             return breaker.isLTR() ?
                     TTextHitInfo.trailing(breaker.getCharCount() - 1) : TTextHitInfo.leading(0);

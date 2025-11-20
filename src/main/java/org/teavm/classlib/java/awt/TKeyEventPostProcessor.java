@@ -17,12 +17,12 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.KeyEvent;
+import org.teavm.classlib.java.awt.event.TKeyEvent;
 
-public interface KeyEventPostProcessor {
+public interface TKeyEventPostProcessor {
 
-    public boolean postProcessKeyEvent(KeyEvent e);
+    public boolean postProcessKeyEvent(TKeyEvent e);
 
 }

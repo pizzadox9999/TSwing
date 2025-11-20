@@ -19,12 +19,12 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.TBasicStroke;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.TStroke;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 
 import org.apache.harmony.misc.HashCode;
 
@@ -32,13 +32,13 @@ import org.apache.harmony.misc.HashCode;
 public final class TShapeGraphicAttribute extends TGraphicAttribute {
 
     // shape to render
-    private Shape fShape;
+    private TShape fTShape;
     
     // flag, if the shape should be stroked (true) or filled (false)
-    private boolean fStroke;
+    private boolean fTStroke;
 
     // bounds of the shape
-    private Rectangle2D fBounds;
+    private TRectangle2D fBounds;
     
     // X coordinate of the origin point
     private float fOriginX;
@@ -47,35 +47,35 @@ public final class TShapeGraphicAttribute extends TGraphicAttribute {
     private float fOriginY;
 
     // width of the shape
-    private float fShapeWidth;
+    private float fTShapeWidth;
     
     // height of the shape
-    private float fShapeHeight;
+    private float fTShapeHeight;
 
     public static final boolean STROKE = true;
 
     public static final boolean FILL = false;
 
-    public TShapeGraphicAttribute(Shape shape, int alignment, boolean stroke) {
+    public TShapeGraphicAttribute(TShape shape, int alignment, boolean stroke) {
         super(alignment);
 
-        this.fShape = shape;
-        this.fStroke = stroke;
+        this.fTShape = shape;
+        this.fTStroke = stroke;
 
-        this.fBounds  = fShape.getBounds2D();
+        this.fBounds  = fTShape.getBounds2D();
 
         this.fOriginX = (float)fBounds.getMinX();
         this.fOriginY = (float)fBounds.getMinY();
 
-        this.fShapeWidth = (float)fBounds.getWidth();
-        this.fShapeHeight = (float)fBounds.getHeight();
+        this.fTShapeWidth = (float)fBounds.getWidth();
+        this.fTShapeHeight = (float)fBounds.getHeight();
     }
 
     @Override
     public int hashCode() {
         HashCode hash = new HashCode();
 
-        hash.append(fShape.hashCode());
+        hash.append(fTShape.hashCode());
         hash.append(getAlignment());
         return hash.hashCode();
     }
@@ -89,9 +89,9 @@ public final class TShapeGraphicAttribute extends TGraphicAttribute {
             return true;
         }
 
-        return ( fStroke == sga.fStroke &&
+        return ( fTStroke == sga.fTStroke &&
                 getAlignment() == sga.getAlignment() &&
-                fShape.equals(sga.fShape));
+                fTShape.equals(sga.fTShape));
 
     }
 
@@ -106,22 +106,22 @@ public final class TShapeGraphicAttribute extends TGraphicAttribute {
     }
 
     @Override
-    public void draw(Graphics2D g2, float x, float y) {
-        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-        if (fStroke == STROKE){
-            Stroke oldStroke = g2.getStroke();
-            g2.setStroke(new BasicStroke());
-            g2.draw(at.createTransformedShape(fShape));
-            g2.setStroke(oldStroke);
+    public void draw(TGraphics2D g2, float x, float y) {
+        TAffineTransform at = TAffineTransform.getTranslateInstance(x, y);
+        if (fTStroke == STROKE){
+            TStroke oldTStroke = g2.getStroke();
+            g2.setStroke(new TBasicStroke());
+            g2.draw(at.createTransformedShape(fTShape));
+            g2.setStroke(oldTStroke);
         } else {
-            g2.fill(at.createTransformedShape(fShape));
+            g2.fill(at.createTransformedShape(fTShape));
         }
 
     }
 
     @Override
     public float getAdvance() {
-        return Math.max(0, fShapeWidth + fOriginX);
+        return Math.max(0, fTShapeWidth + fOriginX);
     }
 
     @Override
@@ -130,13 +130,13 @@ public final class TShapeGraphicAttribute extends TGraphicAttribute {
     }
 
     @Override
-    public Rectangle2D getBounds() {
-        return (Rectangle2D)fBounds.clone();
+    public TRectangle2D getBounds() {
+        return (TRectangle2D)fBounds.clone();
     }
 
     @Override
     public float getDescent() {
-        return Math.max(0, fShapeHeight + fOriginY);
+        return Math.max(0, fTShapeHeight + fOriginY);
     }
 
 }

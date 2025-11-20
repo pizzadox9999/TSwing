@@ -21,17 +21,17 @@
  */
 package org.apache.harmony.awt.gl.render;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.CompositeContext;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import org.teavm.classlib.java.awt.TAlphaComposite;
+import org.teavm.classlib.java.awt.TColor;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.TCompositeContext;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TNoninvertibleTransformException;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TRaster;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.gl.Surface;
@@ -69,7 +69,7 @@ public class JavaBlitter implements Blitter {
         }
     }
 
-    final static int AlphaCompositeMode = 1;
+    final static int TAlphaCompositeMode = 1;
     final static int XORMode = 2;
 
     final static JavaBlitter inst = new JavaBlitter();
@@ -79,8 +79,8 @@ public class JavaBlitter implements Blitter {
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, AffineTransform sysxform,
-            AffineTransform xform, Composite comp, Color bgcolor,
+            Surface dstSurf, int width, int height, TAffineTransform sysxform,
+            TAffineTransform xform, TComposite comp, TColor bgcolor,
             MultiRectArea clip) {
 
         if(xform == null){
@@ -91,7 +91,7 @@ public class JavaBlitter implements Blitter {
             double scaleY = xform.getScaleY();
             double scaledX = dstX / scaleX;
             double scaledY = dstY / scaleY;
-            AffineTransform at = new AffineTransform();
+            TAffineTransform at = new TAffineTransform();
             at.setToTranslation(scaledX, scaledY);
             xform.concatenate(at);
             sysxform.concatenate(xform);
@@ -102,18 +102,18 @@ public class JavaBlitter implements Blitter {
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, AffineTransform sysxform,
-            Composite comp, Color bgcolor, MultiRectArea clip) {
+            Surface dstSurf, int width, int height, TAffineTransform sysxform,
+            TComposite comp, TColor bgcolor, MultiRectArea clip) {
 
         if(sysxform == null) {
-            sysxform = new AffineTransform();
+            sysxform = new TAffineTransform();
         }
         int type = sysxform.getType();
         switch(type){
-            case AffineTransform.TYPE_TRANSLATION:
+            case TAffineTransform.TYPE_TRANSLATION:
                 dstX += sysxform.getTranslateX();
                 dstY += sysxform.getTranslateY();
-            case AffineTransform.TYPE_IDENTITY:
+            case TAffineTransform.TYPE_IDENTITY:
                  blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf,
                         width, height, comp, bgcolor, clip);
                 break;
@@ -124,40 +124,40 @@ public class JavaBlitter implements Blitter {
                 int w = srcX + width < srcW ? width : srcW - srcX;
                 int h = srcY + height < srcH ? height : srcH - srcY;
 
-                ColorModel srcCM = srcSurf.getColorModel();
-                Raster srcR = srcSurf.getRaster().createChild(srcX, srcY,
+                TColorModel srcCM = srcSurf.getTColorModel();
+                TRaster srcR = srcSurf.getRaster().createChild(srcX, srcY,
                         w, h, 0, 0, null);
 
-                ColorModel dstCM = dstSurf.getColorModel();
-                WritableRaster dstR = dstSurf.getRaster();
+                TColorModel dstCM = dstSurf.getTColorModel();
+                TWritableRaster dstR = dstSurf.getRaster();
 
                 transformedBlit(srcCM, srcR, 0, 0, dstCM, dstR, dstX, dstY, w, h,
                         sysxform, comp, bgcolor, clip);
                 
-                Rectangle dirtyReg = JavaBlitter.getBounds2D(sysxform, new Rectangle(dstX, dstY, w, h)).getBounds();
-                Rectangle bounds = new Rectangle(dstSurf.getWidth(), dstSurf.getHeight()).getBounds();
+                TRectangle dirtyReg = JavaBlitter.getBounds2D(sysxform, new TRectangle(dstX, dstY, w, h)).getBounds();
+                TRectangle bounds = new TRectangle(dstSurf.getWidth(), dstSurf.getHeight()).getBounds();
                 dstSurf.addDirtyRegion(bounds.intersection(dirtyReg));
 
         }
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, Composite comp,
-            Color bgcolor, MultiRectArea clip) {
+            Surface dstSurf, int width, int height, TComposite comp,
+            TColor bgcolor, MultiRectArea clip) {
 
         javaBlt(srcX, srcY, srcSurf.getWidth(), srcSurf.getHeight(),
-                srcSurf.getColorModel(), srcSurf.getRaster(), dstX, dstY,
+                srcSurf.getTColorModel(), srcSurf.getRaster(), dstX, dstY,
                 dstSurf.getWidth(), dstSurf.getHeight(),
-                dstSurf.getColorModel(), dstSurf.getRaster(),
+                dstSurf.getTColorModel(), dstSurf.getRaster(),
                 width, height, comp, bgcolor, clip);
 
-        dstSurf.addDirtyRegion(new Rectangle(dstX, dstY, width, height));
+        dstSurf.addDirtyRegion(new TRectangle(dstX, dstY, width, height));
 
     }
     public void javaBlt(int srcX, int srcY, int srcW, int srcH,
-            ColorModel srcCM, Raster srcRast, int dstX, int dstY,
-            int dstW, int dstH, ColorModel dstCM, WritableRaster dstRast,
-            int width, int height, Composite comp, Color bgcolor,
+            TColorModel srcCM, TRaster srcRast, int dstX, int dstY,
+            int dstW, int dstH, TColorModel dstCM, TWritableRaster dstRast,
+            int width, int height, TComposite comp, TColor bgcolor,
             MultiRectArea clip){
 
         int srcX2 = srcW - 1;
@@ -220,12 +220,12 @@ public class JavaBlitter implements Blitter {
         int rule = 0;
         float alpha = 0;
         boolean isXORComp = false;
-        Color xorcolor = null;
-        CompositeContext cont = null;
+        TColor xorcolor = null;
+        TCompositeContext cont = null;
 
-        if(comp instanceof AlphaComposite){
+        if(comp instanceof TAlphaComposite){
             isAlphaComp = true;
-            AlphaComposite ac = (AlphaComposite) comp;
+            TAlphaComposite ac = (TAlphaComposite) comp;
             rule = ac.getRule();
             alpha = ac.getAlpha();
         }else if(comp instanceof XORComposite){
@@ -288,17 +288,17 @@ public class JavaBlitter implements Blitter {
                 xorCompose(_sx, _sy, srcCM, srcRast, _dx, _dy,
                         dstCM, dstRast, _w, _h, xorcolor);
             }else{
-                Raster sr = srcRast.createChild(_sx, _sy, _w, _h, 0, 0, null);
-                WritableRaster dr = dstRast.createWritableChild(_dx, _dy,
+                TRaster sr = srcRast.createChild(_sx, _sy, _w, _h, 0, 0, null);
+                TWritableRaster dr = dstRast.createWritableChild(_dx, _dy,
                         _w, _h, 0, 0, null);
                 cont.compose(sr, dr, dr);
             }
         }
     }
 
-    void alphaCompose(int srcX, int srcY, ColorModel srcCM, Raster srcRast,
-            int dstX, int dstY, ColorModel dstCM, WritableRaster dstRast,
-            int width, int height, int rule, float alpha, Color bgcolor){
+    void alphaCompose(int srcX, int srcY, TColorModel srcCM, TRaster srcRast,
+            int dstX, int dstY, TColorModel dstCM, TWritableRaster dstRast,
+            int width, int height, int rule, float alpha, TColor bgcolor){
 
         Object srcPixel, dstPixel;
         int srcConstAllpha = (int)(alpha * 255 + 0.5f);
@@ -327,9 +327,9 @@ public class JavaBlitter implements Blitter {
         }
     }
 
-    void xorCompose(int srcX, int srcY, ColorModel srcCM, Raster srcRast,
-            int dstX, int dstY, ColorModel dstCM, WritableRaster dstRast,
-            int width, int height, Color xorcolor){
+    void xorCompose(int srcX, int srcY, TColorModel srcCM, TRaster srcRast,
+            int dstX, int dstY, TColorModel dstCM, TWritableRaster dstRast,
+            int width, int height, TColor xorcolor){
 
         Object srcPixel, dstPixel;
         int xorRGB = xorcolor.getRGB();
@@ -353,24 +353,24 @@ public class JavaBlitter implements Blitter {
 
     }
 
-    private void transformedBlit(ColorModel srcCM, Raster srcR, int srcX, int srcY,
-            ColorModel dstCM, WritableRaster dstR, int dstX, int dstY,
-            int width, int height, AffineTransform at, Composite comp,
-            Color bgcolor,MultiRectArea clip) {
+    private void transformedBlit(TColorModel srcCM, TRaster srcR, int srcX, int srcY,
+            TColorModel dstCM, TWritableRaster dstR, int dstX, int dstY,
+            int width, int height, TAffineTransform at, TComposite comp,
+            TColor bgcolor,MultiRectArea clip) {
 
-        Rectangle srcBounds = new Rectangle(srcX, srcY, width, height);
-        Rectangle dstBlitBounds = new Rectangle(dstX, dstY, width, height);
+        TRectangle srcBounds = new TRectangle(srcX, srcY, width, height);
+        TRectangle dstBlitBounds = new TRectangle(dstX, dstY, width, height);
 
-        Rectangle transSrcBounds = getBounds2D(at, srcBounds).getBounds();
-        Rectangle transDstBlitBounds = getBounds2D(at, dstBlitBounds).getBounds();
+        TRectangle transSrcBounds = getBounds2D(at, srcBounds).getBounds();
+        TRectangle transDstBlitBounds = getBounds2D(at, dstBlitBounds).getBounds();
 
         int translateX = transDstBlitBounds.x - transSrcBounds.x;
         int translateY = transDstBlitBounds.y - transSrcBounds.y;
 
-        AffineTransform inv = null;
+        TAffineTransform inv = null;
         try {
              inv = at.createInverse();
-        } catch (NoninvertibleTransformException e) {
+        } catch (TNoninvertibleTransformException e) {
             return;
         }
 
@@ -390,9 +390,9 @@ public class JavaBlitter implements Blitter {
         int bgRGB = bgcolor == null ? 0 : bgcolor.getRGB();
         int srcRGB = 0, dstRGB = 0;
         Object srcVal = null, dstVal = null;
-        if(comp instanceof AlphaComposite){
-            compType = AlphaCompositeMode;
-            AlphaComposite ac = (AlphaComposite) comp;
+        if(comp instanceof TAlphaComposite){
+            compType = TAlphaCompositeMode;
+            TAlphaComposite ac = (TAlphaComposite) comp;
             rule = ac.getRule();
             srcConstAlpha = (int)(ac.getAlpha() * 255 + 0.5f);
         }else if(comp instanceof XORComposite){
@@ -402,12 +402,12 @@ public class JavaBlitter implements Blitter {
         }
 
         for(int i = 1; i < clipRects[0]; i += 4){
-            Rectangle dstBounds = new Rectangle(clipRects[i], clipRects[i + 1], 0, 0);
+            TRectangle dstBounds = new TRectangle(clipRects[i], clipRects[i + 1], 0, 0);
             dstBounds.add(clipRects[i + 2] + 1, clipRects[i + 1]);
             dstBounds.add(clipRects[i + 2] + 1, clipRects[i + 3] + 1);
             dstBounds.add(clipRects[i], clipRects[i + 3] + 1);
 
-            Rectangle bounds = dstBounds.intersection(transDstBlitBounds);
+            TRectangle bounds = dstBounds.intersection(transDstBlitBounds);
 
             int minSrcX = srcBounds.x;
             int minSrcY = srcBounds.y;
@@ -435,7 +435,7 @@ public class JavaBlitter implements Blitter {
                     int py = sy >> 8;
                     if (px >= minSrcX && py >= minSrcY && px < maxSrcX && py < maxSrcY) {
                         switch(compType){
-                            case AlphaCompositeMode:
+                            case TAlphaCompositeMode:
                                 srcVal = srcR.getDataElements(px , py , null);
                                 srcRGB = srcCM.getRGB(srcVal);
                                 if(bgcolor != null){
@@ -479,7 +479,7 @@ public class JavaBlitter implements Blitter {
 
     }
 
-    public static Rectangle2D getBounds2D(AffineTransform at, Rectangle r) {
+    public static TRectangle2D getBounds2D(TAffineTransform at, TRectangle r) {
         int x = r.x;
         int y = r.y;
         int width = r.width;
@@ -494,7 +494,7 @@ public class JavaBlitter implements Blitter {
 
         at.transform(corners, 0, corners, 0, 4);
 
-        Rectangle2D.Float bounds = new Rectangle2D.Float(corners[0], corners[1], 0 , 0);
+        TRectangle2D.TFloat bounds = new TRectangle2D.TFloat(corners[0], corners[1], 0 , 0);
         bounds.add(corners[2], corners[3]);
         bounds.add(corners[4], corners[5]);
         bounds.add(corners[6], corners[7]);
@@ -539,54 +539,54 @@ public class JavaBlitter implements Blitter {
         int Fs = 0;
         int Fd = 0;
         switch(rule){
-        case AlphaComposite.CLEAR:
+        case TAlphaComposite.CLEAR:
             break;
 
-        case AlphaComposite.DST:
+        case TAlphaComposite.DST:
             Fd = 255;
             break;
 
-        case AlphaComposite.DST_ATOP:
+        case TAlphaComposite.DST_ATOP:
             Fs = 255 - da;
             Fd = sa;
             break;
 
-        case AlphaComposite.DST_IN:
+        case TAlphaComposite.DST_IN:
             Fd = sa;
             break;
 
-        case AlphaComposite.DST_OUT:
+        case TAlphaComposite.DST_OUT:
             Fd = 255 - sa;
             break;
 
-        case AlphaComposite.DST_OVER:
+        case TAlphaComposite.DST_OVER:
             Fs = 255 - da;
             Fd = 255;
             break;
 
-        case AlphaComposite.SRC:
+        case TAlphaComposite.SRC:
             Fs = 255;
             break;
 
-        case AlphaComposite.SRC_ATOP:
+        case TAlphaComposite.SRC_ATOP:
             Fs = da;
             Fd = 255 - sa;
             break;
 
-        case AlphaComposite.SRC_IN:
+        case TAlphaComposite.SRC_IN:
             Fs = da;
             break;
 
-        case AlphaComposite.SRC_OUT:
+        case TAlphaComposite.SRC_OUT:
             Fs = 255 - da;
             break;
 
-        case AlphaComposite.SRC_OVER:
+        case TAlphaComposite.SRC_OVER:
             Fs = 255;
             Fd = 255 - sa;
             break;
 
-        case AlphaComposite.XOR:
+        case TAlphaComposite.XOR:
             Fs = 255 - da;
             Fd = 255 - sa;
             break;

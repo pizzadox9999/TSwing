@@ -17,14 +17,13 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 
-public class DefaultFocusTraversalPolicy
-        extends ContainerOrderFocusTraversalPolicy {
+public class TDefaultFocusTraversalPolicy extends TContainerOrderFocusTraversalPolicy {
     private static final long serialVersionUID = 8876966522510157497L;
 
-    public DefaultFocusTraversalPolicy() {
+    public TDefaultFocusTraversalPolicy() {
     }
 
     @Override

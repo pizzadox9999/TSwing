@@ -17,15 +17,15 @@
 /**
  * @author Denis M. Kishenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
+import org.teavm.classlib.java.awt.geom.TGeneralPath;
+import org.teavm.classlib.java.awt.geom.TPathIterator;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.misc.HashCode;
 
-public class BasicStroke implements Stroke {
+public class TBasicStroke implements TStroke {
 
     public static final int CAP_BUTT = 0;
     public static final int CAP_ROUND = 1;
@@ -103,11 +103,11 @@ public class BasicStroke implements Stroke {
      */
     Dasher dasher;
 
-    public BasicStroke() {
+    public TBasicStroke() {
         this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
     }
 
-    public BasicStroke(float width, int cap, int join, float miterLimit, float[] dash, float dashPhase) {
+    public TBasicStroke(float width, int cap, int join, float miterLimit, float[] dash, float dashPhase) {
         if (width < 0.0f) {
             // awt.133=Negative width
             throw new IllegalArgumentException(Messages.getString("awt.133")); //$NON-NLS-1$
@@ -155,15 +155,15 @@ public class BasicStroke implements Stroke {
         this.dashPhase = dashPhase;
     }
 
-    public BasicStroke(float width, int cap, int join, float miterLimit) {
+    public TBasicStroke(float width, int cap, int join, float miterLimit) {
         this(width, cap, join, miterLimit, null, 0.0f);
     }
 
-    public BasicStroke(float width, int cap, int join) {
+    public TBasicStroke(float width, int cap, int join) {
         this(width, cap, join, 10.0f, null, 0.0f);
     }
 
-    public BasicStroke(float width) {
+    public TBasicStroke(float width) {
         this(width, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
     }
 
@@ -212,8 +212,8 @@ public class BasicStroke implements Stroke {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof BasicStroke) {
-            BasicStroke bs = (BasicStroke)obj;
+        if (obj instanceof TBasicStroke) {
+            TBasicStroke bs = (TBasicStroke)obj;
             return
                 bs.width == width &&
                 bs.cap == cap &&
@@ -249,7 +249,7 @@ public class BasicStroke implements Stroke {
         return width * width * Math.sin(Math.PI * CORNER_ZERO / 180.0);
     }
 
-    public Shape createStrokedShape(Shape s) {
+    public TShape createStrokedShape(TShape s) {
         w2 = width / 2.0;
         curveDelta = getCurveDelta(w2);
         cornerDelta = getCornerDelta(w2);
@@ -265,14 +265,14 @@ public class BasicStroke implements Stroke {
             createDashedShape(s.getPathIterator(null));
         }
 
-        return dst.createGeneralPath();
+        return dst.createTGeneralPath();
     }
 
     /**
      * Generates solid stroked shape without dash
-     * @param p - the PathIterator of source shape
+     * @param p - the TPathIterator of source shape
      */
-    void createSolidShape(PathIterator p) {
+    void createSolidShape(TPathIterator p) {
         double coords[] = new double[6];
         mx = my = cx = cy = 0.0;
         isMove = false;
@@ -282,7 +282,7 @@ public class BasicStroke implements Stroke {
 
         while(!p.isDone()) {
             switch(p.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            case TPathIterator.SEG_MOVETO:
                 if (!isClosed) {
                     closeSolidShape();
                 }
@@ -292,16 +292,16 @@ public class BasicStroke implements Stroke {
                 isMove = true;
                 isClosed = false;
                 break;
-            case PathIterator.SEG_LINETO:
+            case TPathIterator.SEG_LINETO:
                 addLine(cx, cy, cx = coords[0], cy = coords[1], true);
                 break;
-            case PathIterator.SEG_QUADTO:
+            case TPathIterator.SEG_QUADTO:
                 addQuad(cx, cy, coords[0], coords[1], cx = coords[2], cy = coords[3]);
                 break;
-            case PathIterator.SEG_CUBICTO:
+            case TPathIterator.SEG_CUBICTO:
                 addCubic(cx, cy, coords[0], coords[1], coords[2], coords[3], cx = coords[4], cy = coords[5]);
                 break;
-            case PathIterator.SEG_CLOSE:
+            case TPathIterator.SEG_CLOSE:
                 addLine(cx, cy, mx, my, false);
                 addJoin(lp, mx, my, lp.xMove, lp.yMove, true);
                 addJoin(rp, mx, my, rp.xMove, rp.yMove, false);
@@ -332,9 +332,9 @@ public class BasicStroke implements Stroke {
 
     /**
      * Generates dashed stroked shape
-     * @param p - the PathIterator of source shape
+     * @param p - the TPathIterator of source shape
      */
-    void createDashedShape(PathIterator p) {
+    void createDashedShape(TPathIterator p) {
         double coords[] = new double[6];
         mx = my = cx = cy = 0.0;
         smx = smy = scx = scy = 0.0;
@@ -344,7 +344,7 @@ public class BasicStroke implements Stroke {
 
         while(!p.isDone()) {
             switch(p.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            case TPathIterator.SEG_MOVETO:
 
                 if (!isClosed) {
                     closeDashedShape();
@@ -360,16 +360,16 @@ public class BasicStroke implements Stroke {
                 mx = cx = coords[0];
                 my = cy = coords[1];
                 break;
-            case PathIterator.SEG_LINETO:
+            case TPathIterator.SEG_LINETO:
                 addDashLine(cx, cy, cx = coords[0], cy = coords[1]);
                 break;
-            case PathIterator.SEG_QUADTO:
+            case TPathIterator.SEG_QUADTO:
                 addDashQuad(cx, cy, coords[0], coords[1], cx = coords[2], cy = coords[3]);
                 break;
-            case PathIterator.SEG_CUBICTO:
+            case TPathIterator.SEG_CUBICTO:
                 addDashCubic(cx, cy, coords[0], coords[1], coords[2], coords[3], cx = coords[4], cy = coords[5]);
                 break;
-            case PathIterator.SEG_CLOSE:
+            case TPathIterator.SEG_CLOSE:
                 addDashLine(cx, cy, cx = mx, cy = my);
 
                 if (dasher.isConnected()) {
@@ -1674,21 +1674,21 @@ public class BasicStroke implements Stroke {
 
         void moveTo(double x, double y) {
             checkBuf(1, 2);
-            types[typeSize++] = PathIterator.SEG_MOVETO;
+            types[typeSize++] = TPathIterator.SEG_MOVETO;
             points[pointSize++] = xMove = (float)x;
             points[pointSize++] = yMove = (float)y;
         }
 
         void lineTo(double x, double y) {
             checkBuf(1, 2);
-            types[typeSize++] = PathIterator.SEG_LINETO;
+            types[typeSize++] = TPathIterator.SEG_LINETO;
             points[pointSize++] = xLast = (float)x;
             points[pointSize++] = yLast = (float)y;
         }
 
         void quadTo(double x1, double y1, double x2, double y2) {
             checkBuf(1, 4);
-            types[typeSize++] = PathIterator.SEG_QUADTO;
+            types[typeSize++] = TPathIterator.SEG_QUADTO;
             points[pointSize++] = (float)x1;
             points[pointSize++] = (float)y1;
             points[pointSize++] = xLast = (float)x2;
@@ -1697,7 +1697,7 @@ public class BasicStroke implements Stroke {
 
         void cubicTo(double x1, double y1, double x2, double y2, double x3, double y3) {
             checkBuf(1, 6);
-            types[typeSize++] = PathIterator.SEG_CUBICTO;
+            types[typeSize++] = TPathIterator.SEG_CUBICTO;
             points[pointSize++] = (float)x1;
             points[pointSize++] = (float)y1;
             points[pointSize++] = (float)x2;
@@ -1708,7 +1708,7 @@ public class BasicStroke implements Stroke {
 
         void closePath() {
             checkBuf(1, 0);
-            types[typeSize++] = PathIterator.SEG_CLOSE;
+            types[typeSize++] = TPathIterator.SEG_CLOSE;
         }
 
         void setLast(double x, double y) {
@@ -1737,11 +1737,11 @@ public class BasicStroke implements Stroke {
             int closeIndex = 0;
             for(int i = p.typeSize - 1; i >= 0; i--) {
                 byte type = p.types[i];
-                if (type == PathIterator.SEG_MOVETO) {
-                    types[closeIndex] = PathIterator.SEG_MOVETO;
-                    types[typeSize++] = PathIterator.SEG_CLOSE;
+                if (type == TPathIterator.SEG_MOVETO) {
+                    types[closeIndex] = TPathIterator.SEG_MOVETO;
+                    types[typeSize++] = TPathIterator.SEG_CLOSE;
                 } else {
-                    if (type == PathIterator.SEG_CLOSE) {
+                    if (type == TPathIterator.SEG_CLOSE) {
                         closeIndex = typeSize;
                     }
                     types[typeSize++] = type;
@@ -1777,25 +1777,25 @@ public class BasicStroke implements Stroke {
             yLast = points[pointSize - 1];
         }
 
-        GeneralPath createGeneralPath() {
-            GeneralPath p = new GeneralPath();
+        TGeneralPath createTGeneralPath() {
+            TGeneralPath p = new TGeneralPath();
             int j = 0;
             for(int i = 0; i < typeSize; i++) {
                 int type = types[i];
                 switch(type){
-                case PathIterator.SEG_MOVETO:
+                case TPathIterator.SEG_MOVETO:
                     p.moveTo(points[j], points[j + 1]);
                     break;
-                case PathIterator.SEG_LINETO:
+                case TPathIterator.SEG_LINETO:
                     p.lineTo(points[j], points[j + 1]);
                     break;
-                case PathIterator.SEG_QUADTO:
+                case TPathIterator.SEG_QUADTO:
                     p.quadTo(points[j], points[j + 1], points[j + 2], points[j + 3]);
                     break;
-                case PathIterator.SEG_CUBICTO:
+                case TPathIterator.SEG_CUBICTO:
                     p.curveTo(points[j], points[j + 1], points[j + 2], points[j + 3], points[j + 4], points[j + 5]);
                     break;
-                case PathIterator.SEG_CLOSE:
+                case TPathIterator.SEG_CLOSE:
                     p.closePath();
                     break;
                 }

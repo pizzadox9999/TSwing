@@ -17,22 +17,20 @@
 /**
  * @author Ilya S. Okomin
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.text.CharacterIterator;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.font.TFontRenderContext;
 
-public abstract class FontMetrics implements Serializable {
+public abstract class TFontMetrics implements Serializable {
     private static final long serialVersionUID = 1681126225205050147L;
 
-    protected Font font;
+    protected TFont font;
 
-    protected FontMetrics(Font fnt) {
+    protected TFontMetrics(TFont fnt) {
         this.font = fnt;
     }
 
@@ -45,7 +43,7 @@ public abstract class FontMetrics implements Serializable {
                 ", height=" + this.getHeight() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    public Font getFont() {
+    public TFont getFont() {
         return font;
     }
 
@@ -65,52 +63,52 @@ public abstract class FontMetrics implements Serializable {
         return 0;
     }
 
-    public LineMetrics getLineMetrics(CharacterIterator ci, int beginIndex,
-                                        int limit, Graphics context) {
+    public TLineMetrics getLineMetrics(CharacterIterator ci, int beginIndex,
+                                        int limit, TGraphics context) {
         return font.getLineMetrics(ci, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
-    public LineMetrics getLineMetrics(String str, Graphics context) {
+    public TLineMetrics getLineMetrics(String str, Graphics context) {
         return font.getLineMetrics(str, this.getFRCFromGraphics(context));
     }
 
-    public LineMetrics getLineMetrics(char[] chars, int beginIndex, int limit,
-                                        Graphics context) {
+    public TLineMetrics getLineMetrics(char[] chars, int beginIndex, int limit,
+                                        TGraphics context) {
         return font.getLineMetrics(chars, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
-    public LineMetrics getLineMetrics(String str, int beginIndex, int limit,
-                                        Graphics context) {
+    public TLineMetrics getLineMetrics(String str, int beginIndex, int limit,
+                                        TGraphics context) {
         return font.getLineMetrics(str, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
-    public Rectangle2D getMaxCharBounds(Graphics context) {
+    public TRectangle2D getMaxCharBounds(Graphics context) {
         return this.font.getMaxCharBounds(this.getFRCFromGraphics(context));
     }
 
-    public Rectangle2D getStringBounds(CharacterIterator ci, int beginIndex,
+    public TRectangle2D getStringBounds(CharacterIterator ci, int beginIndex,
             int limit, Graphics context) {
         return font.getStringBounds(ci, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
-    public Rectangle2D getStringBounds(String str, int beginIndex, int limit,
-            Graphics context) {
+    public TRectangle2D getStringBounds(String str, int beginIndex, int limit,
+            TGraphics context) {
         return font.getStringBounds(str, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
 
-    public Rectangle2D getStringBounds(char[] chars, int beginIndex, int limit,
-            Graphics context) {
+    public TRectangle2D getStringBounds(char[] chars, int beginIndex, int limit,
+            TGraphics context) {
         return font.getStringBounds(chars, beginIndex, limit, 
                 this.getFRCFromGraphics(context));
     }
 
-    public Rectangle2D getStringBounds(String str, Graphics context) {
+    public TRectangle2D getStringBounds(String str, TGraphics context) {
         return font.getStringBounds(str, this.getFRCFromGraphics(context));
     }
 
@@ -198,12 +196,12 @@ public abstract class FontMetrics implements Serializable {
      * 
      * @return a FontRenderContext of the specified Graphics context.
      */
-    private FontRenderContext getFRCFromGraphics(Graphics context){
-        FontRenderContext frc;
-        if (context instanceof Graphics2D) {
-            frc = ((Graphics2D)context).getFontRenderContext();
+    private TFontRenderContext getFRCFromGraphics(TGraphics context){
+        TFontRenderContext frc;
+        if (context instanceof TGraphics2D) {
+            frc = ((TGraphics2D)context).getFontRenderContext();
         } else {
-            frc = new FontRenderContext(null, false, false);
+            frc = new TFontRenderContext(null, false, false);
         }
 
         return frc;

@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -26,17 +26,17 @@ import java.io.Serializable;
 import org.apache.harmony.misc.HashCode;
 
 
-public class MenuShortcut implements Serializable {
+public class TMenuShortcut implements Serializable {
 
     private static final long serialVersionUID = 143448358473180225L;
 
     private final int keyCode;
     private final boolean shiftModifier;
-    public MenuShortcut(int key) {
+    public TMenuShortcut(int key) {
         this(key, false);
     }
 
-    public MenuShortcut(int key, boolean useShiftModifier) {
+    public TMenuShortcut(int key, boolean useShiftModifier) {
         keyCode = key;
         shiftModifier = useShiftModifier;
     }

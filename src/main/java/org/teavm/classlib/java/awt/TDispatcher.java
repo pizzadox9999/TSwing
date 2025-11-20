@@ -17,15 +17,7 @@
 /**
  * @author Michael Danilov, Dmitry A. Durnev
  */
-package java.awt;
-
-import java.awt.event.ComponentEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.PaintEvent;
-import java.awt.event.WindowEvent;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.wtk.NativeEvent;
@@ -36,7 +28,7 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  * Helper package-private class for managing lightweight components &
  * dispatching events from heavyweight source
  */
-class Dispatcher {
+class TDispatcher {
 
     final PopupDispatcher popupDispatcher = new PopupDispatcher();
 
@@ -57,7 +49,7 @@ class Dispatcher {
     /**
      * @param toolkit - AWT toolkit
      */
-    Dispatcher(Toolkit toolkit) {
+    TDispatcher(Toolkit toolkit) {
         this.toolkit = toolkit;
 
         focusDispatcher = new FocusDispatcher(toolkit);

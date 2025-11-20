@@ -22,7 +22,6 @@ package org.teavm.classlib.java.awt.font;
 
 import org.apache.harmony.misc.HashCode;
 
-
 public final class TTextHitInfo {
     private int charIdx; // Represents character index in the line
     private boolean isTrailing;

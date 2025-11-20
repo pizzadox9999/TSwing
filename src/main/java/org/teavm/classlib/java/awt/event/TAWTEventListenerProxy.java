@@ -19,11 +19,10 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-
 import java.util.EventListenerProxy;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TAWTEvent;
 
 public class TAWTEventListenerProxy extends EventListenerProxy implements TAWTEventListener {
 
@@ -40,7 +39,7 @@ public class TAWTEventListenerProxy extends EventListenerProxy implements TAWTEv
         this.eventMask = eventMask;
     }
 
-    public void eventDispatched(AWTEvent evt) {
+    public void eventDispatched(TAWTEvent evt) {
         listener.eventDispatched(evt);
     }
 

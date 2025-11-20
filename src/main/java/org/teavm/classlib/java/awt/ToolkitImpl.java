@@ -15,17 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.im.InputMethodHighlight;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.peer.*;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Hashtable;
@@ -35,12 +26,17 @@ import org.apache.harmony.awt.gl.font.FontMetricsImpl;
 import org.apache.harmony.awt.datatransfer.DTK;
 import org.apache.harmony.awt.gl.*;
 import org.apache.harmony.awt.gl.image.*;
-import java.awt.datatransfer.StringSelection;
+import org.teavm.classlib.java.awt.image.TImageObserver;
+import org.teavm.classlib.java.awt.peer.TFontPeer;
+import org.teavm.classlib.java.awt.peer.TScrollPanePeer;
+import org.teavm.classlib.java.awt.peer.TScrollbarPeer;
+import org.teavm.classlib.java.awt.peer.TTextAreaPeer;
+import org.teavm.classlib.java.awt.peer.TTextFieldPeer;
 
-class ToolkitImpl extends Toolkit {
-    static final Hashtable<Serializable, Image> imageCache = new Hashtable<Serializable, Image>();
+class ToolkitImpl extends TToolkit {
+    static final Hashtable<Serializable, TImage> imageCache = new Hashtable<Serializable, TImage>();
 
-    static final FontMetrics cacheFM[] =  new FontMetrics[10];
+    static final TFontMetrics cacheFM[] =  new TFontMetrics[10];
 
     @Override
     public void sync() {
@@ -52,7 +48,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    protected TextAreaPeer createTextArea(TextArea a0) {
+    protected TTextAreaPeer createTextArea(TTextArea a0) {
         lockAWT();
         try {
             return null;
@@ -66,10 +62,10 @@ class ToolkitImpl extends Toolkit {
         lockAWT();
         try {
             if (width == 0 || height == 0) {
-                return ImageObserver.ALLBITS;
+                return TImageObserver.ALLBITS;
             }
             if (!(image instanceof OffscreenImage)) {
-                return ImageObserver.ALLBITS;
+                return TImageObserver.ALLBITS;
             }
             OffscreenImage oi = (OffscreenImage) image;
             return oi.checkImage(observer);
@@ -100,7 +96,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    public Image createImage(URL url) {
+    public TImage createImage(URL url) {
         lockAWT();
         try {
             return new OffscreenImage(new URLDecodingImageSource(url));
@@ -110,7 +106,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    public Image createImage(String filename) {
+    public TImage createImage(String filename) {
         lockAWT();
         try {
             return new OffscreenImage(new FileDecodingImageSource(filename));
@@ -120,10 +116,10 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    public ColorModel getColorModel() {
+    public TColorModel getColorModel() {
         lockAWT();
         try {
-            return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
+            return TGraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
                     .getDefaultConfiguration().getColorModel();
         } finally {
             unlockAWT();
@@ -141,8 +137,8 @@ class ToolkitImpl extends Toolkit {
     public FontMetrics getFontMetrics(Font font) {
         lockAWT();
         try {
-            FontMetrics fm;
-            for (FontMetrics element : cacheFM) {
+            TFontMetrics fm;
+            for (TFontMetrics element : cacheFM) {
                 fm = element;
                 if (fm == null){
                     break;
@@ -166,7 +162,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    public boolean prepareImage(Image image, int width, int height, ImageObserver observer) {
+    public boolean prepareImage(TImage image, int width, int height, TImageObserver observer) {
         lockAWT();
         try {
             if (width == 0 || height == 0) {
@@ -349,7 +345,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    protected ScrollPanePeer createScrollPane(ScrollPane a0) {
+    protected TScrollPanePeer createScrollPane(TScrollPane a0) {
         lockAWT();
         try {
             return null;
@@ -359,7 +355,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    protected ScrollbarPeer createScrollbar(Scrollbar a0) {
+    protected TScrollbarPeer createScrollbar(TScrollbar a0) {
         lockAWT();
         try {
             return null;
@@ -369,7 +365,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    protected TextFieldPeer createTextField(TextField a0) {
+    protected TTextFieldPeer createTextField(TTextFieldPeer a0) {
         lockAWT();
         try {
             return null;
@@ -401,7 +397,7 @@ class ToolkitImpl extends Toolkit {
 
     @Override
     @Deprecated
-    protected FontPeer getFontPeer(String a0, int a1) {
+    protected TFontPeer getFontPeer(String a0, int a1) {
         lockAWT();
         try {
             return null;
@@ -417,7 +413,7 @@ class ToolkitImpl extends Toolkit {
 
     static Image getImage(String filename, Toolkit toolkit) {
         synchronized (imageCache) {
-            Image im = (filename == null ? null : imageCache.get(filename));
+            TImage im = (filename == null ? null : imageCache.get(filename));
 
             if (im == null) {
                 try {
@@ -438,7 +434,7 @@ class ToolkitImpl extends Toolkit {
 
     static Image getImage(URL url, Toolkit toolkit) {
         synchronized (imageCache) {
-            Image im = imageCache.get(url);
+            TImage im = imageCache.get(url);
             if (im == null) {
                 try {
                     im = toolkit.createImage(url);
@@ -464,7 +460,7 @@ class ToolkitImpl extends Toolkit {
     public int getScreenResolution() throws HeadlessException {
         lockAWT();
         try {
-            return ((GLGraphicsDevice) GraphicsEnvironment.getLocalGraphicsEnvironment()
+            return ((GLGraphicsDevice) TGraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getDefaultScreenDevice()).getResolution().width;
         } finally {
             unlockAWT();
@@ -475,16 +471,15 @@ class ToolkitImpl extends Toolkit {
     public Dimension getScreenSize() {
         lockAWT();
         try {
-            DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice().getDisplayMode();
-            return new Dimension(dm.getWidth(), dm.getHeight());
+            TDisplayMode dm = TGraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+            return new TDimension(dm.getWidth(), dm.getHeight());
         } finally {
             unlockAWT();
         }
     }
 
     @Override
-    public Clipboard getSystemClipboard() {
+    public TClipboard getSystemClipboard() {
         lockAWT();
         try {
             SecurityManager security = System.getSecurityManager();
@@ -504,8 +499,7 @@ class ToolkitImpl extends Toolkit {
     }
 
     @Override
-    public Map<java.awt.font.TextAttribute, ?> mapInputMethodHighlight(
-            InputMethodHighlight highlight) throws HeadlessException {
+    public Map<TTextAttribute, ?> mapInputMethodHighlight(TInputMethodHighlight highlight) throws HeadlessException {
         lockAWT();
         try {
             return mapInputMethodHighlightImpl(highlight);

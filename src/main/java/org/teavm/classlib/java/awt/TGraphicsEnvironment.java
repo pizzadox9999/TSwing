@@ -18,29 +18,28 @@
  * @author Oleg V. Khaschansky
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.image.BufferedImage;
 import java.util.Locale;
 
 import org.apache.harmony.awt.ContextStorage;
 import org.apache.harmony.awt.gl.CommonGraphics2DFactory;
 
 
-public abstract class GraphicsEnvironment {
+public abstract class TGraphicsEnvironment {
 
     static Boolean isHeadless;
 
-    protected GraphicsEnvironment() {}
+    protected TGraphicsEnvironment() {}
 
-    public static GraphicsEnvironment getLocalGraphicsEnvironment() {
+    public static TGraphicsEnvironment getLocalGraphicsEnvironment() {
         synchronized(ContextStorage.getContextLock()) {
             if (ContextStorage.getGraphicsEnvironment() == null) {
                 if (isHeadless()) {
-                    ContextStorage.setGraphicsEnvironment(new HeadlessGraphicsEnvironment());
+                    ContextStorage.setGraphicsEnvironment(new THeadlessGraphicsEnvironment());
                 } else {
                     final CommonGraphics2DFactory g2df =
-                        (CommonGraphics2DFactory) Toolkit.getDefaultToolkit().getGraphicsFactory();
+                        (CommonGraphics2DFactory) TToolkit.getDefaultToolkit().getGraphicsFactory();
 
                     ContextStorage.setGraphicsEnvironment(
                             g2df.createGraphicsEnvironment(ContextStorage.getWindowFactory())
@@ -64,13 +63,13 @@ public abstract class GraphicsEnvironment {
         return isHeadless.booleanValue();
     }
 
-    public Rectangle getMaximumWindowBounds() throws HeadlessException {
+    public TRectangle getMaximumWindowBounds() throws THeadlessException {
         return getDefaultScreenDevice().getDefaultConfiguration().getBounds();
     }
 
-    public Point getCenterPoint() throws HeadlessException {
-        final Rectangle mwb = getMaximumWindowBounds();
-        return new Point(mwb.width >> 1, mwb.height >> 1);
+    public TPoint getCenterPoint() throws THeadlessException {
+        final TRectangle mwb = getMaximumWindowBounds();
+        return new TPoint(mwb.width >> 1, mwb.height >> 1);
     }
 
     public void preferLocaleFonts() {
@@ -103,15 +102,15 @@ public abstract class GraphicsEnvironment {
         // todo - Implement non-default behavior with 1.5 font mapping scheme
     }
 
-    public abstract Graphics2D createGraphics(BufferedImage bufferedImage);
+    public abstract TGraphics2D createGraphics(BufferedImage bufferedImage);
 
-    public abstract Font[] getAllFonts();
+    public abstract TFont[] getAllFonts();
 
     public abstract String[] getAvailableFontFamilyNames();
 
     public abstract String[] getAvailableFontFamilyNames(Locale locale);
 
-    public abstract GraphicsDevice getDefaultScreenDevice() throws HeadlessException;
+    public abstract TGraphicsDevice getDefaultScreenDevice() throws THeadlessException;
 
-    public abstract GraphicsDevice[] getScreenDevices() throws HeadlessException;
+    public abstract TGraphicsDevice[] getScreenDevices() throws THeadlessException;
 }

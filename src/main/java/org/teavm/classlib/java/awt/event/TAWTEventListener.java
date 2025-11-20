@@ -19,11 +19,11 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
 import java.util.EventListener;
+import org.teavm.classlib.java.awt.TAWTEvent;
 
 public interface TAWTEventListener extends EventListener {
 
-    public void eventDispatched(AWTEvent event);
+    public void eventDispatched(TAWTEvent event);
 
 }

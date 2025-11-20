@@ -17,7 +17,7 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -26,14 +26,14 @@ import java.awt.image.VolatileImage;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public abstract class GraphicsConfiguration {
+public abstract class TGraphicsConfiguration {
    /***************************************************************************
     *
     *  Constructors
     *
     ***************************************************************************/
 
-    protected GraphicsConfiguration() {
+    protected TGraphicsConfiguration() {
     }
 
 

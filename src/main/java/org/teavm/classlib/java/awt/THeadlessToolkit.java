@@ -15,35 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.im.InputMethodHighlight;
-import java.awt.image.ColorModel;
-import java.awt.peer.ButtonPeer;
-import java.awt.peer.CheckboxMenuItemPeer;
-import java.awt.peer.CheckboxPeer;
-import java.awt.peer.ChoicePeer;
-import java.awt.peer.DialogPeer;
-import java.awt.peer.FileDialogPeer;
-import java.awt.peer.FramePeer;
-import java.awt.peer.LabelPeer;
-import java.awt.peer.ListPeer;
-import java.awt.peer.MenuBarPeer;
-import java.awt.peer.MenuItemPeer;
-import java.awt.peer.MenuPeer;
-import java.awt.peer.PopupMenuPeer;
-import java.awt.peer.ScrollPanePeer;
-import java.awt.peer.ScrollbarPeer;
-import java.awt.peer.TextAreaPeer;
-import java.awt.peer.TextFieldPeer;
-import java.awt.peer.WindowPeer;
 import java.util.Map;
 import java.util.Properties;
 
@@ -53,7 +26,7 @@ import org.apache.harmony.awt.wtk.GraphicsFactory;
 import org.apache.harmony.awt.wtk.NativeEventQueue;
 import org.apache.harmony.awt.wtk.WindowFactory;
 
-final class HeadlessToolkit extends ToolkitImpl {
+final class THeadlessToolkit extends ToolkitImpl {
 
     private class EventMonitor {}
     private final Object eventMonitor = new EventMonitor();

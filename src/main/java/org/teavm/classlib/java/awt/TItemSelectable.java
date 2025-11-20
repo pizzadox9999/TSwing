@@ -17,11 +17,9 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.ItemListener;
-
-public interface ItemSelectable {
+public interface TItemSelectable {
 
     public void addItemListener(ItemListener l);
 

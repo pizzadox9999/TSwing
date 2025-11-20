@@ -71,15 +71,15 @@ public class TAWTEventMulticaster implements ComponentListener, ContainerListene
         } else if (b == null) {
             return a;
         } else {
-            return new AWTEventMulticaster(a, b);
+            return new TAWTEventMulticaster(a, b);
         }
     }
 
     protected static EventListener removeInternal(EventListener l, EventListener oldl) {
         if ((l == oldl) || (l == null)) {
             return null;
-        } else if (l instanceof AWTEventMulticaster) {
-            return ((AWTEventMulticaster) l).remove(oldl);
+        } else if (l instanceof TAWTEventMulticaster) {
+            return ((TAWTEventMulticaster) l).remove(oldl);
         } else {
             return l;
         }
@@ -104,8 +104,8 @@ public class TAWTEventMulticaster implements ComponentListener, ContainerListene
     @SuppressWarnings("unchecked")
     private static <T extends EventListener> LinkedList<T> addListeners(EventListener l,
             Class<T> listenerType, LinkedList<T> list) {
-        if (l instanceof AWTEventMulticaster) {
-            AWTEventMulticaster ml = (AWTEventMulticaster) l;
+        if (l instanceof TAWTEventMulticaster) {
+            TAWTEventMulticaster ml = (TAWTEventMulticaster) l;
 
             addListeners(ml.a, listenerType, list);
             addListeners(ml.b, listenerType, list);
@@ -256,7 +256,7 @@ public class TAWTEventMulticaster implements ComponentListener, ContainerListene
         return (KeyListener) removeInternal(l, oldl);
     }
 
-    protected AWTEventMulticaster(EventListener a, EventListener b) {
+    protected TAWTEventMulticaster(EventListener a, EventListener b) {
         // awt.74=Input parameters a and b should not be null
         assert (a != null) && (b != null) : Messages.getString("awt.74"); //$NON-NLS-1$
 

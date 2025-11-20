@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -37,7 +37,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 
-public class Container extends Component {
+public class TContainer extends TComponent {
     private static final long serialVersionUID = 4613797578919906343L;
 
     private final Vector<Component> children = new Vector<Component>();
@@ -168,7 +168,7 @@ public class Container extends Component {
         }
     }
 
-    public Container() {
+    public TContainer() {
         toolkit.lockAWT();
         try {
         } finally {

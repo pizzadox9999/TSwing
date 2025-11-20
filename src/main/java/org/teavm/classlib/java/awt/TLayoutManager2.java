@@ -17,18 +17,18 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public interface LayoutManager2 extends LayoutManager {
+public interface TLayoutManager2 extends TLayoutManager {
 
-    public void addLayoutComponent(Component comp, Object constraints);
+    public void addLayoutComponent(TComponent comp, Object constraints);
 
-    public float getLayoutAlignmentX(Container target);
+    public float getLayoutAlignmentX(TContainer target);
 
-    public float getLayoutAlignmentY(Container target);
+    public float getLayoutAlignmentY(TContainer target);
 
-    public void invalidateLayout(Container target);
+    public void invalidateLayout(TContainer target);
 
-    public Dimension maximumLayoutSize(Container target);
+    public TDimension maximumLayoutSize(TContainer target);
 }
 

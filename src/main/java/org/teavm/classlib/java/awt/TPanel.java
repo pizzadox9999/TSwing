@@ -17,13 +17,13 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
 
-public class Panel extends Container implements Accessible {
+public class TPanel extends TContainer implements Accessible {
 
     private static final long serialVersionUID = -2728009084054400034L;
 
@@ -43,7 +43,7 @@ public class Panel extends Container implements Accessible {
 
     }
 
-    public Panel() {
+    public TPanel() {
         this(new FlowLayout());
         toolkit.lockAWT();
         try {
@@ -52,7 +52,7 @@ public class Panel extends Container implements Accessible {
         }
     }
 
-    public Panel(LayoutManager layout) {
+    public TPanel(LayoutManager layout) {
         toolkit.lockAWT();
         try {
             super.setLayout(layout);

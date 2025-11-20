@@ -19,8 +19,8 @@
  */
 package org.apache.harmony.awt.gl.render;
 
-import java.awt.Shape;
-import java.awt.geom.PathIterator;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.geom.TPathIterator;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.internal.nls.Messages;
@@ -188,7 +188,7 @@ public class JavaShapeRasterizer {
     /**
      * Prepare all buffers and variable to rasterize shape 
      */
-    void makeBuffer(PathIterator path, double flatness) {
+    void makeBuffer(TPathIterator path, double flatness) {
         edgesX = new int[POINT_CAPACITY];
         edgesY = new int[POINT_CAPACITY];
         edgesN = new int[POINT_CAPACITY];
@@ -196,7 +196,7 @@ public class JavaShapeRasterizer {
         boundCount = 0;
         edgesCount = 0;
 
-        if (path.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
+        if (path.getWindingRule() == TPathIterator.WIND_EVEN_ODD) {
             filler = new Filler.EvenOdd();
         } else {
             filler = new Filler.NonZero();
@@ -205,7 +205,7 @@ public class JavaShapeRasterizer {
         boolean closed = true;
         while (!path.isDone()) {
             switch(path.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            case TPathIterator.SEG_MOVETO:
                 if (!closed) {
                     boundCount++;
                     bounds = checkBufSize(bounds, boundCount);
@@ -214,10 +214,10 @@ public class JavaShapeRasterizer {
                 addEdge((int)coords[0], (int)coords[1], boundCount);
                 closed = false;
                 break;
-            case PathIterator.SEG_LINETO:
+            case TPathIterator.SEG_LINETO:
                 addEdge((int)coords[0], (int)coords[1], boundCount);
                 break;
-            case PathIterator.SEG_CLOSE:
+            case TPathIterator.SEG_CLOSE:
                 boundCount++;
                 bounds = checkBufSize(bounds, boundCount);
                 bounds[boundCount] = edgesCount;
@@ -395,15 +395,15 @@ public class JavaShapeRasterizer {
 
     /**
      * Rasterizes shape with particular flatness
-     * @param shape - the souze Shape to be rasterized
+     * @param shape - the souze TShape to be rasterized
      * @param flatness - the rasterization flatness
      * @return a MultiRectArea of rasterized shape
      */
-    public MultiRectArea rasterize(Shape shape, double flatness) {
+    public MultiRectArea rasterize(TShape shape, double flatness) {
 
-        PathIterator path = shape.getPathIterator(null, flatness);
+        TPathIterator path = shape.getPathIterator(null, flatness);
 
-        // Shape is empty
+        // TShape is empty
         if (path.isDone()) {
             return new MultiRectArea();
         }

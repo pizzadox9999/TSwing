@@ -19,9 +19,9 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TVolatileImage;
 
 import org.apache.harmony.awt.gl.image.OffscreenImage;
 import org.apache.harmony.awt.nativebridge.NativeBridge;
@@ -43,11 +43,11 @@ public class Utils {
 
     public static final NativeBridge nativeBridge = NativeBridge.getInstance();
 
-    public static BufferedImage getBufferedImage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage) img;
-        } else if (img instanceof VolatileImage) {
-            return ((VolatileImage)img).getSnapshot();
+    public static TBufferedImage getBufferedImage(TImage img) {
+        if (img instanceof TBufferedImage) {
+            return (TBufferedImage) img;
+        } else if (img instanceof TVolatileImage) {
+            return ((TVolatileImage)img).getSnapshot();
         } else{
             OffscreenImage offImg;
             if (img instanceof OffscreenImage) {
@@ -55,8 +55,8 @@ public class Utils {
             }else{
                 offImg = new OffscreenImage(img.getSource());
             }
-            if(offImg.prepareImage(null)) {
-                return offImg.getBufferedImage();
+            if(offImg.prepareTImage(null)) {
+                return offImg.getTBufferedImage();
             }
             return null;
         }

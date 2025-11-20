@@ -19,13 +19,13 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.datatransfer.Clipboard;
+import org.teavm.classlib.java.awt.datatransfer.TClipboard;
 
 
 /**
  * Base class for platrorm-specific clipboards.
  */
-public abstract class NativeClipboard extends Clipboard {
+public abstract class NativeClipboard extends TClipboard {
 
     protected static final int OPS_TIMEOUT = 10000;     // ms
 

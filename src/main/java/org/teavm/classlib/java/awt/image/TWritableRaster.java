@@ -19,10 +19,9 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
 
 public class TWritableRaster extends TRaster {
 
@@ -34,12 +33,12 @@ public class TWritableRaster extends TRaster {
 
     protected TWritableRaster(TSampleModel sampleModel, TDataBuffer dataBuffer,
             Point origin) {
-        this(sampleModel, dataBuffer, new Rectangle(origin.x, origin.y,
+        this(sampleModel, dataBuffer, new TRectangle(origin.x, origin.y,
                 sampleModel.width, sampleModel.height), origin, null);
     }
 
     protected TWritableRaster(TSampleModel sampleModel, Point origin) {
-        this(sampleModel, sampleModel.createDataBuffer(), new Rectangle(
+        this(sampleModel, sampleModel.createDataBuffer(), new TRectangle(
                 origin.x, origin.y, sampleModel.width, sampleModel.height),
                 origin, null);
     }
@@ -103,8 +102,8 @@ public class TWritableRaster extends TRaster {
         int childTranslateY = childMinY - parentY;
 
         return new TWritableRaster(childModel, dataBuffer,
-                new Rectangle(childMinX, childMinY, w, h),
-                new Point(childTranslateX + sampleModelTranslateX,
+                new TRectangle(childMinX, childMinY, w, h),
+                new TPoint(childTranslateX + sampleModelTranslateX,
                         childTranslateY + sampleModelTranslateY),
                 this);
     }

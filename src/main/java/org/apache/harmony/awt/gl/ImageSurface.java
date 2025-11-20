@@ -21,12 +21,11 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Rectangle;
-import java.awt.color.ColorSpace;
-
 import org.apache.harmony.awt.gl.color.LUTColorConverter;
 import org.apache.harmony.awt.gl.image.DataBufferListener;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 import org.teavm.classlib.java.awt.image.TBandedSampleModel;
 import org.teavm.classlib.java.awt.image.TBufferedImage;
 import org.teavm.classlib.java.awt.image.TColorModel;
@@ -79,11 +78,11 @@ public class ImageSurface extends Surface implements DataBufferListener {
         TDataBuffer db = raster.getDataBuffer();
         data = ba.getData(db);
         ba.addTDataBufferListener(db, this);
-        ColorSpace cs = cm.getColorSpace();
+        TColorSpace cs = cm.getColorSpace();
         transparency = cm.getTransparency();
         width = raster.getWidth();
         height = raster.getHeight();
-        addDirtyRegion(new Rectangle(0, 0, width, height));
+        addDirtyRegion(new TRectangle(0, 0, width, height));
 
         // For the moment we can build natively only images which have 
         // sRGB, Linear_RGB, Linear_Gray Color Space and type different

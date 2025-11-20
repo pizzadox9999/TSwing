@@ -17,11 +17,11 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public abstract class GraphicsDevice {
+public abstract class TGraphicsDevice {
     private DisplayMode displayMode;
 
     private Window fullScreenWindow = null;
@@ -44,7 +44,7 @@ public abstract class GraphicsDevice {
     *
     ***************************************************************************/
 
-    protected GraphicsDevice() {
+    protected TGraphicsDevice() {
         displayMode = new DisplayMode(0, 0, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN);
     }
 

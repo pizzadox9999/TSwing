@@ -19,14 +19,14 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.font.TextHitInfo;
 import java.text.AttributedCharacterIterator;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.font.TTextHitInfo;
 
-public class TInputMethodEvent extends AWTEvent {
+public class TInputMethodEvent extends TAWTEvent {
 
     private static final long serialVersionUID = 4727190874778922661L;
 
@@ -39,30 +39,30 @@ public class TInputMethodEvent extends AWTEvent {
     public static final int INPUT_METHOD_LAST = 1101;
 
     private AttributedCharacterIterator text;
-    private TextHitInfo visiblePosition;
-    private TextHitInfo caret;
+    private TTextHitInfo visiblePosition;
+    private TTextHitInfo caret;
     private int committedCharacterCount;
     private long when;
 
-    public TInputMethodEvent(Component src, int id,
-                            TextHitInfo caret, 
-                            TextHitInfo visiblePos) {
+    public TInputMethodEvent(TComponent src, int id,
+                            TTextHitInfo caret, 
+                            TTextHitInfo visiblePos) {
         this(src, id, null, 0, caret, visiblePos);
     }
 
-    public TInputMethodEvent(Component src, int id, 
+    public TInputMethodEvent(TComponent src, int id, 
                             AttributedCharacterIterator text,
                             int commitedCharCount,
-                            TextHitInfo caret, 
-                            TextHitInfo visiblePos) {
+                            TTextHitInfo caret, 
+                            TTextHitInfo visiblePos) {
         this(src, id, 0l, text, commitedCharCount, caret, visiblePos);
     }
 
-    public TInputMethodEvent(Component src, int id, long when,
+    public TInputMethodEvent(TComponent src, int id, long when,
                             AttributedCharacterIterator text, 
                             int committedCharacterCount,
-                            TextHitInfo caret,
-                            TextHitInfo visiblePos) {
+                            TTextHitInfo caret,
+                            TTextHitInfo visiblePos) {
         super(src, id);
 
         if ((id < INPUT_METHOD_FIRST) || (id > INPUT_METHOD_LAST)) {
@@ -88,7 +88,7 @@ public class TInputMethodEvent extends AWTEvent {
         this.committedCharacterCount = committedCharacterCount;
     }
 
-    public TextHitInfo getCaret() {
+    public TTextHitInfo getCaret() {
         return caret;
     }
 
@@ -100,7 +100,7 @@ public class TInputMethodEvent extends AWTEvent {
         return text;
     }
 
-    public TextHitInfo getVisiblePosition() {
+    public TTextHitInfo getVisiblePosition() {
         return visiblePosition;
     }
 

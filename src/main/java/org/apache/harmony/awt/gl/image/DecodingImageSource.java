@@ -22,13 +22,13 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
+import org.teavm.classlib.java.awt.image.TImageProducer;
 
 /**
  * This is an abstract class that encapsulates a main part of ImageProducer functionality
@@ -37,8 +37,8 @@ import java.util.List;
  * functionality for working with several decoder instances and several image consumers
  * simultaneously.
  */
-public abstract class DecodingImageSource implements ImageProducer {
-    List<ImageConsumer> consumers = new ArrayList<ImageConsumer>(5);
+public abstract class DecodingImageSource implements TImageProducer {
+    List<TImageConsumer> consumers = new ArrayList<TImageConsumer>(5);
     List<ImageDecoder> decoders = new ArrayList<ImageDecoder>(5);
     boolean loading;
 
@@ -48,13 +48,13 @@ public abstract class DecodingImageSource implements ImageProducer {
 
     protected abstract InputStream getInputStream();
 
-    public synchronized void addConsumer(ImageConsumer ic) {
+    public synchronized void addConsumer(TImageConsumer ic) {
         if (!checkConnection()) { // No permission for this consumer
-            ic.imageComplete(ImageConsumer.IMAGEERROR);
+            ic.imageComplete(TImageConsumer.IMAGEERROR);
             return;
         }
 
-        ImageConsumer cons = findConsumer(consumers, ic);
+        TImageConsumer cons = findConsumer(consumers, ic);
 
         if (cons == null) { // Try to look in the decoders
             ImageDecoder d = null;
@@ -78,8 +78,8 @@ public abstract class DecodingImageSource implements ImageProducer {
      * This method stops sending data to the given consumer
      * @param ic - consumer
      */
-    private void abortConsumer(ImageConsumer ic) {
-        ic.imageComplete(ImageConsumer.IMAGEERROR);
+    private void abortConsumer(TImageConsumer ic) {
+        ic.imageComplete(TImageConsumer.IMAGEERROR);
         consumers.remove(ic);
     }
 
@@ -87,13 +87,13 @@ public abstract class DecodingImageSource implements ImageProducer {
      * This method stops sending data to the list of consumers.
      * @param consumersList - list of consumers
      */
-    private void abortAllConsumers(List<ImageConsumer> consumersList) {
-        for (ImageConsumer imageConsumer : consumersList) {
+    private void abortAllConsumers(List<TImageConsumer> consumersList) {
+        for (TImageConsumer imageConsumer : consumersList) {
             abortConsumer(imageConsumer);
         }
     }
 
-    public synchronized void removeConsumer(ImageConsumer ic) {
+    public synchronized void removeConsumer(TImageConsumer ic) {
         ImageDecoder d = null;
 
         // Remove in all existing decoders
@@ -114,10 +114,10 @@ public abstract class DecodingImageSource implements ImageProducer {
      * @param consumersList - list of consumers
      * @param ic - consumer to be removed
      */
-    private static void removeConsumer(List<ImageConsumer> consumersList, ImageConsumer ic) {
-        ImageConsumer cons = null;
+    private static void removeConsumer(List<TImageConsumer> consumersList, TImageConsumer ic) {
+        TImageConsumer cons = null;
 
-        for (Iterator<ImageConsumer> i = consumersList.iterator(); i.hasNext();) {
+        for (Iterator<TImageConsumer> i = consumersList.iterator(); i.hasNext();) {
             cons = i.next();
             if (cons.equals(ic)) {
                 i.remove();
@@ -125,11 +125,11 @@ public abstract class DecodingImageSource implements ImageProducer {
         }
     }
 
-    public void requestTopDownLeftRightResend(ImageConsumer consumer) {
+    public void requestTopDownLeftRightResend(TImageConsumer consumer) {
         // Do nothing
     }
 
-    public synchronized void startProduction(ImageConsumer ic) {
+    public synchronized void startProduction(TImageConsumer ic) {
         if (ic != null) {
             addConsumer(ic);
         }
@@ -140,7 +140,7 @@ public abstract class DecodingImageSource implements ImageProducer {
         }
     }
 
-    public synchronized boolean isConsumer(ImageConsumer ic) {
+    public synchronized boolean isConsumer(TImageConsumer ic) {
         ImageDecoder d = null;
 
         // Check for all existing decoders
@@ -161,10 +161,10 @@ public abstract class DecodingImageSource implements ImageProducer {
      * @param ic - consumer
      * @return consumer if found, null otherwise
      */
-    private static ImageConsumer findConsumer(List<ImageConsumer> consumersList, ImageConsumer ic) {
-        ImageConsumer res = null;
+    private static TImageConsumer findConsumer(List<TImageConsumer> consumersList, TImageConsumer ic) {
+        TImageConsumer res = null;
 
-        for (Iterator<ImageConsumer> i = consumersList.iterator(); i.hasNext();) {
+        for (Iterator<TImageConsumer> i = consumersList.iterator(); i.hasNext();) {
             res = i.next();
             if (res.equals(ic)) {
                 return res;
@@ -207,16 +207,16 @@ public abstract class DecodingImageSource implements ImageProducer {
                 decoders.add(decoder);
                 this.decoder = decoder;
                 loading = false;
-                consumers = new ArrayList<ImageConsumer>(5); // Reset queue
+                consumers = new ArrayList<TImageConsumer>(5); // Reset queue
             }
 
             return decoder;
         }
         // We were not able to find appropriate decoder
-        List<ImageConsumer> cs;
+        List<TImageConsumer> cs;
         synchronized (this) {
             cs = consumers;
-            consumers = new ArrayList<ImageConsumer>(5);
+            consumers = new ArrayList<TImageConsumer>(5);
             loading = false;
         }
         abortAllConsumers(cs);

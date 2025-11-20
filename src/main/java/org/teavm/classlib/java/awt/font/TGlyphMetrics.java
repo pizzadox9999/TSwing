@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 
 public final class TGlyphMetrics {
 
@@ -36,7 +36,7 @@ public final class TGlyphMetrics {
     private byte glyphType;
     
     // bounding box for outline of the glyph
-    private Rectangle2D.Float bounds;
+    private TRectangle2D.TFloat bounds;
 
     public static final byte STANDARD = 0;
 
@@ -49,31 +49,31 @@ public final class TGlyphMetrics {
     public static final byte WHITESPACE = 4;
 
     public TGlyphMetrics(boolean horizontal, float advanceX, float advanceY, 
-            Rectangle2D bounds, byte glyphType) {
+            TRectangle2D bounds, byte glyphType) {
         this.horizontal = horizontal;
         this.advanceX = advanceX;
         this.advanceY = advanceY;
 
-        this.bounds = new Rectangle2D.Float();
+        this.bounds = new TRectangle2D.TFloat();
         this.bounds.setRect(bounds);
 
         this.glyphType = glyphType;
     }
 
-    public TGlyphMetrics(float advanceX, Rectangle2D bounds, byte glyphType) {
+    public TGlyphMetrics(float advanceX, TRectangle2D bounds, byte glyphType) {
         this.advanceX = advanceX;
         this.advanceY = 0;
 
         this.horizontal = true;
 
-        this.bounds = new Rectangle2D.Float();
+        this.bounds = new TRectangle2D.TFloat();
         this.bounds.setRect(bounds);
 
         this.glyphType = glyphType;
     }
 
-    public Rectangle2D getBounds2D() {
-        return (Rectangle2D.Float) this.bounds.clone();
+    public TRectangle2D getBounds2D() {
+        return (TRectangle2D.TFloat) this.bounds.clone();
     }
 
     public boolean isWhitespace() {

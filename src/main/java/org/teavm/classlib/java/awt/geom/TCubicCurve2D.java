@@ -240,7 +240,7 @@ public abstract class TCubicCurve2D implements TShape, Cloneable {
             double ry1 = Math.min(Math.min(y1, y2), Math.min(ctrly1, ctrly2));
             double rx2 = Math.max(Math.max(x1, x2), Math.max(ctrlx1, ctrlx2));
             double ry2 = Math.max(Math.max(y1, y2), Math.max(ctrly1, ctrly2));
-            return new TRectangle2D.Double(rx1, ry1, rx2 - rx1, ry2 - ry1);
+            return new TRectangle2D.TDouble(rx1, ry1, rx2 - rx1, ry2 - ry1);
         }
     }
 

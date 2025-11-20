@@ -17,22 +17,22 @@
 /**
  * @author Alexey A. Petrenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 /**
  * ImageCapabilities
  *
  */
-public class ImageCapabilities implements Cloneable {
+public class TImageCapabilities implements Cloneable {
     private final boolean accelerated;
 
-    public ImageCapabilities(boolean accelerated) {
+    public TImageCapabilities(boolean accelerated) {
         this.accelerated = accelerated;
     }
 
     @Override
     public Object clone() {
-        return new ImageCapabilities(accelerated);
+        return new TImageCapabilities(accelerated);
     }
 
     public boolean isAccelerated() {

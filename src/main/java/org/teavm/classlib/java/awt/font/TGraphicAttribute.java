@@ -19,8 +19,8 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
@@ -47,7 +47,7 @@ public abstract class TGraphicAttribute {
         this.alignment = align;
     }
 
-    public abstract void draw(Graphics2D graphics, float x, float y);
+    public abstract void draw(TGraphics2D graphics, float x, float y);
 
     public abstract float getAdvance();
 
@@ -57,13 +57,13 @@ public abstract class TGraphicAttribute {
 
     public abstract float getAscent();
 
-    public Rectangle2D getBounds() {
+    public TRectangle2D getBounds() {
         float ascent = getAscent();
         float advance = getAdvance();
         float descent = getDescent();
 
         // Default implementation - see API documentation.
-        return new Rectangle2D.Float(0, -ascent, advance, ascent + descent);
+        return new TRectangle2D.TFloat(0, -ascent, advance, ascent + descent);
     }
 
     public abstract float getDescent();
@@ -89,7 +89,7 @@ public abstract class TGraphicAttribute {
          *           return 1;
          *        }
          *
-         *        public void draw(Graphics2D g2, float x, float y) {
+         *        public void draw(TGraphics2D g2, float x, float y) {
          *        }
          *
          *        public float getAscent() {

@@ -17,7 +17,7 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.wtk.NativeCursor;
 
 
-public class Cursor implements Serializable {
+public class TCursor implements Serializable {
     private static final long serialVersionUID = 8028237497568985504L;
     public static final int DEFAULT_CURSOR = 0;
 
@@ -66,7 +66,7 @@ public class Cursor implements Serializable {
     /**
      * A mapping from names to system custom cursors
      */
-    static Map<String, Cursor> systemCustomCursors;
+    static Map<String, TCursor> systemCustomCursors;
     static Properties cursorProps;
 
     static final String[] predefinedNames = {
@@ -78,8 +78,8 @@ public class Cursor implements Serializable {
 
     };
 
-    protected static Cursor[] predefined = {
-            new Cursor(DEFAULT_CURSOR), null, null, null,
+    protected static TCursor[] predefined = {
+            new TCursor(DEFAULT_CURSOR), null, null, null,
             null, null, null, null,
             null, null, null, null,
             null, null
@@ -91,14 +91,14 @@ public class Cursor implements Serializable {
 
     private final int type;
     private transient NativeCursor nativeCursor;
-    private Point hotSpot;
-    private Image image;
+    private TPoint hotSpot;
+    private TImage image;
 
-    protected Cursor(String name) {
-        this(name, null, new Point());
+    protected TCursor(String name) {
+        this(name, null, new TPoint());
     }
 
-    public Cursor(int type) {
+    public TCursor(int type) {
         checkType(type);
         this.type = type;
         if ((type >= 0) && (type < predefinedNames.length)) {
@@ -106,7 +106,7 @@ public class Cursor implements Serializable {
         }
     }
 
-    Cursor(String name, Image img, Point hotSpot) {
+    TCursor(String name, TImage img, TPoint hotSpot) {
         this.name = name;
         type = CUSTOM_CURSOR;
         this.hotSpot = hotSpot;
@@ -133,9 +133,9 @@ public class Cursor implements Serializable {
         return type;
     }
 
-    public static Cursor getPredefinedCursor(int type) {
+    public static TCursor getPredefinedCursor(int type) {
         checkType(type);
-        Cursor cursor = predefined[type];
+        TCursor cursor = predefined[type];
         if (cursor == null) {
             cursor = new Cursor(type);
             predefined[type] = cursor;
@@ -143,23 +143,23 @@ public class Cursor implements Serializable {
         return cursor;
     }
 
-    public static Cursor getDefaultCursor() {
+    public static TCursor getDefaultCursor() {
         return getPredefinedCursor(DEFAULT_CURSOR);
     }
 
-    public static Cursor getSystemCustomCursor(String name)
+    public static TCursor getSystemCustomCursor(String name)
     throws AWTException, HeadlessException {
-        Toolkit.checkHeadless();
+        TToolkit.checkHeadless();
         return getSystemCustomCursorFromMap(name);
     }
 
-    private static Cursor getSystemCustomCursorFromMap (String name)
+    private static TCursor getSystemCustomCursorFromMap (String name)
     throws AWTException {
         loadCursorProps();
         if (systemCustomCursors == null) {
             systemCustomCursors = new HashMap<String, Cursor>();
         }
-        Cursor cursor = systemCustomCursors.get(name);
+        TCursor cursor = systemCustomCursors.get(name);
         if (cursor != null) {
             return cursor;
         }
@@ -181,8 +181,8 @@ public class Cursor implements Serializable {
         } catch (NumberFormatException nfe) {
             throw new AWTException(exMsg);
         }
-        Image img = Toolkit.getDefaultToolkit().createImage(fileStr);
-        cursor = new Cursor(nameStr, img, new Point(x, y));
+        TImage img = Toolkit.getDefaultToolkit().createTImage(fileStr);
+        cursor = new Cursor(nameStr, img, new TPoint(x, y));
         systemCustomCursors.put(name, cursor);
 
         return cursor;
@@ -223,22 +223,22 @@ public class Cursor implements Serializable {
     }
 
     // "lazily" create native cursors:
-    NativeCursor getNativeCursor() {
-        if (nativeCursor != null) {
+    NativeTCursor getNativeCursor() {
+        if (nativeTCursor != null) {
             return nativeCursor;
         }
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         if (type != CUSTOM_CURSOR) {
-            nativeCursor = toolkit.createNativeCursor(type);
+            nativeTCursor = toolkit.createNativeCursor(type);
         } else {
-            nativeCursor = toolkit.createCustomNativeCursor(image, hotSpot,
+            nativeTCursor = toolkit.createCustomNativeCursor(image, hotSpot,
                                                             name);
         }
         return nativeCursor;
     }
 
-    void setNativeCursor(NativeCursor nativeCursor) {
-        this.nativeCursor = nativeCursor;
+    void setNativeCursor(NativeTCursor nativeCursor) {
+        this.nativeTCursor = nativeCursor;
     }
 }
 

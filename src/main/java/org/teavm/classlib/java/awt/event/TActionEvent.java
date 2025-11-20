@@ -19,9 +19,9 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
+import org.teavm.classlib.java.awt.TAWTEvent;
 
-public class TActionEvent extends AWTEvent {
+public class TActionEvent extends TAWTEvent {
 
     private static final long serialVersionUID = -7671078796273832149L;
 

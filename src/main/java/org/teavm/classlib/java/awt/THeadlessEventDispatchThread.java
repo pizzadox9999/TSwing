@@ -14,11 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-final class HeadlessEventDispatchThread extends EventDispatchThread  {
+final class THeadlessEventDispatchThread extends TEventDispatchThread  {
 
-    HeadlessEventDispatchThread(Toolkit toolkit, Dispatcher dispatcher ) {
+    THeadlessEventDispatchThread(Toolkit toolkit, Dispatcher dispatcher ) {
         super(toolkit, dispatcher);
     }
 

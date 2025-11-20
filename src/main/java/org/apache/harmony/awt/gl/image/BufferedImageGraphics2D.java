@@ -19,32 +19,32 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.GlyphVector;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-
 import org.apache.harmony.awt.gl.CommonGraphics2D;
+import org.teavm.classlib.java.awt.TGraphics;
+import org.teavm.classlib.java.awt.TGraphicsConfiguration;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.font.TGlyphVector;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TWritableRaster;
+
 import org.apache.harmony.awt.gl.Surface;
 import org.apache.harmony.awt.gl.render.JavaBlitter;
 import org.apache.harmony.awt.gl.render.NativeImageBlitter;
 
 /**
- * BufferedImageGraphics2D is implementation of CommonGraphics2D for
+ * BufferedImageGraphics2D is implementation of CommonTGraphics2D for
  * drawing on buffered images. 
  */
 public class BufferedImageGraphics2D extends CommonGraphics2D {
-    private BufferedImage bi = null;
-    private Rectangle bounds = null;
+    private TBufferedImage bi = null;
+    private TRectangle bounds = null;
 
-    public BufferedImageGraphics2D(BufferedImage bi) {
+    public BufferedImageGraphics2D(TBufferedImage bi) {
         super();
         this.bi = bi;
-        this.bounds = new Rectangle(0, 0, bi.getWidth(), bi.getHeight());
+        this.bounds = new TRectangle(0, 0, bi.getWidth(), bi.getHeight());
         clip(bounds);
         dstSurf = Surface.getImageSurface(bi);
         if(dstSurf.isNativeDrawable()){
@@ -59,34 +59,34 @@ public class BufferedImageGraphics2D extends CommonGraphics2D {
     }
 
     @Override
-    public Graphics create() {
+    public TGraphics create() {
         BufferedImageGraphics2D res = new BufferedImageGraphics2D(bi);
         copyInternalFields(res);
         return res;
     }
 
     @Override
-    public GraphicsConfiguration getDeviceConfiguration() {
+    public TGraphicsConfiguration getDeviceConfiguration() {
         return null;
     }
 
-    public ColorModel getColorModel() {
+    public TColorModel getTColorModel() {
         return bi.getColorModel();
     }
 
-    public WritableRaster getWritableRaster() {
+    public TWritableRaster getTWritableRaster() {
         return bi.getRaster();
     }
     
     @Override
     public void drawString(String str, float x, float y) {
-        Shape sh = font.createGlyphVector(this.getFontRenderContext(), str).getOutline(x, y);
+        TShape sh = font.createGlyphVector(this.getFontRenderContext(), str).getOutline(x, y);
         fill(sh);
     }
 
     @Override
-    public void drawGlyphVector(GlyphVector gv, float x, float y) {
-        Shape sh = gv.getOutline(x, y);
+    public void drawGlyphVector(TGlyphVector gv, float x, float y) {
+        TShape sh = gv.getOutline(x, y);
         this.fill(sh);
     }
 }

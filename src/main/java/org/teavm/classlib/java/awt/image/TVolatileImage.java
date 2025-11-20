@@ -19,19 +19,17 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
+import org.teavm.classlib.java.awt.TGraphics;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TGraphicsConfiguration;
+import org.teavm.classlib.java.awt.TImageCapabilities;
+import org.teavm.classlib.java.awt.TTransparency;
 import org.teavm.classlib.java.awt.TImage;
 
 /**
  * Volatile image implementation
  */
-public abstract class TVolatileImage extends TImage
-    // Volatile image implements Transparency since 1.5
-    implements Transparency {
+public abstract class TVolatileImage extends TImage /* Volatile image implements TTransparency since 1.5 */ implements TTransparency {
     /***************************************************************************
     *
     *  Constants
@@ -66,9 +64,9 @@ public abstract class TVolatileImage extends TImage
 
     public abstract boolean contentsLost();
 
-    public abstract Graphics2D createGraphics();
+    public abstract TGraphics2D createTGraphics();
 
-    public abstract ImageCapabilities getCapabilities();
+    public abstract TImageCapabilities getCapabilities();
 
     public abstract int getHeight();
 
@@ -76,7 +74,7 @@ public abstract class TVolatileImage extends TImage
 
     public abstract int getWidth();
 
-    public abstract int validate(GraphicsConfiguration gc);
+    public abstract int validate(TGraphicsConfiguration gc);
 
 
     /***************************************************************************
@@ -90,8 +88,8 @@ public abstract class TVolatileImage extends TImage
     }
 
     @Override
-    public Graphics getGraphics() {
-        return createGraphics();
+    public TGraphics getGraphics() {
+        return createTGraphics();
     }
 
     @Override
@@ -99,7 +97,7 @@ public abstract class TVolatileImage extends TImage
         return getSnapshot().getSource();
     }
 
-    public int getTransparency() {
+    public int getTTransparency() {
         return transparency;
     }
 }

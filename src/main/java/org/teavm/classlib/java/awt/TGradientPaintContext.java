@@ -17,16 +17,9 @@
 /**
  * @author Denis M. Kishenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-
-class GradientPaintContext implements PaintContext {
+class TGradientPaintContext implements TPaintContext {
 
     /**
      * The size of noncyclic part of color lookup table
@@ -93,7 +86,7 @@ class GradientPaintContext implements PaintContext {
      * @param color2 - color of the end point
      * @param cyclic - the indicator of cycle filling
      */
-    GradientPaintContext(ColorModel cm, AffineTransform t, Point2D point1, Color color1, Point2D point2, Color color2, boolean cyclic) {
+    TGradientPaintContext(ColorModel cm, AffineTransform t, Point2D point1, Color color1, Point2D point2, Color color2, boolean cyclic) {
         this.cyclic = cyclic;
         this.cm = ColorModel.getRGBdefault();
 

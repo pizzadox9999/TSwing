@@ -19,7 +19,7 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Rectangle;
+import org.teavm.classlib.java.awt.TRectangle;
 
 public class MultiRectAreaOp {
 
@@ -361,9 +361,9 @@ public class MultiRectAreaOp {
             {
                 dst.setRect(simpleIntersect(src1, src2), false);
             } else {
-                Rectangle bounds1 = src1.getBounds();
-                Rectangle bounds2 = src2.getBounds();
-                Rectangle bounds3 = bounds1.intersection(bounds2);
+                TRectangle bounds1 = src1.getBounds();
+                TRectangle bounds2 = src2.getBounds();
+                TRectangle bounds3 = bounds1.intersection(bounds2);
                 if (bounds3.width > 0 && bounds3.height > 0) {
                     intersectRegions(src1.rect, src2.rect, dst, bounds1.height + 2, bounds2.height + 2);
                 }
@@ -542,9 +542,9 @@ public class MultiRectAreaOp {
             {
                 simpleUnion(src1, src2, dst);
             } else {
-                Rectangle bounds1 = src1.getBounds();
-                Rectangle bounds2 = src2.getBounds();
-                Rectangle bounds3 = bounds1.intersection(bounds2);
+                TRectangle bounds1 = src1.getBounds();
+                TRectangle bounds2 = src2.getBounds();
+                TRectangle bounds3 = bounds1.intersection(bounds2);
 
                 if (bounds3.width < 0 || bounds3.height < 0) {
                     if (bounds1.y + bounds1.height < bounds2.y) {
@@ -817,9 +817,9 @@ public class MultiRectAreaOp {
             {
                 simpleSubtract(src1, src2, dst);
             } else {
-                Rectangle bounds1 = src1.getBounds();
-                Rectangle bounds2 = src2.getBounds();
-                Rectangle bounds3 = bounds1.intersection(bounds2);
+                TRectangle bounds1 = src1.getBounds();
+                TRectangle bounds2 = src2.getBounds();
+                TRectangle bounds3 = bounds1.intersection(bounds2);
 
                 if (bounds3.width > 0 && bounds3.height > 0) {
                     subtractRegions(src1.rect, src2.rect, dst, bounds1.height + 2, bounds2.height + 2);

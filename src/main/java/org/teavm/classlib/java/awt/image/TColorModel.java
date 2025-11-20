@@ -19,19 +19,19 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
 import java.util.Arrays;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 
-public abstract class TColorModel implements Transparency {
+public abstract class TColorModel implements TTransparency {
 
     protected int pixel_bits;  // Pixel length in bits
 
     protected int transferType;
 
-    ColorSpace cs;
+    TColorSpace cs;
 
     boolean hasAlpha;
 
@@ -52,7 +52,7 @@ public abstract class TColorModel implements Transparency {
 
     private static TColorModel RGBdefault;
 
-    protected TColorModel(int pixel_bits, int[] bits, ColorSpace cspace,
+    protected TColorModel(int pixel_bits, int[] bits, TColorSpace cspace,
             boolean hasAlpha, boolean isAlphaPremultiplied, int transparency,
             int transferType) {
 
@@ -85,8 +85,8 @@ public abstract class TColorModel implements Transparency {
             throw new IllegalArgumentException(Messages.getString("awt.26F")); //$NON-NLS-1$
         }
 
-        if (transparency < Transparency.OPAQUE ||
-               transparency > Transparency.TRANSLUCENT) {
+        if (transparency < TTransparency.OPAQUE ||
+               transparency > TTransparency.TRANSLUCENT) {
             // awt.270=The transparency is not a valid value
             throw new IllegalArgumentException(Messages.getString("awt.270")); //$NON-NLS-1$
         }
@@ -128,10 +128,10 @@ public abstract class TColorModel implements Transparency {
 
         pixel_bits = bits;
         transferType = getTransferType(bits);
-        cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        cs = TColorSpace.getInstance(TColorSpace.CS_sRGB);
         hasAlpha = true;
         isAlphaPremultiplied = false;
-        transparency = Transparency.TRANSLUCENT;
+        transparency = TTransparency.TRANSLUCENT;
 
         numColorComponents = 3;
         numComponents = 4;
@@ -258,7 +258,7 @@ public abstract class TColorModel implements Transparency {
                 "supported by this ColorModel"); //$NON-NLS-1$
     }
 
-    public final ColorSpace getColorSpace() {
+    public final TColorSpace getColorSpace() {
         return cs;
     }
 

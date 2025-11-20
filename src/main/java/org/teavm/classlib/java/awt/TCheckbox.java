@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -33,7 +33,7 @@ import org.apache.harmony.awt.ButtonStateController;
 import org.apache.harmony.awt.FieldsAccessor;
 import org.apache.harmony.awt.state.CheckboxState;
 
-public class Checkbox extends Component implements ItemSelectable, Accessible {
+public class TCheckbox extends TComponent implements ItemSelectable, Accessible {
     private static final long serialVersionUID = 7270714317450821763L;
 
     protected class AccessibleAWTCheckbox extends Component.AccessibleAWTComponent implements
@@ -167,7 +167,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
 
     private final transient ButtonStateController stateController;
 
-    public Checkbox() throws HeadlessException {
+    public TCheckbox() throws HeadlessException {
         this(new String(), null, false);
         toolkit.lockAWT();
         try {
@@ -176,7 +176,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public Checkbox(String label, CheckboxGroup group, boolean state) throws HeadlessException {
+    public TCheckbox(String label, CheckboxGroup group, boolean state) throws HeadlessException {
         toolkit.lockAWT();
         try {
             this.label = label;
@@ -197,7 +197,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         postEvent(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this, stateChange));
     }
 
-    public Checkbox(String label) throws HeadlessException {
+    public TCheckbox(String label) throws HeadlessException {
         this(label, null, false);
         toolkit.lockAWT();
         try {
@@ -206,7 +206,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public Checkbox(String label, boolean state) throws HeadlessException {
+    public TCheckbox(String label, boolean state) throws HeadlessException {
         this(label, null, state);
         toolkit.lockAWT();
         try {
@@ -215,7 +215,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
         }
     }
 
-    public Checkbox(String label, boolean state, CheckboxGroup group) throws HeadlessException {
+    public TCheckbox(String label, boolean state, CheckboxGroup group) throws HeadlessException {
         this(label, group, state);
         toolkit.lockAWT();
         try {
@@ -307,7 +307,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
                     oldGroup.setSelectedCheckbox(null);
                 }
                 if (group != null) {
-                    Checkbox selected = group.getSelectedCheckbox();
+                    TCheckbox selected = group.getSelectedCheckbox();
                     if (selected != null) {
                         checked = false;
                     } else {

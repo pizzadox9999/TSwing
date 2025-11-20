@@ -47,27 +47,27 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.wtk.NativeWindow;
 import org.apache.harmony.luni.util.NotImplementedException;
 
-public class TWindow extends Container implements Accessible {
+public class TWindow extends TContainer implements Accessible {
     private static final long serialVersionUID = 4497834738069338734L;
 
-    private final AWTListenerList<WindowFocusListener> windowFocusListeners = new AWTListenerList<WindowFocusListener>(
+    private final TAWTListenerList<WindowFocusListener> windowFocusListeners = new TAWTListenerList<WindowFocusListener>(
             this);
 
-    private final AWTListenerList<WindowListener> windowListeners = new AWTListenerList<WindowListener>(
+    private final TAWTListenerList<WindowListener> windowListeners = new TAWTListenerList<WindowListener>(
             this);
 
-    private final AWTListenerList<WindowStateListener> windowStateListeners = new AWTListenerList<WindowStateListener>(
+    private final TAWTListenerList<WindowStateListener> windowStateListeners = new AWTListenerList<WindowStateListener>(
             this);
 
-    private final ArrayList<Window> ownedWindows = new ArrayList<Window>();
+    private final ArrayList<TWindow> ownedWindows = new ArrayList<TWindow>();
 
-    private transient Component focusOwner;
+    private transient TComponent focusOwner;
 
     private boolean focusableWindowState = true;// By default, all Windows have
                                                 // a focusable Window state of
                                                 // true
 
-    private Insets nativeInsets = new Insets(0, 0, 0, 0);
+    private TInsets nativeInsets = new TInsets(0, 0, 0, 0);
 
     /** Security warning for non-secure windows */
     private final String warningString;
@@ -95,9 +95,9 @@ public class TWindow extends Container implements Accessible {
     /**
      * Component which has requested focus last
      */
-    private transient Component requestedFocus;
+    private transient TComponent requestedFocus;
 
-    private final transient GraphicsConfiguration graphicsConfiguration;
+    private final transient TGraphicsConfiguration graphicsConfiguration;
 
     private boolean opened;
 
@@ -138,7 +138,7 @@ public class TWindow extends Container implements Accessible {
         }
     }
 
-    public Window(Window owner) {
+    public TWindow(TWindow owner) {
         this(owner, null);
         toolkit.lockAWT();
         try {
@@ -147,14 +147,14 @@ public class TWindow extends Container implements Accessible {
         }
     }
 
-    private void addWindow(Window window) {
+    private void addWindow(TWindow window) {
         ownedWindows.add(window);
     }
 
-    public Window(Window owner, GraphicsConfiguration gc) {
+    public TWindow(TWindow owner, TGraphicsConfiguration gc) {
         toolkit.lockAWT();
         try {
-            if (!(this instanceof Frame) && !(this instanceof EmbeddedWindow)) {
+            if (!(this instanceof TFrame) && !(this instanceof TEmbeddedWindow)) {
                 if (owner == null) {
                     // awt.125=null owner window
                     throw new IllegalArgumentException(Messages.getString("awt.125")); //$NON-NLS-1$
@@ -164,7 +164,7 @@ public class TWindow extends Container implements Accessible {
             parent = owner; // window's parent is the same as owner(by spec)
             graphicsConfiguration = getGraphicsConfiguration(gc);
             warningString = getWarningStringImpl();
-            super.setLayout(new BorderLayout());
+            super.setLayout(new TBorderLayout());
             if (owner == null) {
                 setBackground(getDefaultBackground());
                 setForeground(getDefaultForeground());
@@ -175,10 +175,10 @@ public class TWindow extends Container implements Accessible {
             // using the context default policy.
             // The context default policy is established by
             // using KeyboardFocusManager.setDefaultFocusTraversalPolicy().
-            setFocusTraversalPolicy(KeyboardFocusManager.getCurrentKeyboardFocusManager()
+            setFocusTraversalPolicy(TKeyboardFocusManager.getCurrentKeyboardFocusManager()
                     .getDefaultFocusTraversalPolicy());
-            redrawManager = new RedrawManager(this);
-            cursor = Cursor.getDefaultCursor(); // for Window cursor is always
+            redrawManager = new TRedrawManager(this);
+            cursor = TCursor.getDefaultCursor(); // for Window cursor is always
                                                 // set(non-null)
         } finally {
             toolkit.unlockAWT();
@@ -189,8 +189,8 @@ public class TWindow extends Container implements Accessible {
         return focusProxy;
     }
 
-    public Window(Frame owner) {
-        this((Window) owner);
+    public TWindow(TFrame owner) {
+        this((TWindow) owner);
         toolkit.lockAWT();
         try {
         } finally {
@@ -245,7 +245,7 @@ public class TWindow extends Container implements Accessible {
         toolkit.lockAWT();
         try {
             // for Window cursor is always set(non-null)
-            super.setCursor(cursor != null ? cursor : Cursor.getDefaultCursor());
+            super.setCursor(cursor != null ? cursor : TCursor.getDefaultCursor());
         } finally {
             toolkit.unlockAWT();
         }
@@ -271,12 +271,12 @@ public class TWindow extends Container implements Accessible {
         }
     }
 
-    public void createBufferStrategy(int a0) throws NotImplementedException {
-        throw new NotImplementedException();
+    public void createBufferStrategy(int a0) {
+        throw new RuntimeException("NotImplementedException");
     }
 
-    public void createBufferStrategy(int a0, BufferCapabilities a1) throws AWTException, NotImplementedException {
-        throw new NotImplementedException();
+    public void createBufferStrategy(int a0, BufferCapabilities a1) throws AWTException {
+        throw new RuntimeException("NotImplementedException");
     }
 
     public void dispose() {
@@ -291,7 +291,7 @@ public class TWindow extends Container implements Accessible {
                 opened = false;
                 disposeInputContext();
                 finishHierarchyChange(this, parent, 0);
-                postEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSED));
+                postEvent(new TWindowEvent(this, WindowEvent.WINDOW_CLOSED));
             }
         } finally {
             toolkit.unlockAWT();
@@ -322,7 +322,7 @@ public class TWindow extends Container implements Accessible {
      */
     private void disposeOwnedWindows() {
         for (int i = 0; i < ownedWindows.size(); i++) {
-            Window win = ownedWindows.get(i);
+            TWindow win = ownedWindows.get(i);
             if (win != null) {
                 win.dispose();
             }
@@ -330,7 +330,7 @@ public class TWindow extends Container implements Accessible {
     }
 
     public BufferStrategy getBufferStrategy() throws NotImplementedException {
-        throw new NotImplementedException();
+        throw new RuntimeException("NotImplementedException");
     }
 
     @Override
@@ -373,8 +373,7 @@ public class TWindow extends Container implements Accessible {
             } else if (parent != null) {
                 return parent.getGraphicsConfiguration();
             } else {
-                return GraphicsEnvironment.getLocalGraphicsEnvironment()
-                        .getDefaultScreenDevice().getDefaultConfiguration();
+                return TGraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
             }
         } finally {
             toolkit.unlockAWT();
@@ -413,7 +412,7 @@ public class TWindow extends Container implements Accessible {
             painted = false;
             // hide all owned windows explicitly:
             for (int i = 0; i < ownedWindows.size(); i++) {
-                Window w = ownedWindows.get(i);
+                TWindow w = ownedWindows.get(i);
                 if (w != null) {
                     w.hide();
                 }
@@ -447,8 +446,7 @@ public class TWindow extends Container implements Accessible {
     }
 
     final boolean isActivateable() {
-        return (this instanceof Frame) || (this instanceof Dialog)
-                || (this instanceof EmbeddedWindow);
+        return (this instanceof TFrame) || (this instanceof TDialog) || (this instanceof TEmbeddedWindow);
     }
 
     private boolean focusTraversalCycleNotEmpty() {
@@ -459,8 +457,8 @@ public class TWindow extends Container implements Accessible {
      * Gets the nearest ancestor "activateable" window which is typically Frame
      * or Dialog
      */
-    Window getFrameDialogOwner() {
-        for (Window o = this;; o = (Window) o.parent) {
+    TWindow getFrameDialogOwner() {
+        for (TWindow o = this;; o = (TWindow) o.parent) {
             if ((o == null) || o.isActivateable()) {
                 return o;
             }
@@ -479,7 +477,7 @@ public class TWindow extends Container implements Accessible {
 
     @Deprecated
     @Override
-    public boolean postEvent(Event evt) {
+    public boolean postEvent(TEvent evt) {
         toolkit.lockAWT();
         try {
             // do not propagate event to parent(owner) window:
@@ -504,21 +502,21 @@ public class TWindow extends Container implements Accessible {
             }
             
             if (getFont() == null) {
-                setFont(Font.DEFAULT_FONT);
+                setFont(TFont.DEFAULT_FONT);
             }
             
             super.show();
             toFront();
             if (!opened) {
                 opened = true;
-                postEvent(new WindowEvent(this, WindowEvent.WINDOW_OPENED));
+                postEvent(new TWindowEvent(this, WindowEvent.WINDOW_OPENED));
             }
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public Component getMostRecentFocusOwner() {
+    public TComponent getMostRecentFocusOwner() {
         toolkit.lockAWT();
         try {
             // if the Window has never been focused, focus should be set to the
@@ -563,7 +561,7 @@ public class TWindow extends Container implements Accessible {
     public void applyResourceBundle(ResourceBundle rb) {
         toolkit.lockAWT();
         try {
-            applyComponentOrientation(ComponentOrientation.getOrientation(rb));
+            applyComponentOrientation(TComponentOrientation.getOrientation(rb));
         } finally {
             toolkit.unlockAWT();
         }
@@ -588,19 +586,19 @@ public class TWindow extends Container implements Accessible {
         }
     }
 
-    public Window[] getOwnedWindows() {
+    public TWindow[] getOwnedWindows() {
         toolkit.lockAWT();
         try {
-            return ownedWindows.toArray(new Window[0]);
+            return ownedWindows.toArray(new TWindow[0]);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public Window getOwner() {
+    public TWindow getOwner() {
         toolkit.lockAWT();
         try {
-            return (Window) parent;
+            return (TWindow) parent;
         } finally {
             toolkit.unlockAWT();
         }
@@ -626,7 +624,7 @@ public class TWindow extends Container implements Accessible {
     public boolean isActive() {
         toolkit.lockAWT();
         try {
-            return KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow() == this;
+            return TKeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow() == this;
         } finally {
             toolkit.unlockAWT();
         }
@@ -635,7 +633,7 @@ public class TWindow extends Container implements Accessible {
     public boolean isFocused() {
         toolkit.lockAWT();
         try {
-            return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() == this;
+            return TKeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() == this;
         } finally {
             toolkit.unlockAWT();
         }
@@ -645,7 +643,7 @@ public class TWindow extends Container implements Accessible {
         toolkit.lockAWT();
         try {
             if (getFont() == null) {
-                setFont(Font.DEFAULT_FONT);
+                setFont(TFont.DEFAULT_FONT);
             }
             
             if ((parent != null) && !parent.isDisplayable()) {
@@ -703,7 +701,7 @@ public class TWindow extends Container implements Accessible {
         if (this.nativeInsets.equals(insets)) {
             return;
         }
-        nativeInsets = (Insets) insets.clone();
+        nativeInsets = (TInsets) insets.clone();
         validateMenuBar();
         invalidate();
         validate();
@@ -714,8 +712,8 @@ public class TWindow extends Container implements Accessible {
     }
 
     @Override
-    Insets getNativeInsets() {
-        return (Insets) nativeInsets.clone();
+    TInsets getNativeInsets() {
+        return (TInsets) nativeInsets.clone();
     }
 
     @Override
@@ -738,7 +736,7 @@ public class TWindow extends Container implements Accessible {
         try {
             if (byPlatform && visible && behaviour.isDisplayable()) {
                 // awt.126=Window is showing
-                throw new IllegalComponentStateException(Messages.getString("awt.126")); //$NON-NLS-1$
+                throw new RuntimeException("IllegalComponentStateException: " + Messages.getString("awt.126")); //$NON-NLS-1$
             }
             locationByPlatform = byPlatform;
         } finally {
@@ -785,8 +783,8 @@ public class TWindow extends Container implements Accessible {
      */
     private void moveFocusToOwner() {
         if (isFocused()) {
-            Component compToFocus = null;
-            for (Window wnd = getOwner(); wnd != null && compToFocus == null; wnd = wnd
+            TComponent compToFocus = null;
+            for (TWindow wnd = getOwner(); wnd != null && compToFocus == null; wnd = wnd
                     .getOwner()) {
                 compToFocus = wnd.getMostRecentFocusOwner();
                 if (compToFocus != null && !compToFocus.requestFocusImpl(false, true, false)) {
@@ -794,7 +792,7 @@ public class TWindow extends Container implements Accessible {
                 }
             }
             if (compToFocus == null) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+                TKeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
             }
         }
     }
@@ -802,7 +800,7 @@ public class TWindow extends Container implements Accessible {
     public void setLocationRelativeTo(Component c) {
         toolkit.lockAWT();
         try {
-            Rectangle screenRect = getGraphicsConfiguration().getBounds();
+            TRectangle screenRect = getGraphicsConfiguration().getBounds();
             int minX = screenRect.x;
             int minY = screenRect.y;
             int maxX = minX + screenRect.width - 1;
@@ -814,9 +812,9 @@ public class TWindow extends Container implements Accessible {
             // if comp is null or not showing, then set location
             // relative to "component" of 1-pixel size located
             // at the center of the screen
-            Point loc = new Point(centerX, centerY);
+            TPoint loc = new TPoint(centerX, centerY);
             int compX = loc.x;
-            Dimension compSize = new Dimension();
+            TDimension compSize = new TDimension();
             if ((c != null) && c.isShowing()) {
                 loc = c.getLocationOnScreen();
                 compX = loc.x;
@@ -896,7 +894,7 @@ public class TWindow extends Container implements Accessible {
         }
         if (isDisplayable()) {
             // awt.127=Cannot change the decorations while the window is visible
-            throw new IllegalComponentStateException(Messages.getString("awt.127")); //$NON-NLS-1$
+            throw new RuntimeException("IllegalComponentStateException: " + Messages.getString("awt.127")); //$NON-NLS-1$
         }
         this.undecorated = undecorated;
     }
@@ -908,7 +906,7 @@ public class TWindow extends Container implements Accessible {
     void setPopup(boolean popup) {
         if (isDisplayable()) {
             // awt.127=Cannot change the decorations while the window is visible
-            throw new IllegalComponentStateException(Messages.getString("awt.127")); //$NON-NLS-1$
+            throw new RuntimException("IllegalComponentStateException: " + Messages.getString("awt.127")); //$NON-NLS-1$
         }
         this.popup = popup;
     }
@@ -972,7 +970,7 @@ public class TWindow extends Container implements Accessible {
      */
     @Override
     Cursor getRealCursor() {
-        return isEnabled() ? getCursor() : Cursor.getDefaultCursor();
+        return isEnabled() ? getCursor() : TCursor.getDefaultCursor();
     }
 
     @Override
@@ -1034,11 +1032,11 @@ public class TWindow extends Container implements Accessible {
     @Override
     protected void processEvent(AWTEvent e) {
         long eventMask = toolkit.eventTypeLookup.getEventMask(e);
-        if (eventMask == AWTEvent.WINDOW_EVENT_MASK) {
+        if (eventMask == TAWTEvent.WINDOW_EVENT_MASK) {
             processWindowEvent((WindowEvent) e);
-        } else if (eventMask == AWTEvent.WINDOW_STATE_EVENT_MASK) {
+        } else if (eventMask == TAWTEvent.WINDOW_STATE_EVENT_MASK) {
             processWindowStateEvent((WindowEvent) e);
-        } else if (eventMask == AWTEvent.WINDOW_FOCUS_EVENT_MASK) {
+        } else if (eventMask == TAWTEvent.WINDOW_FOCUS_EVENT_MASK) {
             processWindowFocusEvent((WindowEvent) e);
         } else {
             super.processEvent(e);
@@ -1111,19 +1109,19 @@ public class TWindow extends Container implements Accessible {
 
     @Override
     ComponentBehavior createBehavior() {
-        return new HWBehavior(this);
+        return new THWBehavior(this);
     }
 
     private GraphicsConfiguration getGraphicsConfiguration(GraphicsConfiguration gc) {
         if (gc == null) {
-            Toolkit.checkHeadless();
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            TToolkit.checkHeadless();
+            TGraphicsEnvironment ge = TGraphicsEnvironment.getLocalGraphicsEnvironment();
             gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
-        } else if (GraphicsEnvironment.isHeadless()) {
+        } else if (TGraphicsEnvironment.isHeadless()) {
             // awt.128=Graphics environment is headless
             throw new IllegalArgumentException(Messages.getString("awt.128")); //$NON-NLS-1$
         }
-        if (gc.getDevice().getType() != GraphicsDevice.TYPE_RASTER_SCREEN) {
+        if (gc.getDevice().getType() != TGraphicsDevice.TYPE_RASTER_SCREEN) {
             // awt.129=Not a screen device
             throw new IllegalArgumentException(Messages.getString("awt.129")); //$NON-NLS-1$
         }
@@ -1132,12 +1130,12 @@ public class TWindow extends Container implements Accessible {
 
     @Override
     Color getDefaultBackground() {
-        return SystemColor.window;
+        return TSystemColor.window;
     }
 
     @Override
     Color getDefaultForeground() {
-        return SystemColor.windowText;
+        return TSystemColor.windowText;
     }
 
     @Override
@@ -1146,13 +1144,13 @@ public class TWindow extends Container implements Accessible {
     }
 
     @Override
-    void prepaint(Graphics g) {
-        Color back = getBackground();
+    void prepaint(TGraphics g) {
+        TColor back = getBackground();
         if (back == null) {
             back = getDefaultBackground();
         }
         g.setColor(back);
-        Insets ins = getNativeInsets();
+        TInsets ins = getNativeInsets();
         g.fillRect(ins.left, ins.top, w - ins.right - ins.left, h - ins.bottom - ins.top);
     }
 
@@ -1176,9 +1174,9 @@ public class TWindow extends Container implements Accessible {
     Image getIconImage() {
         toolkit.lockAWT();
         try {
-            for (Container c = parent; c != null; c = c.parent) {
-                if (c instanceof Frame) {
-                    return ((Frame) c).getIconImage();
+            for (TContainer c = parent; c != null; c = c.parent) {
+                if (c instanceof TFrame) {
+                    return ((TFrame) c).getIconImage();
                 }
             }
             return null;
@@ -1192,8 +1190,8 @@ public class TWindow extends Container implements Accessible {
         if (!visible || behaviour.getNativeWindow() == null) {
             return null;
         }
-        Insets ins = getNativeInsets();
-        Rectangle r = new Rectangle(ins.left, ins.top, w - ins.left - ins.right, h - ins.top
+        TInsets ins = getNativeInsets();
+        TRectangle r = new TRectangle(ins.left, ins.top, w - ins.left - ins.right, h - ins.top
                 - ins.bottom);
         if (part != null) {
             r = r.intersection(part);
@@ -1207,17 +1205,17 @@ public class TWindow extends Container implements Accessible {
     private void readObject(ObjectInputStream stream) throws IOException,
             ClassNotFoundException {
         stream.defaultReadObject();
-        FieldsAccessor accessor = new FieldsAccessor(Window.class, this);
+        FieldsAccessor accessor = new FieldsAccessor(TWindow.class, this);
         accessor.set("graphicsConfiguration", getGraphicsConfiguration(null)); //$NON-NLS-1$
         visible = false;
-        redrawManager = new RedrawManager(this);
+        redrawManager = new TRedrawManager(this);
     }
 
     @Override
-    void notifyInputMethod(Rectangle bounds) {
+    void notifyInputMethod(TRectangle bounds) {
         InputContext ic = getInputContext();
-        if (ic instanceof InputMethodContext) {
-            ((InputMethodContext) ic).notifyClientWindowChange(bounds);
+        if (ic instanceof TInputMethodContext) {
+            ((TInputMethodContext) ic).notifyClientWindowChange(bounds);
         }
     }
 }

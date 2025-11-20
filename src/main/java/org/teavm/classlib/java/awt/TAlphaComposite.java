@@ -19,16 +19,13 @@
  */
 package org.teavm.classlib.java.awt;
 
-import java.awt.Composite;
-import java.awt.CompositeContext;
-import java.awt.RenderingHints;
-import java.awt.image.ColorModel;
-
 import org.apache.harmony.awt.gl.ICompositeContext;
+import org.teavm.classlib.java.awt.image.TColorModel;
+
 import org.apache.harmony.awt.internal.nls.Messages;
 
 
-public final class TAlphaComposite implements Composite {
+public final class TAlphaComposite implements TComposite {
 
     public static final int CLEAR = 1;
 
@@ -99,9 +96,9 @@ public final class TAlphaComposite implements Composite {
         this(rule, 1.0f);
     }
 
-    public CompositeContext createContext(ColorModel srcColorModel,
-            ColorModel dstColorModel, RenderingHints hints) {
-        return new ICompositeContext(this, srcColorModel, dstColorModel);
+    public TCompositeContext createContext(TColorModel srcTColorModel,
+            TColorModel dstTColorModel, TRenderingHints hints) {
+        return new ICompositeContext(this, srcTColorModel, dstTColorModel);
     }
 
     @Override

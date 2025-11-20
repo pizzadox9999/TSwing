@@ -19,18 +19,18 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.geom.TPathIterator;
+import org.teavm.classlib.java.awt.geom.TPoint2D;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class MultiRectArea implements Shape {
+public class MultiRectArea implements TShape {
 
     /**
      * If CHECK is true validation check active
@@ -40,22 +40,22 @@ public class MultiRectArea implements Shape {
     boolean sorted = true;
     
     /**
-     * Rectangle buffer
+     * TRectangle buffer
      */
     public int[] rect;
     
     /**
      * Bounding box
      */
-    Rectangle bounds;
+    TRectangle bounds;
     
     /**
      * Result rectangle array
      */
-    Rectangle[] rectangles;
+    TRectangle[] rectangles;
 
     /**
-     * LineCash provides creating MultiRectArea line by line. Used in JavaShapeRasterizer.
+     * LineCash provides creating MultiRectArea line by line. Used in JavaTShapeRasterizer.
      */
     public static class LineCash extends MultiRectArea {
 
@@ -239,16 +239,16 @@ public class MultiRectArea implements Shape {
     /**
      * MultiRectArea path iterator
      */
-    class Iterator implements PathIterator {
+    class Iterator implements TPathIterator {
 
         int type;
         int index;
         int pos;
 
         int[] rect;
-        AffineTransform t;
+        TAffineTransform t;
 
-        Iterator(MultiRectArea mra, AffineTransform t) {
+        Iterator(MultiRectArea mra, TAffineTransform t) {
             rect = new int[mra.rect[0] - 1];
             System.arraycopy(mra.rect, 1, rect, 0, rect.length);
             this.t = t;
@@ -377,7 +377,7 @@ public class MultiRectArea implements Shape {
     /**
      * Constructs a new MultiRectArea consists of single rectangle 
      */
-    public MultiRectArea(Rectangle r) {
+    public MultiRectArea(TRectangle r) {
         rect = MultiRectAreaOp.createBuf(0);
         if (r != null && !r.isEmpty()) {
             rect[0] = 5;
@@ -386,7 +386,7 @@ public class MultiRectArea implements Shape {
             rect[3] = r.x + r.width - 1;
             rect[4] = r.y + r.height - 1;
         }
-        check(this, "MultiRectArea(Rectangle)"); //$NON-NLS-1$
+        check(this, "MultiRectArea(TRectangle)"); //$NON-NLS-1$
     }
 
     /**
@@ -401,15 +401,15 @@ public class MultiRectArea implements Shape {
             rect[3] = x1;
             rect[4] = y1;
         }
-        check(this, "MultiRectArea(Rectangle)"); //$NON-NLS-1$
+        check(this, "MultiRectArea(TRectangle)"); //$NON-NLS-1$
     }
 
     /**
      * Constructs a new MultiRectArea and append rectangle from buffer
      */
-    public MultiRectArea(Rectangle[] buf) {
+    public MultiRectArea(TRectangle[] buf) {
         this();
-        for (Rectangle element : buf) {
+        for (TRectangle element : buf) {
             add(element);
         }
     }
@@ -417,7 +417,7 @@ public class MultiRectArea implements Shape {
     /**
      * Constructs a new MultiRectArea and append rectangle from array
      */
-    public MultiRectArea(ArrayList<Rectangle> buf) {
+    public MultiRectArea(ArrayList<TRectangle> buf) {
         this();
         for(int i = 0; i < buf.size(); i++) {
             add(buf.get(i));
@@ -487,7 +487,7 @@ public class MultiRectArea implements Shape {
     /**
      * Checks validation of MultiRectArea object
      */
-    public static int checkValidation(Rectangle[] r, boolean sorted) {
+    public static int checkValidation(TRectangle[] r, boolean sorted) {
 
         // Check width and height
         for(int i = 0; i < r.length; i++) {
@@ -560,17 +560,17 @@ public class MultiRectArea implements Shape {
     }
 
     /**
-     * Union with Rectangle object
+     * Union with TRectangle object
      */
-    public void add(Rectangle rect) {
+    public void add(TRectangle rect) {
         setRect(union(this, new MultiRectArea(rect)).rect, false);
         invalidate();
     }
 
     /**
-     * Intersect with Rectangle object
+     * Intersect with TRectangle object
      */
-    public void intersect(Rectangle rect) {
+    public void intersect(TRectangle rect) {
         setRect(intersect(this, new MultiRectArea(rect)).rect, false);
         invalidate();
     }
@@ -578,7 +578,7 @@ public class MultiRectArea implements Shape {
     /**
      * Subtract rectangle object
      */
-    public void substract(Rectangle rect) {
+    public void substract(TRectangle rect) {
         setRect(subtract(this, new MultiRectArea(rect)).rect, false);
     }
 
@@ -613,9 +613,9 @@ public class MultiRectArea implements Shape {
         if (mra == null) {
             System.out.println(msg + "=null"); //$NON-NLS-1$
         } else {
-            Rectangle[] rects = mra.getRectangles();
+            TRectangle[] rects = mra.getRectangles();
             System.out.println(msg + "(" + rects.length + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-            for (Rectangle element : rects) {
+            for (TRectangle element : rects) {
                 System.out.println(
                         element.x + "," + //$NON-NLS-1$
                         element.y + "," + //$NON-NLS-1$
@@ -641,7 +641,7 @@ public class MultiRectArea implements Shape {
         }
 
         if (rectangles != null) {
-            for (Rectangle element : rectangles) {
+            for (TRectangle element : rectangles) {
                 element.translate(x, y);
             }
         }
@@ -674,13 +674,13 @@ public class MultiRectArea implements Shape {
     /**
      * Returns bounds of MultiRectArea object
      */
-    public Rectangle getBounds() {
+    public TRectangle getBounds() {
         if (bounds != null) {
             return bounds;
         }
 
         if (isEmpty()) {
-            return bounds = new Rectangle();
+            return bounds = new TRectangle();
         }
 
         int x1 = rect[1];
@@ -707,7 +707,7 @@ public class MultiRectArea implements Shape {
             }
         }
         
-        return bounds = new Rectangle(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
+        return bounds = new TRectangle(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
     }
 
     /**
@@ -718,17 +718,17 @@ public class MultiRectArea implements Shape {
     }
 
     /**
-     * Returns Rectangle array 
+     * Returns TRectangle array 
      */
-    public Rectangle[] getRectangles() {
+    public TRectangle[] getRectangles() {
         if (rectangles != null) {
             return rectangles;
         }
 
-        rectangles = new Rectangle[(rect[0] - 1) / 4];
+        rectangles = new TRectangle[(rect[0] - 1) / 4];
         int j = 0;
         for(int i = 1; i < rect[0]; i += 4) {
-            rectangles[j++] = new Rectangle(
+            rectangles[j++] = new TRectangle(
                     rect[i],
                     rect[i + 1],
                     rect[i + 2] - rect[i] + 1,
@@ -740,7 +740,7 @@ public class MultiRectArea implements Shape {
     /**
      * Returns Bounds2D
      */
-    public Rectangle2D getBounds2D() {
+    public TRectangle2D getBounds2D() {
         return getBounds();
     }
 
@@ -757,9 +757,9 @@ public class MultiRectArea implements Shape {
     }
 
     /**
-     * Tests does Point2D lie inside MultiRectArea object
+     * Tests does TPoint2D lie inside MultiRectArea object
      */
-    public boolean contains(Point2D p) {
+    public boolean contains(TPoint2D p) {
         return contains(p.getX(), p.getY());
     }
 
@@ -771,9 +771,9 @@ public class MultiRectArea implements Shape {
     }
 
     /**
-     * Tests does Rectangle2D lie inside MultiRectArea object
+     * Tests does TRectangle2D lie inside MultiRectArea object
      */
-    public boolean contains(Rectangle2D r) {
+    public boolean contains(TRectangle2D r) {
         throw new RuntimeException("Not implemented"); //$NON-NLS-1$
     }
 
@@ -781,15 +781,15 @@ public class MultiRectArea implements Shape {
      * Tests does rectangle intersect MultiRectArea object
      */
     public boolean intersects(double x, double y, double w, double h) {
-        Rectangle r = new Rectangle();
+        TRectangle r = new TRectangle();
         r.setRect(x, y, w, h);
         return intersects(r);
     }
 
     /**
-     * Tests does Rectangle2D intersect MultiRectArea object
+     * Tests does TRectangle2D intersect MultiRectArea object
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolean intersects(TRectangle2D r) {
         if (r == null || r.isEmpty()) {
             return false;
         }
@@ -804,14 +804,14 @@ public class MultiRectArea implements Shape {
     /**
      * Returns path iterator
      */
-    public PathIterator getPathIterator(AffineTransform t, double flatness) {
+    public TPathIterator getPathIterator(TAffineTransform t, double flatness) {
         return new Iterator(this, t);
     }
 
     /**
      * Returns path iterator
      */
-    public PathIterator getPathIterator(AffineTransform t) {
+    public TPathIterator getPathIterator(TAffineTransform t) {
         return new Iterator(this, t);
     }
 

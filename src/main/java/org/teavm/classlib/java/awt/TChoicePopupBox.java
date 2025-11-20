@@ -15,12 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import org.apache.harmony.awt.ChoiceStyle;
 import org.apache.harmony.awt.PeriodicTimer;
 import org.apache.harmony.awt.ScrollStateController;
@@ -34,7 +30,7 @@ import org.apache.harmony.awt.state.ListState;
  * Choice items, implements popup and scrolling list behavior
  * of Choice component
  */
-class ChoicePopupBox extends PopupBox {
+class TChoicePopupBox extends TPopupBox {
     private final Choice choice;
 
     /**
@@ -195,7 +191,7 @@ class ChoicePopupBox extends PopupBox {
         }
     }
 
-    public ChoicePopupBox(Choice choice) {
+    public TChoicePopupBox(Choice choice) {
         scrollLocation = 0;
         this.choice = choice;
         style = choice.popupStyle;

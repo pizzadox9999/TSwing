@@ -19,10 +19,10 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.AWTEvent;
-import java.awt.ItemSelectable;
+import org.teavm.classlib.java.awt.TAWTEvent;
+import org.teavm.classlib.java.awt.TItemSelectable;
 
-public class TItemEvent extends AWTEvent {
+public class TItemEvent extends TAWTEvent {
 
     private static final long serialVersionUID = -608708132447206933L;
 
@@ -39,7 +39,7 @@ public class TItemEvent extends AWTEvent {
     private Object item;
     private int stateChange;
 
-    public TItemEvent(ItemSelectable source, int id, Object item, int stateChange) {
+    public TItemEvent(TItemSelectable source, int id, Object item, int stateChange) {
         super(source, id);
 
         this.item = item;
@@ -54,8 +54,8 @@ public class TItemEvent extends AWTEvent {
         return stateChange;
     }
 
-    public ItemSelectable getItemSelectable() {
-        return (ItemSelectable) source;
+    public TItemSelectable getItemSelectable() {
+        return (TItemSelectable) source;
     }
 
     @Override

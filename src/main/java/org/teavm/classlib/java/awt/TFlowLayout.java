@@ -17,7 +17,7 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +27,7 @@ import java.util.*;
 import org.apache.harmony.awt.FieldsAccessor;
 
 
-public class FlowLayout implements LayoutManager, Serializable {
+public class TFlowLayout implements TLayoutManager, Serializable {
     private static final long serialVersionUID = -7262534875583282631L;
 
     public static final int LEFT = 0;
@@ -46,7 +46,7 @@ public class FlowLayout implements LayoutManager, Serializable {
 
     private transient Component[] components;
 
-    public FlowLayout(int align) {
+    public TFlowLayout(int align) {
         this(align, DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {
@@ -55,7 +55,7 @@ public class FlowLayout implements LayoutManager, Serializable {
         }
     }
 
-    public FlowLayout() {
+    public TFlowLayout() {
         this(CENTER, DEFAULT_GAP, DEFAULT_GAP);
         toolkit.lockAWT();
         try {
@@ -64,7 +64,7 @@ public class FlowLayout implements LayoutManager, Serializable {
         }
     }
 
-    public FlowLayout(int align, int hgap, int vgap) {
+    public TFlowLayout(int align, int hgap, int vgap) {
         toolkit.lockAWT();
         try {
             hGap = hgap;

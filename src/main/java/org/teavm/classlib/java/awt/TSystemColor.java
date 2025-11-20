@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +29,7 @@ import java.io.Serializable;
 import org.apache.harmony.awt.FieldsAccessor;
 
 
-public final class SystemColor extends Color implements Serializable {
+public final class TSystemColor extends TColor implements Serializable {
 
     private static final long serialVersionUID = 4503142729533789064L;
 
@@ -239,7 +239,7 @@ public final class SystemColor extends Color implements Serializable {
         return (index * 37) + value;
     }
 
-    private SystemColor(int index) {
+    private TSystemColor(int index) {
         super(0, 0, 0);
         this.index = index;
         value = getRGB();

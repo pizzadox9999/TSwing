@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -30,7 +30,7 @@ import org.apache.harmony.awt.ScrollbarStateController;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.ScrollbarState;
 
-public class Scrollbar extends Component implements Adjustable, Accessible {
+public class TScrollbar extends TComponent implements TAdjustable, Accessible {
     private static final long serialVersionUID = 8451667562882310543L;
 
     protected class AccessibleAWTScrollBar extends Component.AccessibleAWTComponent implements
@@ -117,7 +117,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
 
     private final transient ScrollbarStateController stateController;
 
-    public Scrollbar() throws HeadlessException {
+    public TScrollbar() throws HeadlessException {
         this(VERTICAL);
         toolkit.lockAWT();
         try {
@@ -126,7 +126,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
         }
     }
 
-    public Scrollbar(int orientation) throws HeadlessException {
+    public TScrollbar(int orientation) throws HeadlessException {
         this(orientation, 0, 10, 0, 100);
         toolkit.lockAWT();
         try {
@@ -135,7 +135,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
         }
     }
 
-    public Scrollbar(int orientation, int value, int visible, int min, int max)
+    public TScrollbar(int orientation, int value, int visible, int min, int max)
             throws HeadlessException {
         toolkit.lockAWT();
         try {

@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -26,7 +26,7 @@ import javax.accessibility.AccessibleRole;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class PopupMenu extends Menu {
+public class TPopupMenu extends TMenu {
 
 
     private static final long serialVersionUID = -4620452533522760060L;
@@ -42,7 +42,7 @@ public class PopupMenu extends Menu {
 
     }
 
-    public PopupMenu() throws HeadlessException {
+    public TPopupMenu() throws HeadlessException {
         this(""); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -51,7 +51,7 @@ public class PopupMenu extends Menu {
         }
     }
 
-    public PopupMenu(String label) throws HeadlessException {
+    public TPopupMenu(String label) throws HeadlessException {
         super(label);
         toolkit.lockAWT();
         try {

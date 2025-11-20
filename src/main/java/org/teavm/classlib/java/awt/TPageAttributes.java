@@ -17,13 +17,13 @@
 /**
  * @author Igor A. Pyankov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.util.Locale;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public final class PageAttributes implements Cloneable {
+public final class TPageAttributes implements Cloneable {
     private MediaType media;
     private ColorType color;
     private OrientationRequestedType orientationRequested;
@@ -309,7 +309,7 @@ public final class PageAttributes implements Cloneable {
     }
  /*--------------- end of section of the nested classes ------------------*/
 
-    public PageAttributes() {
+    public TPageAttributes() {
         setColor(ColorType.MONOCHROME);
         setMediaToDefault();
         setOrientationRequestedToDefault();
@@ -318,7 +318,7 @@ public final class PageAttributes implements Cloneable {
         setPrinterResolutionToDefault();
     }
 
-    public PageAttributes(PageAttributes.ColorType color,
+    public TPageAttributes(PageAttributes.ColorType color,
             PageAttributes.MediaType media,
             PageAttributes.OrientationRequestedType orientationRequested,
             PageAttributes.OriginType origin,
@@ -333,7 +333,7 @@ public final class PageAttributes implements Cloneable {
         setPrinterResolution(printerResolution);
     }
 
-    public PageAttributes(PageAttributes pageAttributes) {
+    public TPageAttributes(PageAttributes pageAttributes) {
         set(pageAttributes);
     }
 

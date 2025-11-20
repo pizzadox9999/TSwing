@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
+import org.teavm.classlib.java.awt.TComponent;
 
 public abstract class TInputEvent extends TComponentEvent {
 
@@ -67,7 +67,7 @@ public abstract class TInputEvent extends TComponentEvent {
     private long when;
     int modifiers;
     
-    TInputEvent(Component source, int id, long when, int modifiers) {
+    TInputEvent(TComponent source, int id, long when, int modifiers) {
         super(source, id);
 
         this.when = when;

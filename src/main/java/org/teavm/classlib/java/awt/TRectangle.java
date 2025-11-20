@@ -19,10 +19,12 @@
  */
 package org.teavm.classlib.java.awt;
 
-import java.awt.geom.Rectangle2D;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
+
+import org.teavm.classlib.java.awt.geom.TDimension2D;
 import java.io.Serializable;
 
-public class TRectangle extends Rectangle2D implements TShape, Serializable {
+public class TRectangle extends TRectangle2D implements TShape, Serializable {
 
     private static final long serialVersionUID = -4345857070255674764L;
 
@@ -31,31 +33,31 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
     public int width;
     public int height;
 
-    public Rectangle() {
+    public TRectangle() {
         setBounds(0, 0, 0, 0);
     }
 
-    public TRectangle(Point p) {
+    public TRectangle(TPoint p) {
         setBounds(p.x, p.y, 0, 0);
     }
 
-    public TRectangle(Point p, Dimension d) {
-        setBounds(p.x, p.y, d.width, d.height);
+    public TRectangle(TPoint p, TDimension2D d) {
+        setBounds(p.x, p.y, (int) d.getWidth(), (int) d.getHeight());
     }
 
-    public Rectangle(int x, int y, int width, int height) {
+    public TRectangle(int x, int y, int width, int height) {
         setBounds(x, y, width, height);
     }
 
-    public Rectangle(int width, int height) {
+    public TRectangle(int width, int height) {
         setBounds(0, 0, width, height);
     }
 
-    public Rectangle(Rectangle r) {
+    public TRectangle(TRectangle r) {
         setBounds(r.x, r.y, r.width, r.height);
     }
 
-    public Rectangle(Dimension d) {
+    public TRectangle(TDimension d) {
         setBounds(0, 0, d.width, d.height);
     }
 
@@ -84,8 +86,8 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         return width <= 0 || height <= 0;
     }
 
-    public Dimension getSize() {
-        return new Dimension(width, height);
+    public TDimension getSize() {
+        return new TDimension(width, height);
     }
 
     public void setSize(int width, int height) {
@@ -93,12 +95,12 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         this.height = height;
     }
 
-    public void setSize(Dimension d) {
+    public void setSize(TDimension d) {
         setSize(d.width, d.height);
     }
 
-    public Point getLocation() {
-        return new Point(x, y);
+    public TPoint getLocation() {
+        return new TPoint(x, y);
     }
 
     public void setLocation(int x, int y) {
@@ -106,7 +108,7 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         this.y = y;
     }
 
-    public void setLocation(Point p) {
+    public void setLocation(TPoint p) {
         setLocation(p.x, p.y);
     }
 
@@ -145,7 +147,7 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
 
     @Override
     public TRectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return new TRectangle(x, y, width, height);
     }
 
     @Override
@@ -184,11 +186,11 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         setBounds(x1, y1, x2 - x1, y2 - y1);
     }
 
-    public void add(Point p) {
+    public void add(TPoint p) {
         add(p.x, p.y);
     }
 
-    public void add(Rectangle r) {
+    public void add(TRectangle r) {
         int x1 = Math.min(x, r.x);
         int x2 = Math.max(x + width, r.x + r.width);
         int y1 = Math.min(y, r.y);
@@ -208,7 +210,7 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         return px < width && py < height;
     }
 
-    public boolean contains(Point p) {
+    public boolean contains(TPoint p) {
         return contains(p.x, p.y);
     }
 
@@ -216,7 +218,7 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         return contains(rx, ry) && contains(rx + rw - 1, ry + rh - 1);
     }
 
-    public boolean contains(Rectangle r) {
+    public boolean contains(TRectangle r) {
         return contains(r.x, r.y, r.width, r.height);
     }
 
@@ -229,24 +231,24 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
     }
 
     @Override
-    public Rectangle2D createIntersection(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return intersection((Rectangle) r);
+    public TRectangle2D createIntersection(TRectangle2D r) {
+        if (r instanceof TRectangle) {
+            return intersection((TRectangle) r);
         }
-        Rectangle2D dst = new Rectangle2D.Double();
-        Rectangle2D.intersect(this, r, dst);
+        TRectangle2D dst = new TRectangle2D.TDouble();
+        TRectangle2D.intersect(this, r, dst);
         return dst;
     }
 
-    public Rectangle intersection(Rectangle r) {
+    public TRectangle intersection(TRectangle r) {
         int x1 = Math.max(x, r.x);
         int y1 = Math.max(y, r.y);
         int x2 = Math.min(x + width, r.x + r.width);
         int y2 = Math.min(y + height, r.y + r.height);
-        return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        return new TRectangle(x1, y1, x2 - x1, y2 - y1);
     }
 
-    public boolean intersects(Rectangle r) {
+    public boolean intersects(TRectangle r) {
         return !intersection(r).isEmpty();
     }
 
@@ -278,17 +280,17 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
     }
 
     @Override
-    public Rectangle2D createUnion(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return union((Rectangle)r);
+    public TRectangle2D createUnion(TRectangle2D r) {
+        if (r instanceof TRectangle) {
+            return union((TRectangle)r);
         }
-        Rectangle2D dst = new Rectangle2D.Double();
-        Rectangle2D.union(this, r, dst);
+        TRectangle2D dst = new TRectangle2D.TDouble();
+        TRectangle2D.union(this, r, dst);
         return dst;
     }
 
-    public Rectangle union(Rectangle r) {
-        Rectangle dst = new Rectangle(this);
+    public TRectangle union(TRectangle r) {
+        TRectangle dst = new TRectangle(this);
         dst.add(r);
         return dst;
     }
@@ -298,8 +300,8 @@ public class TRectangle extends Rectangle2D implements TShape, Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Rectangle) {
-            Rectangle r = (Rectangle)obj;
+        if (obj instanceof TRectangle) {
+            TRectangle r = (TRectangle)obj;
             return r.x == x && r.y == y && r.width == width && r.height == height;
         }
         return false;

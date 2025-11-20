@@ -24,14 +24,14 @@ import org.apache.harmony.awt.ListenerList;
 final class TAWTListenerList<T extends EventListener> extends ListenerList<T> {
     private static final long serialVersionUID = -2622077171532840953L;
 
-    private final Component owner;
+    private final TComponent owner;
     
-    AWTListenerList() {
+    TAWTListenerList() {
         super();
         this.owner = null;
     }
 
-    AWTListenerList(Component owner) {
+    TAWTListenerList(TComponent owner) {
         super();
         this.owner = owner;
     }

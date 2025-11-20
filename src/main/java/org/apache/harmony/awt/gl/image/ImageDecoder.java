@@ -22,8 +22,6 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.image.ColorModel;
-import java.awt.image.ImageConsumer;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +29,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
 
 /**
  * This class contains common functionality for all image decoders.
@@ -38,7 +38,7 @@ import java.util.List;
 abstract class ImageDecoder {
     private static final int MAX_BYTES_IN_SIGNATURE = 8;
 
-    List<ImageConsumer> consumers;
+    List<TImageConsumer> consumers;
     InputStream inputStream;
     DecodingImageSource src;
 
@@ -125,7 +125,7 @@ abstract class ImageDecoder {
             return;
         }
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setDimensions(w, h);
         }
     }
@@ -135,17 +135,17 @@ abstract class ImageDecoder {
             return;
         }
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setProperties(props);
         }
     }
 
-    protected void setColorModel(ColorModel cm) {
+    protected void setColorModel(TColorModel cm) {
         if (terminated) {
             return;
         }
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setColorModel(cm);
         }
     }
@@ -155,7 +155,7 @@ abstract class ImageDecoder {
             return;
         }
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setHints(hints);
         }
     }
@@ -163,7 +163,7 @@ abstract class ImageDecoder {
     protected void setPixels(
             int x, int y,
             int w, int h,
-            ColorModel model,
+            TColorModel model,
             byte pix[],
             int off, int scansize
             ) {
@@ -173,7 +173,7 @@ abstract class ImageDecoder {
 
         src.lockDecoder(this);
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setPixels(x, y, w, h, model, pix, off, scansize);
         }
     }
@@ -181,7 +181,7 @@ abstract class ImageDecoder {
     protected void setPixels(
             int x, int y,
             int w, int h,
-            ColorModel model,
+            TColorModel model,
             int pix[],
             int off, int scansize
             ) {
@@ -191,7 +191,7 @@ abstract class ImageDecoder {
 
         src.lockDecoder(this);
 
-        for (ImageConsumer ic : consumers) {
+        for (TImageConsumer ic : consumers) {
             ic.setPixels(x, y, w, h, model, pix, off, scansize);
         }
     }
@@ -203,9 +203,9 @@ abstract class ImageDecoder {
 
         src.lockDecoder(this);
 
-        ImageConsumer ic = null;
+        TImageConsumer ic = null;
 
-        for (Iterator<ImageConsumer> i = consumers.iterator(); i.hasNext();) {
+        for (Iterator<TImageConsumer> i = consumers.iterator(); i.hasNext();) {
             try {
                 ic = i.next();
             } catch (ConcurrentModificationException e) {

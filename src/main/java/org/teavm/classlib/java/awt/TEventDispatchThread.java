@@ -17,12 +17,12 @@
 /**
  * @author Michael Danilov, Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.wtk.NativeEvent;
 import org.apache.harmony.awt.wtk.NativeEventQueue;
 
-class EventDispatchThread extends Thread  {
+class TEventDispatchThread extends Thread  {
     
     private static final class MarkerEvent extends AWTEvent {
         private static final long serialVersionUID = 1L;
@@ -109,7 +109,7 @@ class EventDispatchThread extends Thread  {
         shutdownPending = true;
     }
 
-    EventDispatchThread(Toolkit toolkit, Dispatcher dispatcher ) {
+    TEventDispatchThread(Toolkit toolkit, Dispatcher dispatcher ) {
         this.toolkit = toolkit;
         this.dispatcher = dispatcher;
         setName("AWT-EventDispatchThread"); //$NON-NLS-1$

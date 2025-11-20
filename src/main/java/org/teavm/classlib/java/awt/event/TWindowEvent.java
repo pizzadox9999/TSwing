@@ -19,8 +19,8 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Window;
-import java.awt.Frame;
+import org.teavm.classlib.java.awt.TFrame;
+import org.teavm.classlib.java.awt.TWindow;
 
 public class TWindowEvent extends TComponentEvent {
 
@@ -50,23 +50,23 @@ public class TWindowEvent extends TComponentEvent {
 
     public static final int WINDOW_LAST = 209;
 
-    private Window oppositeWindow;
+    private TWindow oppositeWindow;
     private int oldState;
     private int newState;
 
-    public TWindowEvent(Window source, int id) {
+    public TWindowEvent(TWindow source, int id) {
         this(source, id, null);
     }
 
-    public TWindowEvent(Window source, int id, Window opposite) {
-        this(source, id, opposite, Frame.NORMAL, Frame.NORMAL);
+    public TWindowEvent(TWindow source, int id, TWindow opposite) {
+        this(source, id, opposite, TFrame.NORMAL, TFrame.NORMAL);
     }
 
-    public TWindowEvent(Window source, int id, int oldState, int newState) {
+    public TWindowEvent(TWindow source, int id, int oldState, int newState) {
         this(source, id, null, oldState, newState);
     }
 
-    public TWindowEvent(Window source, int id, Window opposite, 
+    public TWindowEvent(TWindow source, int id, TWindow opposite, 
                        int oldState, int newState) {
         super(source, id);
 
@@ -83,12 +83,12 @@ public class TWindowEvent extends TComponentEvent {
         return oldState;
     }
 
-    public Window getOppositeWindow() {
+    public TWindow getOppositeWindow() {
         return oppositeWindow;
     }
 
-    public Window getWindow() {
-        return (Window) source;
+    public TWindow getWindow() {
+        return (TWindow) source;
     }
 
     @Override

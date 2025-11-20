@@ -19,13 +19,6 @@
  */
 package org.apache.harmony.awt.datatransfer;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.SystemFlavorMap;
-import java.awt.datatransfer.Transferable;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -35,6 +28,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.teavm.classlib.java.awt.TGraphics;
+import org.teavm.classlib.java.awt.TImage;
+import org.teavm.classlib.java.awt.datatransfer.TDataFlavor;
+import org.teavm.classlib.java.awt.datatransfer.TSystemFlavorMap;
+import org.teavm.classlib.java.awt.datatransfer.TTransferable;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
+import org.teavm.classlib.java.awt.image.TDataBufferInt;
 
 /**
  * Convertor from {@link java.awt.datatransfer.Transferable} to 
@@ -43,20 +43,20 @@ import java.util.List;
 public class DataSource implements DataProvider {
 
     // Cached data from transferable object
-    private DataFlavor[] flavors;
+    private TDataFlavor[] flavors;
     private List<String> nativeFormats;
     
-    protected final Transferable contents;
+    protected final TTransferable contents;
     
-    public DataSource(Transferable contents) {
+    public DataSource(TTransferable contents) {
         this.contents = contents;
     }
 
-    private boolean isHtmlFlavor(DataFlavor f) {
+    private boolean isHtmlFlavor(TDataFlavor f) {
         return "html".equalsIgnoreCase(f.getSubType()); //$NON-NLS-1$
     }
     
-    protected DataFlavor[] getDataFlavors() {
+    protected TDataFlavor[] getDataFlavors() {
         if (flavors == null) {
             flavors = contents.getTransferDataFlavors();
         }
@@ -69,18 +69,17 @@ public class DataSource implements DataProvider {
     
     public List<String> getNativeFormatsList() {
         if (nativeFormats == null) {
-            DataFlavor[] flavors = getDataFlavors();
+            TDataFlavor[] flavors = getDataFlavors();
             nativeFormats = getNativesForFlavors(flavors);
         }
 
         return nativeFormats;
     }
     
-    private static List<String> getNativesForFlavors(DataFlavor[] flavors) {
+    private static List<String> getNativesForFlavors(TDataFlavor[] flavors) {
         ArrayList<String> natives = new ArrayList<String>();
         
-        SystemFlavorMap flavorMap = 
-            (SystemFlavorMap)SystemFlavorMap.getDefaultFlavorMap();
+        TSystemFlavorMap flavorMap = (TSystemFlavorMap) TSystemFlavorMap.getDefaultFlavorMap();
         
         for (int i = 0; i < flavors.length; i++) {
             List<String> list = flavorMap.getNativesForFlavor(flavors[i]);
@@ -105,9 +104,9 @@ public class DataSource implements DataProvider {
     }
     
     private String getText(boolean htmlOnly) {
-        DataFlavor[] flavors = contents.getTransferDataFlavors();
+        TDataFlavor[] flavors = contents.getTransferDataFlavors();
         for (int i = 0; i < flavors.length; i++) {
-            DataFlavor f = flavors[i];
+            TDataFlavor f = flavors[i];
             if (!f.isFlavorTextType()) {
                 continue;
             }
@@ -132,7 +131,7 @@ public class DataSource implements DataProvider {
 
     public String[] getFileList() {
         try {
-            List<?> list = (List<?>) contents.getTransferData(DataFlavor.javaFileListFlavor);
+            List<?> list = (List<?>) contents.getTransferData(TDataFlavor.javaFileListFlavor);
             return list.toArray(new String[list.size()]);
         } catch (Exception e) {
             return null;
@@ -160,16 +159,16 @@ public class DataSource implements DataProvider {
     }
     
     public RawBitmap getRawBitmap() {
-        DataFlavor[] flavors = contents.getTransferDataFlavors();
+        TDataFlavor[] flavors = contents.getTransferDataFlavors();
 
         for (int i = 0; i < flavors.length; i++) {
-            DataFlavor f = flavors[i];
+            TDataFlavor f = flavors[i];
             Class<?> c = f.getRepresentationClass();
-            if (c != null && Image.class.isAssignableFrom(c) && 
-                    (f.isMimeTypeEqual(DataFlavor.imageFlavor) || 
+            if (c != null && TImage.class.isAssignableFrom(c) && 
+                    (f.isMimeTypeEqual(TDataFlavor.imageFlavor) || 
                             f.isFlavorSerializedObjectType())) {
                 try {
-                    Image im = (Image)contents.getTransferData(f);
+                    TImage im = (TImage) contents.getTransferData(f);
                     return getImageBitmap(im);
                 } catch (Throwable ex) {
                     continue;
@@ -179,10 +178,10 @@ public class DataSource implements DataProvider {
         return null;
     }
     
-    private RawBitmap getImageBitmap(Image im) {
-        if (im instanceof BufferedImage) {
-            BufferedImage bi = (BufferedImage)im;
-            if (bi.getType() == BufferedImage.TYPE_INT_RGB) {
+    private RawBitmap getImageBitmap(TImage im) {
+        if (im instanceof TBufferedImage) {
+            TBufferedImage bi = (TBufferedImage)im;
+            if (bi.getType() == TBufferedImage.TYPE_INT_RGB) {
                 return getImageBitmap32(bi);
             }
         }
@@ -191,17 +190,16 @@ public class DataSource implements DataProvider {
         if (width <= 0 || height <= 0) {
             return null;
         }
-        BufferedImage bi = 
-            new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics gr = bi.getGraphics();
+        TBufferedImage bi = new TBufferedImage(width, height, TBufferedImage.TYPE_INT_RGB);
+        TGraphics gr = bi.getGraphics();
         gr.drawImage(im, 0, 0, null);
         gr.dispose();
         return getImageBitmap32(bi);
     }
 
-    private RawBitmap getImageBitmap32(BufferedImage bi) {
+    private RawBitmap getImageBitmap32(TBufferedImage bi) {
         int buffer[] = new int[bi.getWidth() * bi.getHeight()];
-        DataBufferInt data = (DataBufferInt)bi.getRaster().getDataBuffer();
+        TDataBufferInt data = (TDataBufferInt)bi.getRaster().getDataBuffer();
         int bufferPos = 0;
         int bankCount = data.getNumBanks();
         int offsets[] = data.getOffsets();
@@ -217,7 +215,7 @@ public class DataSource implements DataProvider {
 
     public byte[] getSerializedObject(Class<?> clazz) {
         try {
-            DataFlavor f = new DataFlavor(clazz, null);
+            TDataFlavor f = new TDataFlavor(clazz, null);
             Serializable s = (Serializable)contents.getTransferData(f);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             new ObjectOutputStream(bytes).writeObject(s);

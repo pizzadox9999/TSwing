@@ -19,11 +19,11 @@
  */
 package org.apache.harmony.awt;
 
-import java.awt.*;
-
 import org.apache.harmony.awt.datatransfer.*;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.wtk.*;
+import org.teavm.classlib.java.awt.TGraphicsEnvironment;
+import org.teavm.classlib.java.awt.TToolkit;
 
 
 public final class ContextStorage {
@@ -33,11 +33,11 @@ public final class ContextStorage {
 
     private static final ContextStorage globalContext = new ContextStorage();
 
-    private Toolkit toolkit;
+    private TToolkit toolkit;
     private ComponentInternals componentInternals;
     private DTK dtk;
     private WTK wtk;
-    private GraphicsEnvironment graphicsEnvironment;
+    private TGraphicsEnvironment graphicsEnvironment;
 
     private class ContextLock {}
     private final Object contextLock = new ContextLock();
@@ -48,13 +48,13 @@ public final class ContextStorage {
         multiContextMode = true;
     }
 
-    public static void setDefaultToolkit(Toolkit newToolkit) {
+    public static void setDefaultToolkit(TToolkit newToolkit) {
         // TODO: checkPermission
 
         getCurrentContext().toolkit = newToolkit;
     }
 
-    public static Toolkit getDefaultToolkit() {
+    public static TToolkit getDefaultToolkit() {
         return getCurrentContext().toolkit;
     }
 
@@ -100,11 +100,11 @@ public final class ContextStorage {
         return getCurrentContext().wtk.getNativeEventQueue();
     }
 
-    public static GraphicsEnvironment getGraphicsEnvironment() {
+    public static TGraphicsEnvironment getGraphicsEnvironment() {
         return getCurrentContext().graphicsEnvironment;
     }
 
-    public static void setGraphicsEnvironment(GraphicsEnvironment environment) {
+    public static void setGraphicsEnvironment(TGraphicsEnvironment environment) {
         getCurrentContext().graphicsEnvironment = environment;
     }
 

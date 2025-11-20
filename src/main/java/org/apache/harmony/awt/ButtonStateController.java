@@ -19,35 +19,35 @@
  */
 package org.apache.harmony.awt;
 
-import java.awt.Component;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.event.TFocusEvent;
+import org.teavm.classlib.java.awt.event.TFocusListener;
+import org.teavm.classlib.java.awt.event.TKeyEvent;
+import org.teavm.classlib.java.awt.event.TKeyListener;
+import org.teavm.classlib.java.awt.event.TMouseEvent;
+import org.teavm.classlib.java.awt.event.TMouseListener;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
 /**
  * ButtonStateController.
- * Changes Component state and fires [action] events in response to
+ * Changes TComponent state and fires [action] events in response to
  * user input(key, mouse, focus events) and current state.
  * Repaints component when necessary.
- * Is typically used by Components such as Button, Checkbox, etc
+ * Is typically used by TComponents such as Button, Checkbox, etc
  * as input event listener. Such components also query their state
- * properties, which are not stored in the Component-derived class,
+ * properties, which are not stored in the TComponent-derived class,
  * for example isPressed(), with state controller.
  */
-public abstract class ButtonStateController implements MouseListener, FocusListener, KeyListener {
+public abstract class ButtonStateController implements TMouseListener, TFocusListener, TKeyListener {
 
-    private static Component activeComponent;
+    private static TComponent activeTComponent;
     
     private boolean mousePressed = false;
     private boolean keyPressed = false;
     private boolean mouseInside = false;
     private boolean focused = false;
-    private final Component component;
+    private final TComponent component;
     
     /**
      * Store input event properties
@@ -59,7 +59,7 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
     private long when;
     private int mod;
 
-    public ButtonStateController(Component comp) {
+    public ButtonStateController(TComponent comp) {
         component = comp;
     }
 
@@ -67,9 +67,9 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         return ((mousePressed && mouseInside) || keyPressed);
     }
 
-    public void mousePressed(MouseEvent me) {
+    public void mousePressed(TMouseEvent me) {
         if (mousePressed || keyPressed ||
-                (me.getButton() != MouseEvent.BUTTON1) || !lock()) {
+                (me.getButton() != TMouseEvent.BUTTON1) || !lock()) {
             return;
         }
 
@@ -84,8 +84,8 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         }
     }
 
-    public void mouseReleased(MouseEvent me) {
-        if (!mousePressed || (me.getButton() != MouseEvent.BUTTON1) || !unlock()) {
+    public void mouseReleased(TMouseEvent me) {
+        if (!mousePressed || (me.getButton() != TMouseEvent.BUTTON1) || !unlock()) {
             return;
         }
 
@@ -99,12 +99,12 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         }
     }
 
-    public void keyPressed(KeyEvent ke) {
+    public void keyPressed(TKeyEvent ke) {
         // awt.54=Key event for unfocused component
         assert focused == true : Messages.getString("awt.54"); //$NON-NLS-1$
 
         if (mousePressed || keyPressed ||
-                (ke.getKeyCode() != KeyEvent.VK_SPACE) || !lock()) {
+                (ke.getKeyCode() != TKeyEvent.VK_SPACE) || !lock()) {
             return;
         }
 
@@ -112,11 +112,11 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         component.repaint();
     }
 
-    public void keyReleased(KeyEvent ke) {
+    public void keyReleased(TKeyEvent ke) {
         // awt.54=Key event for unfocused component
         assert focused == true : Messages.getString("awt.54"); //$NON-NLS-1$
 
-        if (!keyPressed || (ke.getKeyCode() != KeyEvent.VK_SPACE) || !unlock()) {
+        if (!keyPressed || (ke.getKeyCode() != TKeyEvent.VK_SPACE) || !unlock()) {
             return;
         }
 
@@ -127,19 +127,19 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         fireEvent();
     }
 
-    public void mouseEntered(MouseEvent me) {
+    public void mouseEntered(TMouseEvent me) {
         // awt.55=Double mouse enter event for component
         assert mouseInside == false : Messages.getString("awt.55"); //$NON-NLS-1$
         mouseCrossed(true);
     }
 
-    public void mouseExited(MouseEvent me) {
+    public void mouseExited(TMouseEvent me) {
         // awt.56=Double mouse exit event for component
         assert mouseInside == true : Messages.getString("awt.56"); //$NON-NLS-1$
         mouseCrossed(false);
     }
 
-    public void focusGained(FocusEvent fe) {
+    public void focusGained(TFocusEvent fe) {
         // awt.57=Double focus gained event for component
         assert focused == false : Messages.getString("awt.57"); //$NON-NLS-1$
 
@@ -147,7 +147,7 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
         component.repaint();
     }
 
-    public void focusLost(FocusEvent fe) {
+    public void focusLost(TFocusEvent fe) {
         // awt.58=Double focus lost event for component
         assert focused == true : Messages.getString("awt.58"); //$NON-NLS-1$
 
@@ -159,9 +159,9 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
     }
 
     //Ignored
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(TKeyEvent ke) {
     }
-    public void mouseClicked(MouseEvent me) {
+    public void mouseClicked(TMouseEvent me) {
     }
 
     private void mouseCrossed(boolean inside) {
@@ -188,11 +188,11 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
      *         returns false.
      */
     private boolean lock() {
-        if (activeComponent != null) {
+        if (activeTComponent != null) {
             return false;
         }
 
-        activeComponent = component;
+        activeTComponent = component;
         return true;
     }
 
@@ -202,11 +202,11 @@ public abstract class ButtonStateController implements MouseListener, FocusListe
      * @return true if the lock has been released, otherwise returns false.
      */
     private boolean unlock() {
-        if (activeComponent != component) {
+        if (activeTComponent != component) {
             return false;
         }
 
-        activeComponent = null;
+        activeTComponent = null;
         return true;
     }
 }

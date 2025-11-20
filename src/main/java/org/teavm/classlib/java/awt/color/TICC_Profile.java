@@ -30,8 +30,6 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.StringTokenizer;
 
 import org.apache.harmony.awt.gl.color.ICC_ProfileHelper;

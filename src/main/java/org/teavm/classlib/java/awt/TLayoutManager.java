@@ -17,18 +17,18 @@
 /**
  * @author Michael Danilov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public interface LayoutManager {
+public interface TLayoutManager {
 
-    public void addLayoutComponent(String name, Component comp);
+    public void addLayoutComponent(String name, TComponent comp);
 
-    public void layoutContainer(Container parent);
+    public void layoutContainer(TContainer parent);
 
-    public Dimension minimumLayoutSize(Container parent);
+    public TDimension minimumLayoutSize(TContainer parent);
 
-    public Dimension preferredLayoutSize(Container parent);
+    public TDimension preferredLayoutSize(TContainer parent);
 
-    public void removeLayoutComponent(Component comp);
+    public void removeLayoutComponent(TComponent comp);
 }
 

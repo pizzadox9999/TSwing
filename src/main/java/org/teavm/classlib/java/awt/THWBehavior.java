@@ -18,7 +18,7 @@
  * @author Dmitry A. Durnev
  *
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.wtk.NativeWindow;
 
@@ -26,12 +26,12 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  * Heavyweight component specific behaviour
  */
 
-class HWBehavior implements ComponentBehavior {
+class THWBehavior implements TComponentBehavior {
 
     private final Component component;
     private NativeWindow nativeWindow;
 
-    HWBehavior(Component comp) {
+    THWBehavior(Component comp) {
         component = comp;
         Toolkit.checkHeadless();
         // implicitly disable IM for all heavyweight components

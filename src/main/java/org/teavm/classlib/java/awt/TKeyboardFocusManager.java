@@ -15,12 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyVetoException;
@@ -36,7 +32,7 @@ import java.util.Vector;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public abstract class KeyboardFocusManager implements KeyEventDispatcher, KeyEventPostProcessor {
+public abstract class TKeyboardFocusManager implements TKeyEventDispatcher, TKeyEventPostProcessor {
     public static final int FORWARD_TRAVERSAL_KEYS = 0;
 
     public static final int BACKWARD_TRAVERSAL_KEYS = 1;
@@ -116,7 +112,7 @@ public abstract class KeyboardFocusManager implements KeyEventDispatcher, KeyEve
     }
 
     @SuppressWarnings("unchecked")
-    public KeyboardFocusManager() {
+    public TKeyboardFocusManager() {
         traversalKeys = new Set[4];
         traversalKeys[0] = DEFAULT_FWD_KS;
         traversalKeys[1] = DEFAULT_BWD_KS;

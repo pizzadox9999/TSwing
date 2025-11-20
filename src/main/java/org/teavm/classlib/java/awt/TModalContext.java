@@ -17,19 +17,19 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 /**
  *
  * The context for nested event loop. It can be dialog, popup menu etc.
  */
-class ModalContext {
+class TModalContext {
 
     private boolean running = false;
 
     private final Toolkit toolkit;
 
-    ModalContext() {
+    TModalContext() {
         toolkit = Toolkit.getDefaultToolkit();
     }
 

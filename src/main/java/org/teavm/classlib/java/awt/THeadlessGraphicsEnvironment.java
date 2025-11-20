@@ -14,14 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package java.awt;
-
-import java.awt.GraphicsDevice;
-import java.awt.HeadlessException;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.gl.CommonGraphicsEnvironment;
 
-class HeadlessGraphicsEnvironment extends CommonGraphicsEnvironment {
+class THeadlessGraphicsEnvironment extends CommonGraphicsEnvironment {
     
     @Override
     public boolean isHeadlessInstance() {

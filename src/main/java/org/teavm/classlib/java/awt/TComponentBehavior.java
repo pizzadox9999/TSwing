@@ -17,7 +17,7 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.wtk.NativeWindow;
 
@@ -25,7 +25,7 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  * The interface of the helper object that encapsulates the difference
  * between lightweight and heavyweight components. 
  */
-interface ComponentBehavior {
+interface TComponentBehavior {
 
     void addNotify();
 
@@ -33,7 +33,7 @@ interface ComponentBehavior {
 
     void setVisible(boolean b);
 
-    Graphics getGraphics(int translationX, int translationY, int width, int height);
+    TGraphics getGraphics(int translationX, int translationY, int width, int height);
 
     NativeWindow getNativeWindow();
 
@@ -51,5 +51,5 @@ interface ComponentBehavior {
 
     void setZOrder(int newIndex, int oldIndex);
 
-    boolean setFocus(boolean focus, Component opposite);
+    boolean setFocus(boolean focus, TComponent opposite);
 }

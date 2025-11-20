@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +28,7 @@ import javax.accessibility.AccessibleRole;
 import javax.accessibility.AccessibleValue;
 import org.apache.harmony.awt.state.MenuItemState;
 
-public class MenuItem extends MenuComponent implements Accessible {
+public class TMenuItem extends TMenuComponent implements Accessible {
     private static final long serialVersionUID = -21757335363267194L;
 
     private String label;
@@ -187,7 +187,7 @@ public class MenuItem extends MenuComponent implements Accessible {
 
     final State itemState = new State();
 
-    public MenuItem() throws HeadlessException {
+    public TMenuItem() throws HeadlessException {
         this("", null); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -196,7 +196,7 @@ public class MenuItem extends MenuComponent implements Accessible {
         }
     }
 
-    public MenuItem(String label) throws HeadlessException {
+    public TMenuItem(String label) throws HeadlessException {
         this(label, null);
         toolkit.lockAWT();
         try {
@@ -205,7 +205,7 @@ public class MenuItem extends MenuComponent implements Accessible {
         }
     }
 
-    public MenuItem(String label, MenuShortcut shortcut) throws HeadlessException {
+    public TMenuItem(String label, MenuShortcut shortcut) throws HeadlessException {
         toolkit.lockAWT();
         try {
             this.label = label;

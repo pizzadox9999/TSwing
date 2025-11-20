@@ -19,10 +19,9 @@
  */
 package org.teavm.classlib.java.awt.image;
 
-import java.awt.color.ColorSpace;
-
 import org.apache.harmony.awt.gl.color.LUTColorConverter;
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 
 
 public class TComponentColorModel extends TColorModel {
@@ -78,7 +77,7 @@ public class TComponentColorModel extends TColorModel {
     private boolean is_LINEAR_RGB;       // Color Model has Linear RGB Color 
                                          // Space 
 
-    public TComponentColorModel(ColorSpace colorSpace, int bits[],
+    public TComponentColorModel(TColorSpace colorSpace, int bits[],
             boolean hasAlpha, boolean isAlphaPremultiplied, int transparency,
             int transferType) {
         super(createPixelBits(colorSpace, hasAlpha, transferType),
@@ -147,7 +146,7 @@ public class TComponentColorModel extends TColorModel {
         initLUTs();
     }
 
-    public TComponentColorModel(ColorSpace colorSpace, boolean hasAlpha,
+    public TComponentColorModel(TColorSpace colorSpace, boolean hasAlpha,
             boolean isAlphaPremultiplied, int transparency, int transferType) {
         
         this(colorSpace, 
@@ -158,7 +157,7 @@ public class TComponentColorModel extends TColorModel {
                 transferType);
     }
 
-    private static int[] validateBits(int bits[], ColorSpace colorSpace,
+    private static int[] validateBits(int bits[], TColorSpace colorSpace,
             boolean hasAlpha, int transferType) {
         if (bits != null) {
             return bits;
@@ -179,7 +178,7 @@ public class TComponentColorModel extends TColorModel {
         return bits;
     }
 
-    private static int createPixelBits(ColorSpace colorSpace, boolean hasAlpha,
+    private static int createPixelBits(TColorSpace colorSpace, boolean hasAlpha,
             int transferType) {
         int numComponents = colorSpace.getNumComponents();
         if (hasAlpha) {
@@ -189,7 +188,7 @@ public class TComponentColorModel extends TColorModel {
         return numComponents * componentLength;
     }
 
-    private static int[] createPixelBitsArray(ColorSpace colorSpace, 
+    private static int[] createPixelBitsArray(TColorSpace colorSpace, 
             boolean hasAlpha, int transferType) {
         
         int numComponents = colorSpace.getNumComponents();
@@ -859,7 +858,7 @@ public class TComponentColorModel extends TColorModel {
     @Override
     public int getRGB(Object inData) {
         int alpha = getAlpha(inData);
-        if (cs.getType() == ColorSpace.TYPE_GRAY) {
+        if (cs.getType() == TColorSpace.TYPE_GRAY) {
             int gray = getRed(inData);
             return (alpha << 24 | gray << 16 | gray << 8 | gray);
         }

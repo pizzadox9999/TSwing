@@ -182,7 +182,7 @@ public abstract class TRoundRectangle2D extends TRectangularShape {
         }
 
         public TRectangle2D getBounds2D() {
-            return new TRectangle2D.Double(x, y, width, height);
+            return new TRectangle2D.TDouble(x, y, width, height);
         }
     }
 

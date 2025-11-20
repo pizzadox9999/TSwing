@@ -19,13 +19,13 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
+import org.teavm.classlib.java.awt.TDimension;
+import org.teavm.classlib.java.awt.TGraphicsDevice;
 
 /**
  * GLGraphicsDevice is a super class for all GraphicsDevice implementations
  *
  */
-public abstract class GLGraphicsDevice extends GraphicsDevice {
-    public abstract Dimension getResolution();
+public abstract class GLGraphicsDevice extends TGraphicsDevice {
+    public abstract TDimension getResolution();
 }

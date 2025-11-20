@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +31,7 @@ import org.apache.harmony.awt.ButtonStateController;
 import org.apache.harmony.awt.FieldsAccessor;
 import org.apache.harmony.awt.state.ButtonState;
 
-public class Button extends Component implements Accessible {
+public class TButton extends TComponent implements TAccessible {
     private static final long serialVersionUID = -8774683716313001058L;
 
     protected class AccessibleAWTButton extends AccessibleAWTComponent implements
@@ -138,7 +138,7 @@ public class Button extends Component implements Accessible {
 
     private final transient State state = new State();
 
-    public Button(String label) throws HeadlessException {
+    public TButton(String label) throws HeadlessException {
         toolkit.lockAWT();
         try {
             this.label = label;
@@ -154,7 +154,7 @@ public class Button extends Component implements Accessible {
         }
     }
 
-    public Button() throws HeadlessException {
+    public TButton() throws HeadlessException {
         this(""); //$NON-NLS-1$
         toolkit.lockAWT();
         try {

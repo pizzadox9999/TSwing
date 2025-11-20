@@ -17,19 +17,19 @@
 /**
  * @author Michael Danilov, Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 import java.util.*;
 
-public final class ComponentOrientation implements Serializable {
+public final class TComponentOrientation implements Serializable {
     private static final long serialVersionUID = -4113291392143563828L;
 
-    public static final ComponentOrientation LEFT_TO_RIGHT = new ComponentOrientation(true, true);
+    public static final TComponentOrientation LEFT_TO_RIGHT = new TComponentOrientation(true, true);
 
-    public static final ComponentOrientation RIGHT_TO_LEFT = new ComponentOrientation(true, false);
+    public static final TComponentOrientation RIGHT_TO_LEFT = new TComponentOrientation(true, false);
 
-    public static final ComponentOrientation UNKNOWN = new ComponentOrientation(true, true);
+    public static final TComponentOrientation UNKNOWN = new TComponentOrientation(true, true);
 
     private static final Set<String> rlLangs = new HashSet<String>(); //RIGHT_TO_LEFT languages
 
@@ -48,7 +48,7 @@ public final class ComponentOrientation implements Serializable {
      * @deprecated
      */
     @Deprecated
-    public static ComponentOrientation getOrientation(ResourceBundle bdl) {
+    public static TComponentOrientation getOrientation(ResourceBundle bdl) {
         Object obj = null;
         try {
             obj = bdl.getObject("Orientation"); //$NON-NLS-1$
@@ -56,8 +56,8 @@ public final class ComponentOrientation implements Serializable {
         catch (MissingResourceException mre) {
             obj = null;
         }
-        if (obj instanceof ComponentOrientation) {
-            return (ComponentOrientation) obj;
+        if (obj instanceof TComponentOrientation) {
+            return (TComponentOrientation) obj;
         }
         Locale locale = bdl.getLocale();
         if (locale == null) {
@@ -66,12 +66,12 @@ public final class ComponentOrientation implements Serializable {
         return getOrientation(locale);
     }
 
-    public static ComponentOrientation getOrientation(Locale locale) {
+    public static TComponentOrientation getOrientation(Locale locale) {
         String lang = locale.getLanguage();
         return rlLangs.contains(lang) ? RIGHT_TO_LEFT : LEFT_TO_RIGHT;
     }
 
-    private ComponentOrientation(boolean hor, boolean l2r) {
+    private TComponentOrientation(boolean hor, boolean l2r) {
         horizontal = hor;
         left2right = l2r;
     }

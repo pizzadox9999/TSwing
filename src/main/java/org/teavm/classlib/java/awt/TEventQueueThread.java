@@ -17,14 +17,14 @@
 /** 
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.ActionEvent;
 
 /**
  * Thread for dispatching events in non-system EventQueue
  */
-final class EventQueueThread extends Thread {
+final class TEventQueueThread extends Thread {
 
     private static final class StopThreadEvent extends ActionEvent {
         private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ final class EventQueueThread extends Thread {
 
     private final EventQueueCore core;
 
-    EventQueueThread(EventQueueCore core) {
+    TEventQueueThread(EventQueueCore core) {
         super("AWT-EventQueueThread"); //$NON-NLS-1$
         this.core = core;
         setDaemon(false);

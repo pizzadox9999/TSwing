@@ -21,13 +21,11 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.DirectColorModel;
 import java.util.ArrayList;
 
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
 import org.apache.harmony.awt.gl.color.LUTColorConverter;
 import org.teavm.classlib.java.awt.TImage;
 import org.teavm.classlib.java.awt.image.TBufferedImage;
@@ -47,7 +45,7 @@ import org.teavm.classlib.java.awt.image.TWritableRaster;
  * Surface is storing data and data format description, that are using
  * in blitting operations    
  */
-public abstract class Surface implements Transparency {
+public abstract class Surface implements TTransparency {
 
     // Color Space Types
     public static final int sRGB_CS = 1;
@@ -176,11 +174,11 @@ public abstract class Surface implements Transparency {
     
     public void invalidate(){}
     
-    public void addDirtyRegion(Rectangle r){
+    public void addDirtyRegion(TRectangle r){
         if (dirtyRegions == null) {
             dirtyRegions = new MultiRectArea(r);
         } else {
-            Rectangle rects[] = dirtyRegions.getRectangles();
+            TRectangle rects[] = dirtyRegions.getRectangles();
             if (rects.length == 1){
                 if (rects[0].contains(r)) return;
             }
@@ -206,11 +204,11 @@ public abstract class Surface implements Transparency {
     public static int getType(TColorModel cm, TWritableRaster raster){
         int transferType = cm.getTransferType();
         boolean hasAlpha = cm.hasAlpha();
-        ColorSpace cs = cm.getColorSpace();
+        TColorSpace cs = cm.getColorSpace();
         int csType = cs.getType();
         TSampleModel sm = raster.getSampleModel();
 
-        if(csType == ColorSpace.TYPE_RGB){
+        if(csType == TColorSpace.TYPE_RGB){
             if(cm instanceof TDirectColorModel){
                 TDirectColorModel dcm = (TDirectColorModel) cm;
                 switch (transferType) {

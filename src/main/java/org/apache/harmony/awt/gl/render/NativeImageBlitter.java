@@ -21,12 +21,12 @@
  */
 package org.apache.harmony.awt.gl.render;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+import org.teavm.classlib.java.awt.TAlphaComposite;
+import org.teavm.classlib.java.awt.TColor;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.TRectangle;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
 
 import org.apache.harmony.awt.gl.ImageSurface;
 import org.apache.harmony.awt.gl.MultiRectArea;
@@ -36,8 +36,8 @@ import org.apache.harmony.awt.gl.XORComposite;
 /**
  * This kind of blitters is intended for drawing one image on the buffered
  * or volatile image. For the moment we can blit natively Buffered Images which 
- * have sRGB, Linear_RGB, Linear_Gray Color Space and type different 
- * from BufferedImage.TYPE_CUSTOM, Volatile Images and Images which received 
+ * have sRGB, Linear_RGB, Linear_Gray TColor Space and type different 
+ * from TBufferedImage.TYPE_CUSTOM, Volatile Images and Images which received 
  * using Toolkit and Component classes.
  */
 public class NativeImageBlitter implements Blitter {
@@ -50,8 +50,8 @@ public class NativeImageBlitter implements Blitter {
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, AffineTransform sysxform,
-            AffineTransform xform, Composite comp, Color bgcolor,
+            Surface dstSurf, int width, int height, TAffineTransform sysxform,
+            TAffineTransform xform, TComposite comp, TColor bgcolor,
             MultiRectArea clip) {
 
         if(!srcSurf.isNativeDrawable()){
@@ -66,7 +66,7 @@ public class NativeImageBlitter implements Blitter {
                 double scaleY = xform.getScaleY();
                 double scaledX = dstX / scaleX;
                 double scaledY = dstY / scaleY;
-                AffineTransform at = new AffineTransform();
+                TAffineTransform at = new TAffineTransform();
                 at.setToTranslation(scaledX, scaledY);
                 xform.concatenate(at);
                 sysxform.concatenate(xform);
@@ -77,8 +77,8 @@ public class NativeImageBlitter implements Blitter {
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, AffineTransform sysxform,
-            Composite comp, Color bgcolor, MultiRectArea clip) {
+            Surface dstSurf, int width, int height, TAffineTransform sysxform,
+            TComposite comp, TColor bgcolor, MultiRectArea clip) {
 
         if(!srcSurf.isNativeDrawable()){
             JavaBlitter.inst.blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf, width, height,
@@ -86,10 +86,10 @@ public class NativeImageBlitter implements Blitter {
         }else{
             int type = sysxform.getType();
             switch(type){
-                case AffineTransform.TYPE_TRANSLATION:
+                case TAffineTransform.TYPE_TRANSLATION:
                     dstX += sysxform.getTranslateX();
                     dstY += sysxform.getTranslateY();
-                case AffineTransform.TYPE_IDENTITY:
+                case TAffineTransform.TYPE_IDENTITY:
                     blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf,
                             width, height, comp, bgcolor, clip);
                     break;
@@ -102,11 +102,11 @@ public class NativeImageBlitter implements Blitter {
                     }else{
                         int w = srcSurf.getWidth();
                         int h = srcSurf.getHeight();
-                        BufferedImage tmp = new BufferedImage(w, h, 
-                                BufferedImage.TYPE_INT_RGB);
+                        TBufferedImage tmp = new TBufferedImage(w, h, 
+                                TBufferedImage.TYPE_INT_RGB);
                         Surface tmpSurf = Surface.getImageSurface(tmp);
                         blit(0, 0, srcSurf, 0, 0, tmpSurf,
-                                w, h, AlphaComposite.SrcOver, null, null);
+                                w, h, TAlphaComposite.SrcOver, null, null);
                         JavaBlitter.inst.blit(srcX, srcY, tmpSurf, dstX, dstY, 
                                 dstSurf, width, height,
                                 sysxform, comp, bgcolor, clip);
@@ -116,8 +116,8 @@ public class NativeImageBlitter implements Blitter {
     }
 
     public void blit(int srcX, int srcY, Surface srcSurf, int dstX, int dstY,
-            Surface dstSurf, int width, int height, Composite comp,
-            Color bgcolor, MultiRectArea clip) {
+            Surface dstSurf, int width, int height, TComposite comp,
+            TColor bgcolor, MultiRectArea clip) {
 
         if(!srcSurf.isNativeDrawable()){
             JavaBlitter.inst.blit(srcX, srcY, srcSurf, dstX, dstY, dstSurf, width, height,
@@ -142,8 +142,8 @@ public class NativeImageBlitter implements Blitter {
 
             long srcSurfStruct = srcSurf.getSurfaceDataPtr();
             Object srcData = srcSurf.getData();
-            if(comp instanceof AlphaComposite){
-                AlphaComposite ac = (AlphaComposite) comp;
+            if(comp instanceof TAlphaComposite){
+                TAlphaComposite ac = (TAlphaComposite) comp;
                 int compType = ac.getRule();
                 float alpha = ac.getAlpha();
                 if(bgcolor != null){
@@ -151,13 +151,13 @@ public class NativeImageBlitter implements Blitter {
                             dstX, dstY, dstSurfStruct, dstData,
                             width, height, bgcolor.getRGB(),
                             compType, alpha, clipRects, srcSurf.invalidated());
-                    dstSurf.addDirtyRegion(new Rectangle(dstX, dstY, width, height));
+                    dstSurf.addDirtyRegion(new TRectangle(dstX, dstY, width, height));
                 }else{
                     blt(srcX, srcY, srcSurfStruct, srcData,
                             dstX, dstY, dstSurfStruct, dstData,
                             width, height, compType, alpha,
                             clipRects, srcSurf.invalidated());
-                    dstSurf.addDirtyRegion(new Rectangle(dstX, dstY, width, height));
+                    dstSurf.addDirtyRegion(new TRectangle(dstX, dstY, width, height));
                 }
             }else if(comp instanceof XORComposite){
                 XORComposite xcomp = (XORComposite) comp;
@@ -165,7 +165,7 @@ public class NativeImageBlitter implements Blitter {
                         dstX, dstY, dstSurfStruct, dstData,
                         width, height, xcomp.getXORColor().getRGB(),
                         clipRects, srcSurf.invalidated());
-                dstSurf.addDirtyRegion(new Rectangle(dstX, dstY, width, height));
+                dstSurf.addDirtyRegion(new TRectangle(dstX, dstY, width, height));
             }else{
                 if(srcSurf instanceof ImageSurface){
                     JavaBlitter.inst.blit(srcX, srcY, srcSurf, dstX, dstY, 
@@ -174,8 +174,8 @@ public class NativeImageBlitter implements Blitter {
                 }else{
                     int w = srcSurf.getWidth();
                     int h = srcSurf.getHeight();
-                    BufferedImage tmp = new BufferedImage(w, h, 
-                            BufferedImage.TYPE_INT_RGB);
+                    TBufferedImage tmp = new TBufferedImage(w, h, 
+                            TBufferedImage.TYPE_INT_RGB);
                     Surface tmpSurf = Surface.getImageSurface(tmp);
                     long tmpSurfStruct = tmpSurf.getSurfaceDataPtr();
                     Object tmpData = tmpSurf.getData();
@@ -184,7 +184,7 @@ public class NativeImageBlitter implements Blitter {
                     
                     blt(0, 0, srcSurfStruct, srcData, 0, 0,
                             tmpSurfStruct, tmpData, w, h, 
-                            AlphaComposite.SRC_OVER,
+                            TAlphaComposite.SRC_OVER,
                             1.0f, tmpClip, srcSurf.invalidated());
                     JavaBlitter.inst.blit(srcX, srcY, tmpSurf, dstX, dstY, 
                             dstSurf, width, height,

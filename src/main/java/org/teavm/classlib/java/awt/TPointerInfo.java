@@ -17,17 +17,17 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public class PointerInfo {
-    private GraphicsDevice device;
-    private Point location;
+public class TPointerInfo {
+    private TGraphicsDevice device;
+    private TPoint location;
 
     /**
      * @param device
      * @param location
      */
-    PointerInfo(GraphicsDevice device, Point location) {
+    TPointerInfo(GraphicsDevice device, TPoint location) {
         this.device = device;
         this.location = location;
     }

@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
+import org.teavm.classlib.java.awt.TComponent;
 
 public class TFocusEvent extends TComponentEvent {
 
@@ -34,23 +34,23 @@ public class TFocusEvent extends TComponentEvent {
     public static final int FOCUS_LOST = 1005;
 
     private boolean temporary;
-    private Component opposite;
+    private TComponent opposite;
 
-    public TFocusEvent(Component source, int id) {
+    public TFocusEvent(TComponent source, int id) {
         this(source, id, false);
     }
 
-    public TFocusEvent(Component source, int id, boolean temporary) {
+    public TFocusEvent(TComponent source, int id, boolean temporary) {
         this(source, id, temporary, null);
     }
 
-    public TFocusEvent(Component source, int id, boolean temporary, Component opposite) {
+    public TFocusEvent(TComponent source, int id, boolean temporary, TComponent opposite) {
         super(source, id);
         this.temporary = temporary;
         this.opposite = opposite;
     }
 
-    public Component getOppositeComponent() {
+    public TComponent getOppositeComponent() {
         return opposite;
     }
 

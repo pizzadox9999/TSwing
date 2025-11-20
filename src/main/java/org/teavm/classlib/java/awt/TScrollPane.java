@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -27,7 +27,7 @@ import org.apache.harmony.awt.Scrollable;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.theme.DefaultButton;
 
-public class ScrollPane extends Container implements Accessible {
+public class TScrollPane extends TContainer implements Accessible {
     private static final long serialVersionUID = 7956609840827222915L;
 
     public static final int SCROLLBARS_AS_NEEDED = 0;
@@ -144,7 +144,7 @@ public class ScrollPane extends Container implements Accessible {
         }
     }
 
-    public ScrollPane() throws HeadlessException {
+    public TScrollPane() throws HeadlessException {
         this(SCROLLBARS_AS_NEEDED);
         toolkit.lockAWT();
         try {
@@ -153,7 +153,7 @@ public class ScrollPane extends Container implements Accessible {
         }
     }
 
-    public ScrollPane(int scrollbarDisplayPolicy) throws HeadlessException {
+    public TScrollPane(int scrollbarDisplayPolicy) throws HeadlessException {
         toolkit.lockAWT();
         try {
             Toolkit.checkHeadless();

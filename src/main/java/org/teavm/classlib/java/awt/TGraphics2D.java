@@ -15,39 +15,32 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.font.GlyphVector;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
 import java.text.AttributedCharacterIterator;
 import java.util.Map;
+import org.teavm.classlib.java.awt.image.TBufferedImageOp;
 
-public abstract class Graphics2D extends Graphics {
-    protected Graphics2D() {
+public abstract class TGraphics2D extends TGraphics {
+    protected TGraphics2D() {
         super();
     }
 
     public abstract void addRenderingHints(Map<?, ?> hints);
 
-    public abstract void clip(Shape s);
+    public abstract void clip(TShape s);
 
-    public abstract void draw(Shape s);
+    public abstract void draw(TShape s);
 
-    public abstract void drawGlyphVector(GlyphVector g, float x, float y);
+    public abstract void drawGlyphVector(TGlyphVector g, float x, float y);
 
-    public abstract void drawImage(BufferedImage img, BufferedImageOp op, int x, int y);
+    public abstract void drawImage(TBufferedImage img, TBufferedImageOp op, int x, int y);
 
-    public abstract boolean drawImage(Image img, AffineTransform xform, ImageObserver obs);
+    public abstract boolean drawImage(TImage img, TAffineTransform xform, TImageObserver obs);
 
-    public abstract void drawRenderableImage(RenderableImage img, AffineTransform xform);
+    public abstract void drawRenderableImage(TRenderableImage img, TAffineTransform xform);
 
-    public abstract void drawRenderedImage(RenderedImage img, AffineTransform xform);
+    public abstract void drawRenderedImage(TRenderedImage img, TAffineTransform xform);
 
     public abstract void drawString(AttributedCharacterIterator iterator, float x, float y);
 
@@ -59,27 +52,27 @@ public abstract class Graphics2D extends Graphics {
     @Override
     public abstract void drawString(String str, int x, int y);
 
-    public abstract void fill(Shape s);
+    public abstract void fill(TShape s);
 
-    public abstract Color getBackground();
+    public abstract TColor getBackground();
 
-    public abstract Composite getComposite();
+    public abstract TComposite getComposite();
 
-    public abstract GraphicsConfiguration getDeviceConfiguration();
+    public abstract TGraphicsConfiguration getDeviceConfiguration();
 
-    public abstract FontRenderContext getFontRenderContext();
+    public abstract TFontRenderContext getFontRenderContext();
 
-    public abstract Paint getPaint();
+    public abstract TPaint getPaint();
 
     public abstract Object getRenderingHint(RenderingHints.Key key);
 
-    public abstract RenderingHints getRenderingHints();
+    public abstract TRenderingHints getRenderingHints();
 
-    public abstract Stroke getStroke();
+    public abstract TStroke getStroke();
 
-    public abstract AffineTransform getTransform();
+    public abstract TAffineTransform getTransform();
 
-    public abstract boolean hit(Rectangle rect, Shape s, boolean onStroke);
+    public abstract boolean hit(TRectangle rect, TShape s, boolean onStroke);
 
     public abstract void rotate(double theta);
 
@@ -87,23 +80,23 @@ public abstract class Graphics2D extends Graphics {
 
     public abstract void scale(double sx, double sy);
 
-    public abstract void setBackground(Color color);
+    public abstract void setBackground(TColor color);
 
-    public abstract void setComposite(Composite comp);
+    public abstract void setComposite(TComposite comp);
 
-    public abstract void setPaint(Paint paint);
+    public abstract void setPaint(TPaint paint);
 
-    public abstract void setRenderingHint(RenderingHints.Key key, Object value);
+    public abstract void setRenderingHint(TRenderingHints.Key key, Object value);
 
     public abstract void setRenderingHints(Map<?, ?> hints);
 
-    public abstract void setStroke(Stroke s);
+    public abstract void setStroke(TStroke s);
 
-    public abstract void setTransform(AffineTransform Tx);
+    public abstract void setTransform(TAffineTransform Tx);
 
     public abstract void shear(double shx, double shy);
 
-    public abstract void transform(AffineTransform Tx);
+    public abstract void transform(TAffineTransform Tx);
 
     public abstract void translate(double tx, double ty);
 
@@ -115,7 +108,7 @@ public abstract class Graphics2D extends Graphics {
         // According to the spec, color should be used instead of paint,
         // so Graphics.fill3DRect resets paint and
         // it should be restored after the call
-        Paint savedPaint = getPaint();
+        TPaint savedPaint = getPaint();
         super.fill3DRect(x, y, width, height, raised);
         setPaint(savedPaint);
     }
@@ -125,7 +118,7 @@ public abstract class Graphics2D extends Graphics {
         // According to the spec, color should be used instead of paint,
         // so Graphics.draw3DRect resets paint and
         // it should be restored after the call
-        Paint savedPaint = getPaint();
+        TPaint savedPaint = getPaint();
         super.draw3DRect(x, y, width, height, raised);
         setPaint(savedPaint);
     }

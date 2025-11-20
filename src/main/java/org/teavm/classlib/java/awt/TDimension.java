@@ -17,30 +17,31 @@
 /**
  * @author Denis M. Kishenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.geom.Dimension2D;
+import org.teavm.classlib.java.awt.geom.TDimension2D;
+
 import java.io.Serializable;
 
 import org.apache.harmony.misc.HashCode;
 
 
-public class Dimension extends Dimension2D implements Serializable {
+public class TDimension extends TDimension2D implements Serializable {
 
     private static final long serialVersionUID = 4723952579491349524L;
 
     public int width;
     public int height;
 
-    public Dimension(Dimension d) {
+    public TDimension(TDimension d) {
         this(d.width, d.height);
     }
 
-    public Dimension() {
+    public TDimension() {
         this(0, 0);
     }
 
-    public Dimension(int width, int height) {
+    public TDimension(int width, int height) {
         setSize(width, height);
     }
 
@@ -57,8 +58,8 @@ public class Dimension extends Dimension2D implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Dimension) {
-            Dimension d = (Dimension)obj;
+        if (obj instanceof TDimension) {
+            TDimension d = (TDimension)obj;
             return (d.width == width && d.height == height);
         }
         return false;
@@ -76,7 +77,7 @@ public class Dimension extends Dimension2D implements Serializable {
         this.height = height;
     }
 
-    public void setSize(Dimension d) {
+    public void setSize(TDimension d) {
         setSize(d.width, d.height);
     }
 
@@ -85,8 +86,8 @@ public class Dimension extends Dimension2D implements Serializable {
         setSize((int)Math.ceil(width), (int)Math.ceil(height));
     }
 
-    public Dimension getSize() {
-        return new Dimension(width, height);
+    public TDimension getSize() {
+        return new TDimension(width, height);
     }
 
     @Override

@@ -25,11 +25,16 @@ package org.apache.harmony.awt.gl.image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
-import java.awt.color.ColorSpace;
-import java.awt.image.*;
-import java.awt.*;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.TTransparency;
+import org.teavm.classlib.java.awt.color.TColorSpace;
+import org.teavm.classlib.java.awt.image.TColorModel;
+import org.teavm.classlib.java.awt.image.TComponentColorModel;
+import org.teavm.classlib.java.awt.image.TDataBuffer;
+import org.teavm.classlib.java.awt.image.TDirectColorModel;
+import org.teavm.classlib.java.awt.image.TImageConsumer;
+import org.teavm.classlib.java.awt.image.TIndexColorModel;
 
 public class PngDecoder extends ImageDecoder {
     // initializes proper field IDs
@@ -41,9 +46,9 @@ public class PngDecoder extends ImageDecoder {
     }
 
     private static final int hintflags =
-            ImageConsumer.SINGLEFRAME | // PNG is a static image
-            ImageConsumer.TOPDOWNLEFTRIGHT | // This order is only one possible
-            ImageConsumer.COMPLETESCANLINES; // Don't deliver incomplete scanlines
+            TImageConsumer.SINGLEFRAME | // PNG is a static image
+            TImageConsumer.TOPDOWNLEFTRIGHT | // This order is only one possible
+            TImageConsumer.COMPLETESCANLINES; // Don't deliver incomplete scanlines
 
     // Each pixel is a grayscale sample.
     private static final int PNG_COLOR_TYPE_GRAY = 0;
@@ -76,7 +81,7 @@ public class PngDecoder extends ImageDecoder {
     boolean transferInts; // Is transfer type int?.. or byte?
     int dataElementsPerPixel = 1;
 
-    ColorModel cm;
+    TColorModel cm;
 
     int updateFromScanline; // First scanline to update
     int numScanlines; // Number of scanlines to update
@@ -126,11 +131,11 @@ public class PngDecoder extends ImageDecoder {
                 }
             }
 
-            imageComplete(ImageConsumer.STATICIMAGEDONE);
+            imageComplete(TImageConsumer.STATICIMAGEDONE);
         } catch (IOException e) {
             throw e;
         } catch (RuntimeException e) {
-            imageComplete(ImageConsumer.IMAGEERROR);
+            imageComplete(TImageConsumer.IMAGEERROR);
             throw e;
         } finally {
             closeStream();
@@ -155,7 +160,7 @@ public class PngDecoder extends ImageDecoder {
                 for (int i = 0; i < numEntries; i++) {
                     comps[i] = (byte) (i * scaleFactor);
                 }
-                cm = new IndexColorModel(/*bitDepth*/8, numEntries, comps, comps, comps);
+                cm = new TIndexColorModel(/*bitDepth*/8, numEntries, comps, comps, comps);
 
                 transferInts = false;
                 break;
@@ -167,7 +172,7 @@ public class PngDecoder extends ImageDecoder {
                     throw new IllegalArgumentException(Messages.getString("awt.3C")); //$NON-NLS-1$
                 }
 
-                cm = new DirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
+                cm = new TDirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
 
                 transferInts = true;
                 break;
@@ -179,7 +184,7 @@ public class PngDecoder extends ImageDecoder {
                     throw new IllegalArgumentException(Messages.getString("awt.3C")); //$NON-NLS-1$
                 }
 
-                cm = new IndexColorModel(/*bitDepth*/8, cmap.length / 3, cmap, 0, false);
+                cm = new TIndexColorModel(/*bitDepth*/8, cmap.length / 3, cmap, 0, false);
 
                 transferInts = false;
                 break;
@@ -191,10 +196,10 @@ public class PngDecoder extends ImageDecoder {
                     throw new IllegalArgumentException(Messages.getString("awt.3C")); //$NON-NLS-1$
                 }
 
-                cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_GRAY),
+                cm = new TComponentColorModel(TColorSpace.getInstance(TColorSpace.CS_GRAY),
                         true, false,
-                        Transparency.TRANSLUCENT,
-                        DataBuffer.TYPE_BYTE);
+                        TTransparency.TRANSLUCENT,
+                        TDataBuffer.TYPE_BYTE);
 
                 transferInts = false;
                 dataElementsPerPixel = 2;
@@ -207,7 +212,7 @@ public class PngDecoder extends ImageDecoder {
                     throw new IllegalArgumentException(Messages.getString("awt.3C")); //$NON-NLS-1$
                 }
 
-                cm = ColorModel.getRGBdefault();
+                cm = TColorModel.getRGBdefault();
 
                 transferInts = true;
                 break;

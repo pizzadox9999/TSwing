@@ -20,41 +20,40 @@
 
 package org.apache.harmony.awt;
 
-import java.awt.AWTPermission;
-
+import org.teavm.classlib.java.awt.TAWTPermission;
 
 public interface AWTPermissionCollection {
 
-    AWTPermission ACCESS_CLIPBOARD_PERMISSION = new AWTPermission(
+    TAWTPermission ACCESS_CLIPBOARD_PERMISSION = new TAWTPermission(
         "accessClipboard"); //$NON-NLS-1$
 
-    AWTPermission ACCESS_EVENT_QUEUE_PERMISSION = new AWTPermission(
+    TAWTPermission ACCESS_EVENT_QUEUE_PERMISSION = new TAWTPermission(
         "accessEventQueue"); //$NON-NLS-1$
 
-    AWTPermission CREATE_ROBOT_PERMISSION = new AWTPermission("createRobot"); //$NON-NLS-1$
+    TAWTPermission CREATE_ROBOT_PERMISSION = new TAWTPermission("createRobot"); //$NON-NLS-1$
 
-    AWTPermission FULL_SCREEN_EXCLUSIVE_PERMISSION = new AWTPermission(
+    TAWTPermission FULL_SCREEN_EXCLUSIVE_PERMISSION = new TAWTPermission(
         "fullScreenExclusive"); //$NON-NLS-1$
 
-    AWTPermission LISTEN_TO_ALL_AWTEVENTS_PERMISSION = new AWTPermission(
+    TAWTPermission LISTEN_TO_ALL_AWTEVENTS_PERMISSION = new TAWTPermission(
         "listenToAllAWTEvents"); //$NON-NLS-1$
 
-    AWTPermission READ_DISPLAY_PIXELS_PERMISSION = new AWTPermission(
+    TAWTPermission READ_DISPLAY_PIXELS_PERMISSION = new TAWTPermission(
         "readDisplayPixels"); //$NON-NLS-1$
 
-    AWTPermission REPLACE_KEYBOARD_FOCUS_MANAGER_PERMISSION = new AWTPermission(
+    TAWTPermission REPLACE_KEYBOARD_FOCUS_MANAGER_PERMISSION = new TAWTPermission(
         "replaceKeyboardFocusManager"); //$NON-NLS-1$
 
-    AWTPermission SET_APPLET_STUB_PERMISSION = new AWTPermission(
+    TAWTPermission SET_APPLET_STUB_PERMISSION = new TAWTPermission(
         "setAppletStub"); //$NON-NLS-1$
 
-    AWTPermission SET_WINDOW_ALWAYS_ON_TOP_PERMISSION = new AWTPermission(
+    TAWTPermission SET_WINDOW_ALWAYS_ON_TOP_PERMISSION = new TAWTPermission(
         "setWindowAlwaysOnTop"); //$NON-NLS-1$
 
-    AWTPermission SHOW_WINDOW_WITHOUT_WARNING_BANNER_PERMISSION = new AWTPermission(
+    TAWTPermission SHOW_WINDOW_WITHOUT_WARNING_BANNER_PERMISSION = new TAWTPermission(
         "showWindowWithoutWarningBanner"); //$NON-NLS-1$
 
-    AWTPermission WATCH_MAOUSE_POINTER_PERMISSION = new AWTPermission(
+    TAWTPermission WATCH_MAOUSE_POINTER_PERMISSION = new TAWTPermission(
         "watchMousePointer"); //$NON-NLS-1$
 }
 

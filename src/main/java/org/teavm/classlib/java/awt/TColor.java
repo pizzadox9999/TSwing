@@ -17,82 +17,77 @@
 /**
  * @author Oleg V. Khaschansky
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.teavm.classlib.java.awt.color.TColorSpace;
+import java.awt.Transparency;
+
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class Color implements Paint, Serializable {
+public class TColor implements TPaint, Serializable {
     private static final long serialVersionUID = 118526816881161077L;
 
     /*
      * The values of the following colors are based on 1.5 release behavior which
      * can be revealed using the following or similar code:
-     *   Color c = Color.white;
+     *   TColor c = TColor.white;
      *   System.out.println(c);
      */
 
-    public static final Color white = new Color(255, 255, 255);
+    public static final TColor white = new TColor(255, 255, 255);
 
-    public static final Color WHITE = white;
+    public static final TColor WHITE = white;
 
-    public static final Color lightGray = new Color(192, 192, 192);
+    public static final TColor lightGray = new TColor(192, 192, 192);
 
-    public static final Color LIGHT_GRAY = lightGray;
+    public static final TColor LIGHT_GRAY = lightGray;
 
-    public static final Color gray = new Color(128, 128, 128);
+    public static final TColor gray = new TColor(128, 128, 128);
 
-    public static final Color GRAY = gray;
+    public static final TColor GRAY = gray;
 
-    public static final Color darkGray = new Color(64, 64, 64);
+    public static final TColor darkGray = new TColor(64, 64, 64);
 
-    public static final Color DARK_GRAY = darkGray;
+    public static final TColor DARK_GRAY = darkGray;
 
-    public static final Color black = new Color(0, 0, 0);
+    public static final TColor black = new TColor(0, 0, 0);
 
-    public static final Color BLACK = black;
+    public static final TColor BLACK = black;
 
-    public static final Color red = new Color(255, 0, 0);
+    public static final TColor red = new TColor(255, 0, 0);
 
-    public static final Color RED = red;
+    public static final TColor RED = red;
 
-    public static final Color pink = new Color(255, 175, 175);
+    public static final TColor pink = new TColor(255, 175, 175);
 
-    public static final Color PINK = pink;
+    public static final TColor PINK = pink;
 
-    public static final Color orange = new Color(255, 200, 0);
+    public static final TColor orange = new TColor(255, 200, 0);
 
-    public static final Color ORANGE = orange;
+    public static final TColor ORANGE = orange;
 
-    public static final Color yellow = new Color(255, 255, 0);
+    public static final TColor yellow = new TColor(255, 255, 0);
 
-    public static final Color YELLOW = yellow;
+    public static final TColor YELLOW = yellow;
 
-    public static final Color green = new Color(0, 255, 0);
+    public static final TColor green = new TColor(0, 255, 0);
 
-    public static final Color GREEN = green;
+    public static final TColor GREEN = green;
 
-    public static final Color magenta = new Color(255, 0, 255);
+    public static final TColor magenta = new TColor(255, 0, 255);
 
-    public static final Color MAGENTA = magenta;
+    public static final TColor MAGENTA = magenta;
 
-    public static final Color cyan = new Color(0, 255, 255);
+    public static final TColor cyan = new TColor(0, 255, 255);
 
-    public static final Color CYAN = cyan;
+    public static final TColor CYAN = cyan;
 
-    public static final Color blue = new Color(0, 0, 255);
+    public static final TColor blue = new TColor(0, 0, 255);
 
-    public static final Color BLUE = blue;
+    public static final TColor BLUE = blue;
 
     /**
      * integer RGB value
@@ -105,7 +100,7 @@ public class Color implements Paint, Serializable {
     private float[] frgbvalue;
 
     /**
-     * Color in an arbitrary color space
+     * TColor in an arbitrary color space
      * with <code>float</code> components.
      * If null, other value should be used.
      */
@@ -119,15 +114,15 @@ public class Color implements Paint, Serializable {
     /**
      * The color's color space if applicable.
      */
-    private ColorSpace cs;
+    private TColorSpace cs;
 
     /*
      * The value of the SCALE_FACTOR is based on 1.5 release behavior which
      * can be revealed using the following code:
-     *   Color c = new Color(100, 100, 100);
-     *   Color bc = c.brighter();
+     *   TColor c = new TColor(100, 100, 100);
+     *   TColor bc = c.brighter();
      *   System.out.println("Brighter factor: " + ((float)c.getRed())/((float)bc.getRed()));
-     *   Color dc = c.darker();
+     *   TColor dc = c.darker();
      *   System.out.println("Darker factor: " + ((float)dc.getRed())/((float)c.getRed()));
      * The result is the same for brighter and darker methods, so we need only
      * one scale factor for both.
@@ -136,9 +131,9 @@ public class Color implements Paint, Serializable {
 
     private static final int MIN_SCALABLE = 3; // should increase when multiplied by SCALE_FACTOR
 
-    transient private PaintContext currentPaintContext;
+    transient private TPaintContext currentPaintContext;
 
-    public Color(ColorSpace cspace, float[] components, float alpha) {
+    public TColor(TColorSpace cspace, float[] components, float alpha) {
         int nComps = cspace.getNumComponents();
         float comp;
         fvalue = new float[nComps];
@@ -146,7 +141,7 @@ public class Color implements Paint, Serializable {
         for(int i=0 ; i<nComps; i++) {
             comp = components[i];
             if(comp < 0.0f || comp > 1.0f) {
-                // awt.107=Color parameter outside of expected range: component {0}.
+                // awt.107=TColor parameter outside of expected range: component {0}.
                 throw new IllegalArgumentException(
                         Messages.getString("awt.107", i)); //$NON-NLS-1$
             }
@@ -169,7 +164,7 @@ public class Color implements Paint, Serializable {
                 (((int)(falpha*255)) << 24 );
     }
 
-    public Color(int rgba, boolean hasAlpha) {
+    public TColor(int rgba, boolean hasAlpha) {
         if (!hasAlpha) {
             value = rgba | 0xFF000000;
         } else {
@@ -177,28 +172,28 @@ public class Color implements Paint, Serializable {
         }
     }
 
-    public Color(int r, int g, int b, int a) {
+    public TColor(int r, int g, int b, int a) {
         if ((r & 0xFF) != r || (g & 0xFF) != g || (b & 0xFF) != b || (a & 0xFF) != a) {
-            // awt.109=Color parameter outside of expected range.
+            // awt.109=TColor parameter outside of expected range.
             throw new IllegalArgumentException(Messages.getString("awt.109")); //$NON-NLS-1$
         }
         value = b | (g << 8) | (r << 16) | (a << 24);
     }
 
-    public Color(int r, int g, int b) {
+    public TColor(int r, int g, int b) {
         if ((r & 0xFF) != r || (g & 0xFF) != g || (b & 0xFF) != b) {
-            // awt.109=Color parameter outside of expected range.
+            // awt.109=TColor parameter outside of expected range.
             throw new IllegalArgumentException(Messages.getString("awt.109")); //$NON-NLS-1$
         }
         // 0xFF for alpha channel
         value = b | (g << 8) | (r << 16) | 0xFF000000;
     }
 
-    public Color(int rgb) {
+    public TColor(int rgb) {
         value = rgb | 0xFF000000;
     }
 
-    public Color(float r, float g, float b, float a) {
+    public TColor(float r, float g, float b, float a) {
         this((int)(r*255+0.5),
                 (int)(g*255+0.5),
                 (int)(b*255+0.5),
@@ -211,21 +206,21 @@ public class Color implements Paint, Serializable {
         frgbvalue = fvalue;
     }
 
-    public Color(float r, float g, float b) {
+    public TColor(float r, float g, float b) {
         this(r, g, b, 1.0f);
     }
 
-    public PaintContext createContext(
-            ColorModel cm,
-            Rectangle r,
-            Rectangle2D r2d,
-            AffineTransform xform,
-            RenderingHints rhs
+    public TPaintContext createContext(
+            TColorModel cm,
+            TRectangle r,
+            TRectangle2D r2d,
+            TAffineTransform xform,
+            TRenderingHints rhs
     ) {
         if(currentPaintContext != null) {
             return currentPaintContext;
         }
-        currentPaintContext = new Color.ColorPaintContext(value);
+        currentPaintContext = new TColor.TColorPaintContext(value);
         return currentPaintContext;
     }
 
@@ -235,7 +230,7 @@ public class Color implements Paint, Serializable {
            The format of the string is based on 1.5 release behavior which
            can be revealed using the following code:
 
-           Color c = new Color(1, 2, 3);
+           TColor c = new TColor(1, 2, 3);
            System.out.println(c);
         */
         
@@ -248,19 +243,19 @@ public class Color implements Paint, Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Color) {
-            return ((Color)obj).value == this.value;
+        if(obj instanceof TColor) {
+            return ((TColor)obj).value == this.value;
         }
         return false;
     }
 
-    public float[] getComponents(ColorSpace colorSpace, float[] components) {
+    public float[] getComponents(TColorSpace colorSpace, float[] components) {
         int nComps = colorSpace.getNumComponents();
         if(components == null) {
             components = new float[nComps+1];
         }
 
-        getColorComponents(colorSpace, components);
+        getTColorComponents(colorSpace, components);
 
         if(frgbvalue != null) {
             components[nComps] = falpha;
@@ -271,8 +266,8 @@ public class Color implements Paint, Serializable {
         return components;
     }
 
-    public float[] getColorComponents(ColorSpace colorSpace, float[] components) {
-        float[] cieXYZComponents = getColorSpace().toCIEXYZ(getColorComponents(null));
+    public float[] getTColorComponents(TColorSpace colorSpace, float[] components) {
+        float[] cieXYZComponents = getTColorSpace().toCIEXYZ(getTColorComponents(null));
         float[] csComponents = colorSpace.fromCIEXYZ(cieXYZComponents);
 
         if(components == null) {
@@ -286,29 +281,29 @@ public class Color implements Paint, Serializable {
         return components;
     }
 
-    public ColorSpace getColorSpace() {
+    public TColorSpace getTColorSpace() {
         if (cs == null) {
-            cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            cs = TColorSpace.getInstance(TColorSpace.CS_sRGB);
         }
 
         return cs;
     }
 
-    public Color darker() {
-        return new Color(
+    public TColor darker() {
+        return new TColor(
                 (int)(getRed()*SCALE_FACTOR),
                 (int)(getGreen()*SCALE_FACTOR),
                 (int)(getBlue()*SCALE_FACTOR));
     }
 
-    public Color brighter() {
+    public TColor brighter() {
 
         int r = getRed();
         int b = getBlue();
         int g = getGreen();
 
         if(r == 0 && b == 0 && g == 0) {
-            return new Color(MIN_SCALABLE, MIN_SCALABLE, MIN_SCALABLE);
+            return new TColor(MIN_SCALABLE, MIN_SCALABLE, MIN_SCALABLE);
         }
 
         if(r < MIN_SCALABLE && r != 0) {
@@ -332,7 +327,7 @@ public class Color implements Paint, Serializable {
             g = (g > 255) ? 255 : g;
         }
 
-        return new Color(r, g, b);
+        return new TColor(r, g, b);
     }
 
     public float[] getRGBComponents(float[] components) {
@@ -346,12 +341,12 @@ public class Color implements Paint, Serializable {
             components[3] = getAlpha()/255f;
         }
 
-        getRGBColorComponents(components);
+        getRGBTColorComponents(components);
 
         return components;
     }
 
-    public float[] getRGBColorComponents(float[] components) {
+    public float[] getRGBTColorComponents(float[] components) {
         if(components == null) {
             components = new float[3];
         }
@@ -374,22 +369,22 @@ public class Color implements Paint, Serializable {
             return getRGBComponents(components);
         }
 
-        int nColorComps = fvalue.length;
+        int nTColorComps = fvalue.length;
 
         if(components == null) {
-            components = new float[nColorComps+1];
+            components = new float[nTColorComps+1];
         }
 
-        getColorComponents(components);
+        getTColorComponents(components);
 
-        components[nColorComps] = falpha;
+        components[nTColorComps] = falpha;
 
         return components;
     }
 
-    public float[] getColorComponents(float[] components) {
+    public float[] getTColorComponents(float[] components) {
         if(fvalue == null) {
-            return getRGBColorComponents(components);
+            return getRGBTColorComponents(components);
         }
 
         if(components == null) {
@@ -439,43 +434,43 @@ public class Color implements Paint, Serializable {
         return (value >> 24) & 0xFF;
     }
 
-    public static Color getColor(String nm, Color def) {
+    public static TColor getTColor(String nm, TColor def) {
         Integer integer = Integer.getInteger(nm);
 
         if (integer == null) {
             return def;
         }
 
-        return new Color(integer.intValue());
+        return new TColor(integer.intValue());
     }
 
-    public static Color getColor(String nm, int def) {
+    public static TColor getTColor(String nm, int def) {
         Integer integer = Integer.getInteger(nm);
 
         if (integer == null) {
-            return new Color(def);
+            return new TColor(def);
         }
 
-        return new Color(integer.intValue());
+        return new TColor(integer.intValue());
     }
 
-    public static Color getColor(String nm) {
+    public static TColor getTColor(String nm) {
         Integer integer = Integer.getInteger(nm);
 
         if (integer == null) {
             return null;
         }
 
-        return new Color(integer.intValue());
+        return new TColor(integer.intValue());
     }
 
-    public static Color decode(String nm) throws NumberFormatException {
+    public static TColor decode(String nm) throws NumberFormatException {
         Integer integer = Integer.decode(nm);
-        return new Color(integer.intValue());
+        return new TColor(integer.intValue());
     }
 
-    public static Color getHSBColor(float h, float s, float b) {
-        return new Color(HSBtoRGB(h, s, b));
+    public static TColor getHSBTColor(float h, float s, float b) {
+        return new TColor(HSBtoRGB(h, s, b));
     }
 
     public static float[] RGBtoHSB(int r, int g, int b, float[] hsbvals) {
@@ -558,17 +553,17 @@ public class Color implements Paint, Serializable {
         return (r << 16) | (g << 8) | b | 0xFF000000;
     }
 
-    class ColorPaintContext implements PaintContext {
+    class TColorPaintContext implements PaintContext {
         int rgbValue;
         WritableRaster savedRaster;
-        ColorModel cm;
+        TColorModel cm;
 
-        protected ColorPaintContext(int rgb) {
+        protected TColorPaintContext(int rgb) {
             rgbValue = rgb;
             if((rgb & 0xFF000000) == 0xFF000000){
                 cm = new DirectColorModel(24, 0xFF0000, 0xFF00, 0xFF);
             } else {
-                cm = ColorModel.getRGBdefault();
+                cm = TColorModel.getRGBdefault();
             }
         }
 
@@ -576,7 +571,7 @@ public class Color implements Paint, Serializable {
             savedRaster = null;
         }
 
-        public ColorModel getColorModel() {
+        public TColorModel getTColorModel() {
             return cm;
         }
 
@@ -585,7 +580,7 @@ public class Color implements Paint, Serializable {
                     w != savedRaster.getWidth() ||
                     h != savedRaster.getHeight()) {
                 savedRaster =
-                        getColorModel().createCompatibleWritableRaster(w, h);
+                        getTColorModel().createCompatibleWritableRaster(w, h);
 
                 // Suppose we have here simple INT/RGB color/sample model
                 DataBufferInt intBuffer =

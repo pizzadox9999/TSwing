@@ -19,10 +19,10 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
+import org.teavm.classlib.java.awt.TFont;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TGraphicsEnvironment;
+import org.teavm.classlib.java.awt.image.TBufferedImage;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -30,22 +30,22 @@ import org.apache.harmony.awt.gl.font.FontManager;
 import org.apache.harmony.awt.gl.image.BufferedImageGraphics2D;
 
 /**
- * Common GraphicsEnvironment implementation
+ * Common TGraphicsEnvironment implementation
  *
  */
-public abstract class CommonGraphicsEnvironment extends GraphicsEnvironment {
+public abstract class CommonGraphicsEnvironment extends TGraphicsEnvironment {
 
     @Override
-    public Graphics2D createGraphics(BufferedImage bufferedImage) {
+    public TGraphics2D createGraphics(TBufferedImage bufferedImage) {
         return new BufferedImageGraphics2D(bufferedImage);
     }
 
     @Override
     public String[] getAvailableFontFamilyNames(Locale locale) {
-        Font[] fonts = getAllFonts();
+        TFont[] fonts = getAllFonts();
         ArrayList<String> familyNames = new ArrayList<String>();
 
-        for (Font element : fonts) {
+        for (TFont element : fonts) {
             String name = element.getFamily(locale);
             if (!familyNames.contains(name)) {
                 familyNames.add(name);
@@ -56,7 +56,7 @@ public abstract class CommonGraphicsEnvironment extends GraphicsEnvironment {
     }
 
     @Override
-    public Font[] getAllFonts() {
+    public TFont[] getAllFonts() {
         return FontManager.getInstance().getAllFonts();
     }
 

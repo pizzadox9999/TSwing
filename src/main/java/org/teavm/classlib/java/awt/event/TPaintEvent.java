@@ -19,8 +19,8 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
-import java.awt.Rectangle;
+import org.teavm.classlib.java.awt.TComponent;
+import org.teavm.classlib.java.awt.TRectangle;
 
 public class TPaintEvent extends TComponentEvent {
 
@@ -34,19 +34,19 @@ public class TPaintEvent extends TComponentEvent {
 
     public static final int UPDATE = 801;
 
-    private Rectangle updateRect;
+    private TRectangle updateRect;
 
-    public TPaintEvent(Component source, int id, Rectangle updateRect) {
+    public TPaintEvent(TComponent source, int id, TRectangle updateRect) {
         super(source, id);
 
         this.updateRect = updateRect;
     }
 
-    public Rectangle getUpdateRect() {
+    public TRectangle getUpdateRect() {
         return updateRect;
     }
 
-    public void setUpdateRect(Rectangle updateRect) {
+    public void setUpdateRect(TRectangle updateRect) {
         this.updateRect = updateRect;
     }
 

@@ -24,11 +24,11 @@ import java.security.BasicPermission;
 public final class TAWTPermission extends BasicPermission {
     private static final long serialVersionUID = 8890392402588814465L;
 
-    public AWTPermission(String name, String actions) {
+    public TAWTPermission(String name, String actions) {
         super(name, actions);
     }
 
-    public AWTPermission(String name) {
+    public TAWTPermission(String name) {
         super(name);
     }
 

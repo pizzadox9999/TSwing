@@ -21,27 +21,27 @@
  */
 package org.apache.harmony.awt.gl;
 
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.CompositeContext;
-import java.awt.RenderingHints;
-import java.awt.image.ColorModel;
+import org.teavm.classlib.java.awt.TColor;
+import org.teavm.classlib.java.awt.TComposite;
+import org.teavm.classlib.java.awt.TCompositeContext;
+import org.teavm.classlib.java.awt.TRenderingHints;
+import org.teavm.classlib.java.awt.image.TColorModel;
 
-public class XORComposite implements Composite {
+public class XORComposite implements TComposite {
 
-    Color xorcolor;
+    TColor xorcolor;
 
-    public XORComposite(Color xorcolor){
+    public XORComposite(TColor xorcolor){
         this.xorcolor = xorcolor;
     }
 
-    public CompositeContext createContext(ColorModel srcCM, ColorModel dstCM,
-            RenderingHints hints) {
+    public TCompositeContext createContext(TColorModel srcCM, TColorModel dstCM,
+            TRenderingHints hints) {
 
-        return new ICompositeContext(this, srcCM, dstCM);
+        return new TICompositeContext(this, srcCM, dstCM);
     }
 
-    public Color getXORColor(){
+    public TColor getXORColor(){
         return xorcolor;
     }
 }

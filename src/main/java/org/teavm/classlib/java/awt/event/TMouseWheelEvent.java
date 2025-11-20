@@ -19,7 +19,7 @@
  */
 package org.teavm.classlib.java.awt.event;
 
-import java.awt.Component;
+import org.teavm.classlib.java.awt.TComponent;
 
 public class TMouseWheelEvent extends TMouseEvent {
 
@@ -33,7 +33,7 @@ public class TMouseWheelEvent extends TMouseEvent {
     private int scrollAmount;
     private int scrollType;
 
-    public TMouseWheelEvent(Component source, int id, long when, int modifiers,
+    public TMouseWheelEvent(TComponent source, int id, long when, int modifiers,
             int x, int y, int clickCount, boolean popupTrigger, int scrollType,
             int scrollAmount, int wheelRotation) {
         super(source, id, when, modifiers, x, y, clickCount, popupTrigger);

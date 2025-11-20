@@ -15,16 +15,11 @@
  *  limitations under the License.
  */
 
-package java.awt;
-
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class GradientPaint implements Paint {
+public class TGradientPaint implements TPaint {
     /**
      * The start point color
      */
@@ -51,7 +46,7 @@ public class GradientPaint implements Paint {
      */
     boolean cyclic;
 
-    public GradientPaint(Point2D point1, Color color1, Point2D point2,
+    public TGradientPaint(Point2D point1, Color color1, Point2D point2,
             Color color2, boolean cyclic) {
         if (point1 == null || point2 == null) {
             // awt.6D=Point is null
@@ -69,16 +64,16 @@ public class GradientPaint implements Paint {
         this.cyclic = cyclic;
     }
 
-    public GradientPaint(float x1, float y1, Color color1, float x2, float y2, Color color2,
+    public TGradientPaint(float x1, float y1, Color color1, float x2, float y2, Color color2,
             boolean cyclic) {
         this(new Point2D.Float(x1, y1), color1, new Point2D.Float(x2, y2), color2, cyclic);
     }
 
-    public GradientPaint(float x1, float y1, Color color1, float x2, float y2, Color color2) {
+    public TGradientPaint(float x1, float y1, Color color1, float x2, float y2, Color color2) {
         this(x1, y1, color1, x2, y2, color2, false);
     }
 
-    public GradientPaint(Point2D point1, Color color1, Point2D point2, Color color2) {
+    public TGradientPaint(Point2D point1, Color color1, Point2D point2, Color color2) {
         this(point1, color1, point2, color2, false);
     }
 

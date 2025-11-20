@@ -15,16 +15,8 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.LineMetrics;
-import java.awt.font.TextAttribute;
-import java.awt.font.TransformAttribute;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.peer.FontPeer;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,7 +39,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.misc.HashCode;
 
 
-public class Font implements Serializable {
+public class TFont implements Serializable {
     private static final long serialVersionUID = -4206021311591459213L;
 
     // Identity Transform attribute
@@ -130,7 +122,7 @@ public class Font implements Serializable {
 
     }
 
-    public Font(Map<? extends Attribute, ?> attributes) {
+    public TFont(Map<? extends Attribute, ?> attributes) {
         Object currAttr;
 
         // Default values are taken from the documentation of the Font class. 
@@ -205,7 +197,7 @@ public class Font implements Serializable {
         }
     }
 
-    public Font(String name, int style, int size) {
+    public TFont(String name, int style, int size) {
         this.name = (name != null) ? name : "Default"; //$NON-NLS-1$
         this.size = (size >= 0) ? size : 0;
         this.style = (style & ~0x03) == 0 ? style : Font.PLAIN;

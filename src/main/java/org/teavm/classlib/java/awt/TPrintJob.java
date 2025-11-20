@@ -17,13 +17,13 @@
 /**
  * @author Igor A. Pyankov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-public abstract class PrintJob {
+public abstract class TPrintJob {
 
-    public abstract Graphics getGraphics();
+    public abstract TGraphics getGraphics();
 
-    public abstract Dimension getPageDimension();
+    public abstract TDimension getPageDimension();
 
     public abstract int getPageResolution();
 

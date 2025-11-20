@@ -17,27 +17,27 @@
 /**
  * @author Denis M. Kishenko
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.geom.Point2D;
+import org.teavm.classlib.java.awt.geom.TPoint2D;
 import java.io.Serializable;
 
-public class Point extends Point2D implements Serializable {
+public class TPoint extends TPoint2D implements Serializable {
 
     private static final long serialVersionUID = -5276940640259749850L;
 
     public int x;
     public int y;
 
-    public Point() {
+    public TPoint() {
         setLocation(0, 0);
     }
 
-    public Point(int x, int y) {
+    public TPoint(int x, int y) {
         setLocation(x, y);
     }
 
-    public Point(Point p) {
+    public TPoint(TPoint p) {
         setLocation(p.x, p.y);
     }
 
@@ -46,8 +46,8 @@ public class Point extends Point2D implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Point) {
-            Point p = (Point)obj;
+        if (obj instanceof TPoint) {
+            TPoint p = (TPoint)obj;
             return x == p.x && y == p.y;
         }
         return false;
@@ -68,11 +68,11 @@ public class Point extends Point2D implements Serializable {
         return y;
     }
 
-    public Point getLocation() {
-        return new Point(x, y);
+    public TPoint getLocation() {
+        return new TPoint(x, y);
     }
 
-    public void setLocation(Point p) {
+    public void setLocation(TPoint p) {
         setLocation(p.x, p.y);
     }
 

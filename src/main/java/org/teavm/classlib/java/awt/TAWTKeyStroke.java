@@ -18,8 +18,7 @@
  * @author Dmitry A. Durnev
  */
 package org.teavm.classlib.java.awt;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,18 +27,20 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import org.apache.harmony.awt.internal.nls.Messages;
+import org.teavm.classlib.java.awt.event.TInputEvent;
+import org.teavm.classlib.java.awt.event.TKeyEvent;
 
 public class TAWTKeyStroke implements Serializable {
     private static final long serialVersionUID = -6430539691155161871L;
 
-    private static final Map<AWTKeyStroke, AWTKeyStroke> cache = new HashMap<AWTKeyStroke, AWTKeyStroke>(); //Map<AWTKeyStroke, ? extends AWTKeyStroke>
+    private static final Map<TAWTKeyStroke, TAWTKeyStroke> cache = new HashMap<TAWTKeyStroke, TAWTKeyStroke>(); //Map<AWTKeyStroke, ? extends AWTKeyStroke>
     private static final Map<Integer, String> keyEventTypesMap = new HashMap<Integer, String>(); //Map<int, String>
-    private static Constructor<?> subConstructor;
+//    private static Constructor<?> subConstructor;
     
     static {
-        keyEventTypesMap.put(new Integer(KeyEvent.KEY_PRESSED), "pressed"); //$NON-NLS-1$
-        keyEventTypesMap.put(new Integer(KeyEvent.KEY_RELEASED), "released"); //$NON-NLS-1$
-        keyEventTypesMap.put(new Integer(KeyEvent.KEY_TYPED), "typed"); //$NON-NLS-1$
+        keyEventTypesMap.put(new Integer(TKeyEvent.KEY_PRESSED), "pressed"); //$NON-NLS-1$
+        keyEventTypesMap.put(new Integer(TKeyEvent.KEY_RELEASED), "released"); //$NON-NLS-1$
+        keyEventTypesMap.put(new Integer(TKeyEvent.KEY_TYPED), "typed"); //$NON-NLS-1$
     }
 
     private char keyChar;
@@ -47,7 +48,7 @@ public class TAWTKeyStroke implements Serializable {
     private int modifiers;
     private boolean onKeyRelease;
     
-    protected AWTKeyStroke(char keyChar, int keyCode, int modifiers,
+    protected TAWTKeyStroke(char keyChar, int keyCode, int modifiers,
             boolean onKeyRelease)
     {
        setAWTKeyStroke(keyChar, keyCode, modifiers, onKeyRelease);
@@ -61,13 +62,13 @@ public class TAWTKeyStroke implements Serializable {
         this.modifiers = modifiers;
         this.onKeyRelease = onKeyRelease;
     }
-    protected AWTKeyStroke() {
-        this(KeyEvent.CHAR_UNDEFINED, KeyEvent.VK_UNDEFINED, 0, false);
+    protected TAWTKeyStroke() {
+        this(TKeyEvent.CHAR_UNDEFINED, TKeyEvent.VK_UNDEFINED, 0, false);
     }
 
     @Override
     public int hashCode() {
-        return modifiers + ( keyCode != KeyEvent.VK_UNDEFINED ?
+        return modifiers + ( keyCode != TKeyEvent.VK_UNDEFINED ?
                 keyCode : keyChar) + (onKeyRelease ? -1 : 0);
     }
 
@@ -77,8 +78,8 @@ public class TAWTKeyStroke implements Serializable {
 
     @Override
     public final boolean equals(Object anObject) {
-        if (anObject instanceof AWTKeyStroke) {
-            AWTKeyStroke key = (AWTKeyStroke)anObject;
+        if (anObject instanceof TAWTKeyStroke) {
+            TAWTKeyStroke key = (TAWTKeyStroke)anObject;
             return ((key.keyCode == keyCode) && (key.keyChar == keyChar) &&
                     (key.modifiers == modifiers) &&
                     (key.onKeyRelease == onKeyRelease));
@@ -89,10 +90,10 @@ public class TAWTKeyStroke implements Serializable {
     @Override
     public String toString() {
         int type = getKeyEventType();
-        return InputEvent.getModifiersExText(getModifiers()) + " " + //$NON-NLS-1$
+        return TInputEvent.getModifiersExText(getModifiers()) + " " + //$NON-NLS-1$
             keyEventTypesMap.get(new Integer(type)) +  " " + //$NON-NLS-1$
-            (type == KeyEvent.KEY_TYPED ? new String(new char[] {keyChar}) :
-                                          KeyEvent.getKeyText(keyCode));
+            (type == TKeyEvent.KEY_TYPED ? new String(new char[] {keyChar}) :
+                                          TKeyEvent.getKeyText(keyCode));
     }
 
     public final int getKeyCode() {
@@ -103,12 +104,12 @@ public class TAWTKeyStroke implements Serializable {
         return keyChar;
     }
 
-    private static AWTKeyStroke getAWTKeyStroke(char keyChar, int keyCode,
+    private static TAWTKeyStroke getAWTKeyStroke(char keyChar, int keyCode,
                                                 int modifiers,
                                                 boolean onKeyRelease) {
-        AWTKeyStroke key = newInstance(keyChar, keyCode, modifiers, onKeyRelease);
+        TAWTKeyStroke key = newInstance(keyChar, keyCode, modifiers, onKeyRelease);
 
-        AWTKeyStroke value = cache.get(key);
+        TAWTKeyStroke value = cache.get(key);
         if (value == null) {
             value = key;
             cache.put(key, value);
@@ -116,19 +117,19 @@ public class TAWTKeyStroke implements Serializable {
         return value;
     }
 
-    private static AWTKeyStroke newInstance(char keyChar, int keyCode,
+    private static TAWTKeyStroke newInstance(char keyChar, int keyCode,
                                             int modifiers,
                                             boolean onKeyRelease) {
-        AWTKeyStroke key;
-        if (subConstructor == null) {
-            key = new AWTKeyStroke();
-        } else {
-            try {
-                key = (AWTKeyStroke) subConstructor.newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+        TAWTKeyStroke key = new TAWTKeyStroke();
+//        if (subConstructor == null) {
+//            key = new TAWTKeyStroke();
+//        } else {
+//            try {
+//                key = (TAWTKeyStroke) subConstructor.newInstance();
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         int allModifiers = getAllModifiers(modifiers);
         key.setAWTKeyStroke(keyChar, keyCode, allModifiers, onKeyRelease);
         return key;
@@ -145,11 +146,11 @@ public class TAWTKeyStroke implements Serializable {
      */
     static int getAllModifiers(int mod) {
         int allMod = mod;
-        int shift = (InputEvent.SHIFT_MASK | InputEvent.SHIFT_DOWN_MASK);
-        int ctrl = (InputEvent.CTRL_MASK | InputEvent.CTRL_DOWN_MASK);
-        int meta = (InputEvent.META_MASK | InputEvent.META_DOWN_MASK);
-        int alt = (InputEvent.ALT_MASK | InputEvent.ALT_DOWN_MASK);
-        int altGr = (InputEvent.ALT_GRAPH_MASK | InputEvent.ALT_GRAPH_DOWN_MASK);
+        int shift = (TInputEvent.SHIFT_MASK | TInputEvent.SHIFT_DOWN_MASK);
+        int ctrl = (TInputEvent.CTRL_MASK | TInputEvent.CTRL_DOWN_MASK);
+        int meta = (TInputEvent.META_MASK | TInputEvent.META_DOWN_MASK);
+        int alt = (TInputEvent.ALT_MASK | TInputEvent.ALT_DOWN_MASK);
+        int altGr = (TInputEvent.ALT_GRAPH_MASK | TInputEvent.ALT_GRAPH_DOWN_MASK);
         // button modifiers are not converted between old & new
 
         allMod = addMask(allMod, shift);
@@ -161,7 +162,7 @@ public class TAWTKeyStroke implements Serializable {
         return allMod;
     }
 
-    public static AWTKeyStroke getAWTKeyStroke(String s) {
+    public static TAWTKeyStroke getAWTKeyStroke(String s) {
         if (s == null) {
             // awt.65=null argument
             throw new IllegalArgumentException(Messages.getString("awt.65")); //$NON-NLS-1$
@@ -171,8 +172,8 @@ public class TAWTKeyStroke implements Serializable {
 
         Boolean release = null;
         int modifiers = 0;
-        int keyCode = KeyEvent.VK_UNDEFINED;
-        char keyChar = KeyEvent.CHAR_UNDEFINED;
+        int keyCode = TKeyEvent.VK_UNDEFINED;
+        char keyChar = TKeyEvent.CHAR_UNDEFINED;
         boolean typed = false;
         long modifier = 0;
         String token = null;
@@ -189,7 +190,7 @@ public class TAWTKeyStroke implements Serializable {
             keyChar = parseTypedKey(token);
 
         }
-        if (keyChar == KeyEvent.CHAR_UNDEFINED) {
+        if (keyChar == TKeyEvent.CHAR_UNDEFINED) {
             release = parsePressedReleasedID(token);
             if (release != null) {
                 token = getNextToken(tokenizer);
@@ -216,56 +217,57 @@ public class TAWTKeyStroke implements Serializable {
 
     static int getKeyCode(String s) {
         try {
-            Field vk = KeyEvent.class.getField("VK_" + s); //$NON-NLS-1$
-            return vk.getInt(null);
+            return TKeyEvent.getFieldValue("VK_" + s);
+//            Field vk = TKeyEvent.class.getField("VK_" + s); //$NON-NLS-1$
+//            return vk.getInt(null);
         } catch (Exception e) {
             if (s.length() != 1) {
                 // awt.66=Invalid format
                 throw new IllegalArgumentException(Messages.getString("awt.66")); //$NON-NLS-1$
             }
-            return KeyEvent.VK_UNDEFINED;
+            return TKeyEvent.VK_UNDEFINED;
         }
     }
 
-    public static AWTKeyStroke getAWTKeyStroke(char keyChar) {
-        return getAWTKeyStroke(keyChar, KeyEvent.VK_UNDEFINED, 0, false);
+    public static TAWTKeyStroke getAWTKeyStroke(char keyChar) {
+        return getAWTKeyStroke(keyChar, TKeyEvent.VK_UNDEFINED, 0, false);
     }
 
-    public static AWTKeyStroke getAWTKeyStroke(int keyCode, int modifiers,
+    public static TAWTKeyStroke getAWTKeyStroke(int keyCode, int modifiers,
                                                boolean onKeyRelease) {
-        return getAWTKeyStroke(KeyEvent.CHAR_UNDEFINED, keyCode, modifiers,
+        return getAWTKeyStroke(TKeyEvent.CHAR_UNDEFINED, keyCode, modifiers,
                                onKeyRelease);
     }
 
-    public static AWTKeyStroke getAWTKeyStroke(Character keyChar, int modifiers) {
+    public static TAWTKeyStroke getAWTKeyStroke(Character keyChar, int modifiers) {
         if (keyChar == null) {
             // awt.01='{0}' parameter is null
             throw new IllegalArgumentException(Messages.getString("awt.01", "keyChar")); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        return getAWTKeyStroke(keyChar.charValue(), KeyEvent.VK_UNDEFINED,
+        return getAWTKeyStroke(keyChar.charValue(), TKeyEvent.VK_UNDEFINED,
                                modifiers, false);
     }
 
-    public static AWTKeyStroke getAWTKeyStroke(int keyCode, int modifiers) {
+    public static TAWTKeyStroke getAWTKeyStroke(int keyCode, int modifiers) {
         return getAWTKeyStroke(keyCode, modifiers, false);
     }
 
-    public static AWTKeyStroke getAWTKeyStrokeForEvent(KeyEvent anEvent) {
+    public static TAWTKeyStroke getAWTKeyStrokeForEvent(TKeyEvent anEvent) {
         int id = anEvent.getID();
-        char undef = KeyEvent.CHAR_UNDEFINED;
-        char keyChar = (id == KeyEvent.KEY_TYPED ? anEvent.getKeyChar() :
+        char undef = TKeyEvent.CHAR_UNDEFINED;
+        char keyChar = (id == TKeyEvent.KEY_TYPED ? anEvent.getKeyChar() :
                                                    undef);
         int keyCode = (keyChar == undef ? anEvent.getKeyCode() :
-                                          KeyEvent.VK_UNDEFINED);
+                                          TKeyEvent.VK_UNDEFINED);
         return getAWTKeyStroke(keyChar, keyCode, anEvent.getModifiersEx(),
-                               id == KeyEvent.KEY_RELEASED);
+                               id == TKeyEvent.KEY_RELEASED);
     }
 
     public final int getKeyEventType() {
-        if (keyCode == KeyEvent.VK_UNDEFINED) {
-            return KeyEvent.KEY_TYPED;
+        if (keyCode == TKeyEvent.VK_UNDEFINED) {
+            return TKeyEvent.KEY_TYPED;
         }
-        return (onKeyRelease ? KeyEvent.KEY_RELEASED : KeyEvent.KEY_PRESSED);
+        return (onKeyRelease ? TKeyEvent.KEY_RELEASED : TKeyEvent.KEY_PRESSED);
     }
 
     public final boolean isOnKeyRelease() {
@@ -277,45 +279,45 @@ public class TAWTKeyStroke implements Serializable {
                                this.modifiers, this.onKeyRelease);
     }
 
-    protected static void registerSubclass(Class<?> subclass) {
-        if (subclass == null) {
-            // awt.01='{0}' parameter is null
-            throw new IllegalArgumentException(Messages.getString("awt.01", "subclass")); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        if (! AWTKeyStroke.class.isAssignableFrom(subclass)) {
-            // awt.67=subclass is not derived from AWTKeyStroke
-            throw new ClassCastException(Messages.getString("awt.67")); //$NON-NLS-1$
-        }
-        try {
-            subConstructor = subclass.getDeclaredConstructor();
-            subConstructor.setAccessible(true);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            // awt.68=subclass could not be instantiated
-            throw new IllegalArgumentException(Messages.getString("awt.68")); //$NON-NLS-1$
-        }
-        cache.clear(); //flush the cache
-    }
+//    protected static void registerSubclass(Class<?> subclass) {
+//        if (subclass == null) {
+//            // awt.01='{0}' parameter is null
+//            throw new IllegalArgumentException(Messages.getString("awt.01", "subclass")); //$NON-NLS-1$ //$NON-NLS-2$
+//        }
+//        if (! TAWTKeyStroke.class.isAssignableFrom(subclass)) {
+//            // awt.67=subclass is not derived from AWTKeyStroke
+//            throw new ClassCastException(Messages.getString("awt.67")); //$NON-NLS-1$
+//        }
+//        try {
+////            subConstructor = subclass.getDeclaredConstructor();
+////            subConstructor.setAccessible(true);
+//        } catch (SecurityException e) {
+//            throw new RuntimeException(e);
+//        } catch (NoSuchMethodException e) {
+//            // awt.68=subclass could not be instantiated
+//            throw new IllegalArgumentException(Messages.getString("awt.68")); //$NON-NLS-1$
+//        }
+//        cache.clear(); //flush the cache
+//    }
 
     private static long parseModifier(String strMod) {
         long modifiers = 0l;
         if (strMod.equals("shift")) { //$NON-NLS-1$
-            modifiers |= InputEvent.SHIFT_DOWN_MASK;
+            modifiers |= TInputEvent.SHIFT_DOWN_MASK;
         } else if (strMod.equals("control") || strMod.equals("ctrl")) { //$NON-NLS-1$ //$NON-NLS-2$
-            modifiers |= InputEvent.CTRL_DOWN_MASK;
+            modifiers |= TInputEvent.CTRL_DOWN_MASK;
         } else if (strMod.equals("meta")) { //$NON-NLS-1$
-            modifiers |= InputEvent.META_DOWN_MASK;
+            modifiers |= TInputEvent.META_DOWN_MASK;
         } else if (strMod.equals("alt")) { //$NON-NLS-1$
-            modifiers |= InputEvent.ALT_DOWN_MASK;
+            modifiers |= TInputEvent.ALT_DOWN_MASK;
         } else if (strMod.equals("altGraph")) { //$NON-NLS-1$
-            modifiers |= InputEvent.ALT_GRAPH_DOWN_MASK;
+            modifiers |= TInputEvent.ALT_GRAPH_DOWN_MASK;
         } else if (strMod.equals("button1")) { //$NON-NLS-1$
-            modifiers |= InputEvent.BUTTON1_DOWN_MASK;
+            modifiers |= TInputEvent.BUTTON1_DOWN_MASK;
         } else if (strMod.equals("button2")) { //$NON-NLS-1$
-            modifiers |= InputEvent.BUTTON2_DOWN_MASK;
+            modifiers |= TInputEvent.BUTTON2_DOWN_MASK;
         } else if (strMod.equals("button3")) { //$NON-NLS-1$
-            modifiers |= InputEvent.BUTTON3_DOWN_MASK;
+            modifiers |= TInputEvent.BUTTON3_DOWN_MASK;
         }
         return modifiers;
     }
@@ -329,7 +331,7 @@ public class TAWTKeyStroke implements Serializable {
     }
 
     private static char parseTypedKey(String strChar) {
-        char keyChar = KeyEvent.CHAR_UNDEFINED;
+        char keyChar = TKeyEvent.CHAR_UNDEFINED;
 
         if (strChar.length() != 1) {
             // awt.66=Invalid format
@@ -350,11 +352,11 @@ public class TAWTKeyStroke implements Serializable {
     }
 
     private static int parseKey(String strCode) {
-        int keyCode = KeyEvent.VK_UNDEFINED;
+        int keyCode = TKeyEvent.VK_UNDEFINED;
 
         keyCode = getKeyCode(strCode);
 
-        if (keyCode == KeyEvent.VK_UNDEFINED) {
+        if (keyCode == TKeyEvent.VK_UNDEFINED) {
             // awt.66=Invalid format
             throw new IllegalArgumentException(Messages.getString("awt.66")); //$NON-NLS-1$
         }

@@ -23,8 +23,8 @@
  */
 package org.apache.harmony.awt.gl.image;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import org.teavm.classlib.java.awt.TPoint;
+import org.teavm.classlib.java.awt.TRectangle;
 import org.teavm.classlib.java.awt.image.TDataBuffer;
 import org.teavm.classlib.java.awt.image.TRaster;
 import org.teavm.classlib.java.awt.image.TSampleModel;
@@ -33,17 +33,17 @@ import org.teavm.classlib.java.awt.image.TWritableRaster;
 public class OrdinaryWritableRaster extends TWritableRaster {
 
     public OrdinaryWritableRaster(TSampleModel sampleModel,
-            TDataBuffer dataBuffer, Rectangle aRegion,
-            Point sampleModelTranslate, TWritableRaster parent) {
+            TDataBuffer dataBuffer, TRectangle aRegion,
+            TPoint sampleModelTranslate, TWritableRaster parent) {
         super(sampleModel, dataBuffer, aRegion, sampleModelTranslate, parent);
     }
 
     public OrdinaryWritableRaster(TSampleModel sampleModel,
-            TDataBuffer dataBuffer, Point origin) {
+            TDataBuffer dataBuffer, TPoint origin) {
         super(sampleModel, dataBuffer, origin);
     }
 
-    public OrdinaryWritableRaster(TSampleModel sampleModel, Point origin) {
+    public OrdinaryWritableRaster(TSampleModel sampleModel, TPoint origin) {
         super(sampleModel, origin);
     }
 

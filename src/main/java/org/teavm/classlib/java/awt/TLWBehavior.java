@@ -17,7 +17,7 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.wtk.NativeWindow;
@@ -28,7 +28,7 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  *
  */
 
-class LWBehavior implements ComponentBehavior {
+class TLWBehavior implements TComponentBehavior {
 
     /*
      * only lightweights store their position/size, others get it from native
@@ -37,13 +37,13 @@ class LWBehavior implements ComponentBehavior {
 
     private int x, y, w, h;
 
-    private final Component component;
+    private final TComponent component;
 
     private boolean visible;
 
     private boolean displayable;
 
-    LWBehavior(Component comp) {
+    TLWBehavior(TComponent comp) {
         component = comp;
         /* lightweight components are initially visible */
         visible = component.isVisible();
@@ -65,10 +65,10 @@ class LWBehavior implements ComponentBehavior {
         }
     }
 
-    public Graphics getGraphics(int translationX, int translationY, int width,
+    public TGraphics getGraphics(int translationX, int translationY, int width,
             int height) {
-        Graphics g = null;
-        Container parent = component.getParent();
+        TGraphics g = null;
+        TContainer parent = component.getParent();
 
         if (parent != null) {
             g = parent.behaviour.getGraphics(translationX + component.x,
@@ -87,8 +87,8 @@ class LWBehavior implements ComponentBehavior {
     }
 
     public void setBounds(int x, int y, int width, int height) {
-        Rectangle oldBounds = new Rectangle(this.x, this.y, this.w, this.h);
-        Rectangle newBounds = new Rectangle(x, y, width, height);
+        TRectangle oldBounds = new TRectangle(this.x, this.y, this.w, this.h);
+        TRectangle newBounds = new TRectangle(x, y, width, height);
 
         if (oldBounds.equals(newBounds)) {
             return;
@@ -101,7 +101,7 @@ class LWBehavior implements ComponentBehavior {
         boolean grow = newBounds.contains(oldBounds);
         boolean shrink = oldBounds.contains(newBounds);
         if (isParentShowing() && !grow) {
-            Component parent = component.parent;
+            TComponent parent = component.parent;
             if (!shrink) {
                 parent.repaintRegion = new MultiRectArea(oldBounds);
                 parent.repaintRegion.substract(newBounds);
@@ -158,7 +158,7 @@ class LWBehavior implements ComponentBehavior {
         // do nothing
     }
 
-    public boolean setFocus(boolean focus, Component opposite) {
+    public boolean setFocus(boolean focus, TComponent opposite) {
 
         // request [native] focus from the nearest heavyweight ancestor
         // don't post event, so call only cb

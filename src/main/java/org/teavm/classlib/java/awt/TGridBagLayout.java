@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.Hashtable;
 
 import org.apache.harmony.awt.internal.nls.Messages;
 
-public class GridBagLayout implements LayoutManager2, Serializable {
+public class TGridBagLayout implements TLayoutManager2, Serializable {
     private static final long serialVersionUID = 8838754796412211005L;
 
     protected static final int MAXGRIDSIZE = 512;
@@ -35,10 +35,10 @@ public class GridBagLayout implements LayoutManager2, Serializable {
 
     protected static final int PREFERREDSIZE = 2;
 
-    private final Toolkit toolkit = Toolkit.getDefaultToolkit();
+    private final TToolkit toolkit = TToolkit.getDefaultToolkit();
 
     // Direct modification is forbidden
-    protected volatile Hashtable<Component, GridBagConstraints> comptable;
+    protected volatile Hashtable<TComponent, GridBagConstraints> comptable;
 
     protected volatile GridBagConstraints defaultConstraints;
 
@@ -54,10 +54,10 @@ public class GridBagLayout implements LayoutManager2, Serializable {
 
     private ParentInfo lastParentInfo;
 
-    public GridBagLayout() {
+    public TGridBagLayout() {
         toolkit.lockAWT();
         try {
-            comptable = new Hashtable<Component, GridBagConstraints>();
+            comptable = new Hashtable<TComponent, GridBagConstraints>();
             defaultConstraints = new GridBagConstraints();
             columnWeights = rowWeights = null;
             columnWidths = rowHeights = null;
@@ -78,7 +78,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void addLayoutComponent(String name, Component comp) {
+    public void addLayoutComponent(String name, TComponent comp) {
         toolkit.lockAWT();
         try {
             // has no effect
@@ -87,7 +87,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void addLayoutComponent(Component comp, Object constraints) {
+    public void addLayoutComponent(TComponent comp, Object constraints) {
         toolkit.lockAWT();
         try {
             GridBagConstraints cons;
@@ -113,17 +113,17 @@ public class GridBagLayout implements LayoutManager2, Serializable {
             }
             GridBagConstraints consClone = (GridBagConstraints) cons.clone();
             comptable.put(comp, consClone);
-            Container parent = comp.getParent();
+            TContainer parent = comp.getParent();
             updateParentInfo(parent, consClone);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public void removeLayoutComponent(Component comp) {
+    public void removeLayoutComponent(TComponent comp) {
         toolkit.lockAWT();
         try {
-            Container parent = comp.getParent();
+            TContainer parent = comp.getParent();
             if (parent != null) {
                 getParentInfo(parent).consTable.remove(comptable.get(comp));
             }
@@ -133,7 +133,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public GridBagConstraints getConstraints(Component comp) {
+    public GridBagConstraints getConstraints(TComponent comp) {
         toolkit.lockAWT();
         try {
             GridBagConstraints cons = comptable.get(comp);
@@ -147,7 +147,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public void setConstraints(Component comp, GridBagConstraints constraints) {
+    public void setConstraints(TComponent comp, GridBagConstraints constraints) {
         toolkit.lockAWT();
         try {
             GridBagConstraints consClone = (GridBagConstraints) constraints.clone();
@@ -175,25 +175,25 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public float getLayoutAlignmentX(Container parent) {
+    public float getLayoutAlignmentX(TContainer parent) {
         toolkit.lockAWT();
         try {
-            return Component.CENTER_ALIGNMENT;
+            return TComponent.CENTER_ALIGNMENT;
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public float getLayoutAlignmentY(Container parent) {
+    public float getLayoutAlignmentY(TContainer parent) {
         toolkit.lockAWT();
         try {
-            return Component.CENTER_ALIGNMENT;
+            return TComponent.CENTER_ALIGNMENT;
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public void invalidateLayout(Container target) {
+    public void invalidateLayout(TContainer target) {
         toolkit.lockAWT();
         try {
             if (target == null) {
@@ -205,12 +205,12 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Dimension minimumLayoutSize(Container parent) {
+    public TDimension minimumLayoutSize(TContainer parent) {
         toolkit.lockAWT();
         try {
             ParentInfo info = lastParentInfo = getParentInfo(parent);
             if (getComponentsNumber(parent) == 0) {
-                return parent.addInsets(new Dimension(0, 0));
+                return parent.addInsets(new TDimension(0, 0));
             }
             try {
                 validate(parent, info);
@@ -225,12 +225,12 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Dimension preferredLayoutSize(Container parent) {
+    public TDimension preferredLayoutSize(TContainer parent) {
         toolkit.lockAWT();
         try {
             ParentInfo info = lastParentInfo = getParentInfo(parent);
             if (getComponentsNumber(parent) == 0) {
-                return parent.addInsets(new Dimension(0, 0));
+                return parent.addInsets(new TDimension(0, 0));
             }
             try {
                 validate(parent, info);
@@ -245,16 +245,16 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Dimension maximumLayoutSize(Container target) {
+    public TDimension maximumLayoutSize(TContainer target) {
         toolkit.lockAWT();
         try {
-            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+            return new TDimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    public void layoutContainer(Container parent) {
+    public void layoutContainer(TContainer parent) {
         toolkit.lockAWT();
         try {
             ParentInfo info = lastParentInfo = getParentInfo(parent);
@@ -298,11 +298,11 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Point getLayoutOrigin() {
+    public TPoint getLayoutOrigin() {
         toolkit.lockAWT();
         try {
             if (lastParentInfo == null) {
-                return new Point();
+                return new TPoint();
             }
             return lastParentInfo.grid.getOrigin();
         } finally {
@@ -310,11 +310,11 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    public Point location(int x, int y) {
+    public TPoint location(int x, int y) {
         toolkit.lockAWT();
         try {
             if (lastParentInfo == null) {
-                return new Point();
+                return new TPoint();
             }
             return lastParentInfo.grid.location(x, y, lastParentInfo.orientation
                     .isLeftToRight());
@@ -323,7 +323,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected Dimension GetMinSize(Container parent, GridBagLayoutInfo info) {
+    protected TDimension GetMinSize(TContainer parent, GridBagLayoutInfo info) {
         toolkit.lockAWT();
         try {
             int w = 0;
@@ -332,13 +332,13 @@ public class GridBagLayout implements LayoutManager2, Serializable {
                 w += info.widths[i];
                 h += info.heights[i];
             }
-            return new Dimension(w, h);
+            return new TDimension(w, h);
         } finally {
             toolkit.unlockAWT();
         }
     }
 
-    protected GridBagLayoutInfo GetLayoutInfo(Container parent, int sizeflag) {
+    protected GridBagLayoutInfo GetLayoutInfo(TContainer parent, int sizeflag) {
         toolkit.lockAWT();
         try {
             ParentInfo parentInfo = getParentInfo(parent);
@@ -354,7 +354,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected void ArrangeGrid(Container parent) {
+    protected void ArrangeGrid(TContainer parent) {
         toolkit.lockAWT();
         try {
             ParentInfo info = lastParentInfo = getParentInfo(parent);
@@ -372,7 +372,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected GridBagConstraints lookupConstraints(Component comp) {
+    protected GridBagConstraints lookupConstraints(TComponent comp) {
         toolkit.lockAWT();
         try {
             GridBagConstraints cons = comptable.get(comp);
@@ -386,7 +386,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected void adjustForGravity(GridBagConstraints constraints, Rectangle r) {
+    protected void adjustForGravity(GridBagConstraints constraints, TRectangle r) {
         toolkit.lockAWT();
         try {
             AdjustForGravity(constraints, r);
@@ -395,7 +395,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected void arrangeGrid(Container parent) {
+    protected void arrangeGrid(TContainer parent) {
         toolkit.lockAWT();
         try {
             ArrangeGrid(parent);
@@ -404,7 +404,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected GridBagLayoutInfo getLayoutInfo(Container parent, int sizeflag) {
+    protected GridBagLayoutInfo getLayoutInfo(TContainer parent, int sizeflag) {
         toolkit.lockAWT();
         try {
             return GetLayoutInfo(parent, sizeflag);
@@ -413,7 +413,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected Dimension getMinSize(Container parent, GridBagLayoutInfo info) {
+    protected TDimension getMinSize(TContainer parent, GridBagLayoutInfo info) {
         toolkit.lockAWT();
         try {
             return GetMinSize(parent, info);
@@ -422,7 +422,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    protected void AdjustForGravity(GridBagConstraints constraints, Rectangle r) {
+    protected void AdjustForGravity(GridBagConstraints constraints, TRectangle r) {
         toolkit.lockAWT();
         try {
             try {
@@ -440,7 +440,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
             consClone.fill = GridBagConstraints.BOTH;
             ComponentSide horSide = new ComponentSide();
             ComponentSide vertSide = new ComponentSide();
-            Dimension dummySize = new Dimension(0, 0);
+            TDimension dummySize = new TDimension(0, 0);
             initHorCompSide(horSide, consClone, dummySize, dummySize, lastParentInfo);
             initVertCompSide(vertSide, consClone, dummySize, dummySize, lastParentInfo);
             calculateComponentBounds(horSide, vertSide, r, lastParentInfo.grid);
@@ -449,7 +449,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private ParentInfo getParentInfo(Container parent) {
+    private ParentInfo getParentInfo(TContainer parent) {
         if (parent == null) {
             return null;
         }
@@ -459,24 +459,24 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         return (ParentInfo) parent.layoutData;
     }
 
-    private void arrangeGridImpl(Container parent, ParentInfo info) {
+    private void arrangeGridImpl(TContainer parent, ParentInfo info) {
         validate(parent, info);
         // Do not check clientRect for emptiness. Grid mus be updated anyway
-        Rectangle clientRect = parent.getClient();
+        TRectangle clientRect = parent.getClient();
         info.grid.fit2Client(clientRect);
     }
 
     private void setComponentsBounds(ParentInfo info) {
         for (int i = 0; i < info.components.length; i++) {
-            Rectangle r = new Rectangle();
+            TRectangle r = new TRectangle();
             calculateComponentBounds(info.horCompSides[i], info.vertCompSides[i], r, info.grid);
             info.components[i].setBounds(r);
         }
     }
 
     private void calculateComponentBounds(ComponentSide horSide, ComponentSide vertSide,
-            Rectangle r, Grid grid) {
-        Rectangle dispArea = grid.componentDisplayArea(horSide, vertSide);
+            TRectangle r, Grid grid) {
+        TRectangle dispArea = grid.componentDisplayArea(horSide, vertSide);
         r.width = fillDisplaySide(dispArea.width, horSide);
         r.height = fillDisplaySide(dispArea.height, vertSide);
         r.x = anchorComponentSide(dispArea.x, dispArea.width, horSide, r.width);
@@ -519,7 +519,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
     }
 
     private void initHorCompSide(ComponentSide side, GridBagConstraints cons,
-            Dimension minSize, Dimension prefSize, ParentInfo info) {
+            TDimension minSize, TDimension prefSize, ParentInfo info) {
         MixedConstraints mixCons = info.consTable.get(cons);
         side.gridStart = mixCons.mapped.x;
         side.gridLength = mixCons.mapped.width;
@@ -552,7 +552,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
     }
 
     private void initVertCompSide(ComponentSide side, GridBagConstraints cons,
-            Dimension minSize, Dimension prefSize, ParentInfo info) {
+            TDimension minSize, TDimension prefSize, ParentInfo info) {
         MixedConstraints mixCons = info.consTable.get(cons);
         side.gridStart = mixCons.mapped.y;
         side.gridLength = mixCons.mapped.height;
@@ -615,14 +615,14 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         return absAnchor;
     }
 
-    private void validate(Container parent, ParentInfo info) {
+    private void validate(TContainer parent, ParentInfo info) {
         if (info.valid) {
             return;
         }
         info.valid = true;
         resetCache(parent, info);
         info.orientation = parent.getComponentOrientation();
-        Dimension maxSize = initCompsArray(parent, info.components);
+        TDimension maxSize = initCompsArray(parent, info.components);
         new RelativeTranslator(maxSize.width, maxSize.height).translate(info);
         initCompSides(info);
         info.grid.validate(info);
@@ -636,7 +636,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
 
     private void initCompSides(ParentInfo info) {
         for (int i = 0; i < info.components.length; i++) {
-            Component comp = info.components[i];
+            TComponent comp = info.components[i];
             info.horCompSides[i] = new ComponentSide();
             initHorCompSide(info.horCompSides[i], comptable.get(comp), comp.getMinimumSize(),
                     comp.getPreferredSize(), info);
@@ -646,12 +646,12 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private Dimension initCompsArray(Container parent, Component[] components) {
+    private TDimension initCompsArray(TContainer parent, TComponent[] components) {
         int maxW = 0;
         int maxH = 0;
         int i = 0;
-        for (Enumeration<Component> keys = comptable.keys(); keys.hasMoreElements();) {
-            Component comp = keys.nextElement();
+        for (Enumeration<TComponent> keys = comptable.keys(); keys.hasMoreElements();) {
+            TComponent comp = keys.nextElement();
             GridBagConstraints cons = comptable.get(comp);
             if ((comp.getParent() == parent) && comp.isVisible()) {
                 components[i++] = comp;
@@ -662,13 +662,13 @@ public class GridBagLayout implements LayoutManager2, Serializable {
                 maxH = Math.max(maxH, cons.gridy + cons.gridheight);
             }
         }
-        return new Dimension(maxW, maxH);
+        return new TDimension(maxW, maxH);
     }
 
-    private int getComponentsNumber(Container parent) {
+    private int getComponentsNumber(TContainer parent) {
         int componentsNumber = 0;
-        for (Enumeration<Component> keys = comptable.keys(); keys.hasMoreElements();) {
-            Component comp = keys.nextElement();
+        for (Enumeration<TComponent> keys = comptable.keys(); keys.hasMoreElements();) {
+            TComponent comp = keys.nextElement();
             if ((comp.getParent() == parent) && comp.isVisible()) {
                 componentsNumber++;
             }
@@ -676,15 +676,15 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         return componentsNumber;
     }
 
-    private void resetCache(Container parent, ParentInfo info) {
+    private void resetCache(TContainer parent, ParentInfo info) {
         int componentsNumber = getComponentsNumber(parent);
-        info.components = new Component[componentsNumber];
+        info.components = new TComponent[componentsNumber];
         info.horCompSides = new ComponentSide[componentsNumber];
         info.vertCompSides = new ComponentSide[componentsNumber];
         updateParentInfo(parent);
     }
 
-    private void updateParentInfo(Container parent, GridBagConstraints gbc) {
+    private void updateParentInfo(TContainer parent, GridBagConstraints gbc) {
         if (parent == null) {
             return;
         }
@@ -696,9 +696,9 @@ public class GridBagLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private void updateParentInfo(Container parent) {
-        Component[] comps = parent.getComponents();
-        for (Component element : comps) {
+    private void updateParentInfo(TContainer parent) {
+        TComponent[] comps = parent.getComponents();
+        for (TComponent element : comps) {
             GridBagConstraints gbc = comptable.get(element);
             updateParentInfo(parent, gbc);
         }
@@ -910,21 +910,21 @@ public class GridBagLayout implements LayoutManager2, Serializable {
             rows.validate(info.vertCompSides, rowHeights, rowWeights);
         }
 
-        public Dimension minimumSize() {
-            return new Dimension(cols.getMinLength(), rows.getMinLength());
+        public TDimension minimumSize() {
+            return new TDimension(cols.getMinLength(), rows.getMinLength());
         }
 
-        public Dimension preferredSize() {
-            return new Dimension(cols.getPrefLength(), rows.getPrefLength());
+        public TDimension preferredSize() {
+            return new TDimension(cols.getPrefLength(), rows.getPrefLength());
         }
 
-        public Rectangle componentDisplayArea(ComponentSide horSide, ComponentSide vertSide) {
+        public TRectangle componentDisplayArea(ComponentSide horSide, ComponentSide vertSide) {
             Segment hor = cols.componentDisplaySide(horSide.gridStart, horSide.gridLength);
             Segment vert = rows.componentDisplaySide(vertSide.gridStart, vertSide.gridLength);
-            return new Rectangle(hor.start, vert.start, hor.length, vert.length);
+            return new TRectangle(hor.start, vert.start, hor.length, vert.length);
         }
 
-        public void fit2Client(Rectangle clientRect) {
+        public void fit2Client(TRectangle clientRect) {
             Segment horSeg = new Segment(clientRect.x, clientRect.width);
             cols.fit2Client(horSeg);
             clientRect.x = horSeg.start;
@@ -971,11 +971,11 @@ public class GridBagLayout implements LayoutManager2, Serializable {
             return new double[][] { cols.getWeights(), rows.getWeights() };
         }
 
-        public Point getOrigin() {
-            return new Point(cols.getOrigin(), rows.getOrigin());
+        public TPoint getOrigin() {
+            return new TPoint(cols.getOrigin(), rows.getOrigin());
         }
 
-        public Point location(int x, int y, boolean l2r) {
+        public TPoint location(int x, int y, boolean l2r) {
             int col = cols.location(x);
             int row = Math.max(Math.min(rows.location(y), MAXGRIDSIZE - 1), 0);
             if (col == MAXGRIDSIZE) {
@@ -983,7 +983,7 @@ public class GridBagLayout implements LayoutManager2, Serializable {
             } else if (col == -1) {
                 col = l2r ? 0 : MAXGRIDSIZE - 1;
             }
-            return new Point(col, row);
+            return new TPoint(col, row);
         }
 
         private class GridSide {
@@ -1305,15 +1305,15 @@ public class GridBagLayout implements LayoutManager2, Serializable {
     }
 
     private class MixedConstraints {
-        public Rectangle initial; //Relative/Absolute
+        public TRectangle initial; //Relative/Absolute
 
-        public Rectangle mapped; //Absolute
+        public TRectangle mapped; //Absolute
 
         public boolean relative;
 
         MixedConstraints(GridBagConstraints cons) {
-            initial = new Rectangle(cons.gridx, cons.gridy, cons.gridwidth, cons.gridheight);
-            mapped = new Rectangle();
+            initial = new TRectangle(cons.gridx, cons.gridy, cons.gridwidth, cons.gridheight);
+            mapped = new TRectangle();
             relative = (cons.gridx == GridBagConstraints.RELATIVE)
                     || (cons.gridy == GridBagConstraints.RELATIVE);
         }
@@ -1332,16 +1332,16 @@ public class GridBagLayout implements LayoutManager2, Serializable {
 
         ComponentSide vertCompSides[];
 
-        Component components[]; // Hashtable is too slow
+        TComponent components[]; // Hashtable is too slow
 
-        ComponentOrientation orientation;
+        TComponentOrientation orientation;
 
         ParentInfo() {
             valid = false;
             consTable = new HashMap<GridBagConstraints, MixedConstraints>();
             allConstraints = new ArrayList<MixedConstraints>();
             grid = new Grid();
-            orientation = ComponentOrientation.LEFT_TO_RIGHT;
+            orientation = TComponentOrientation.LEFT_TO_RIGHT;
             horCompSides = vertCompSides = null;
             components = null;
         }

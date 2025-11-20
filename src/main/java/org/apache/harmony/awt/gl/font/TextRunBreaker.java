@@ -21,15 +21,30 @@
 
 package org.apache.harmony.awt.gl.font;
 
-import java.awt.*;
 import java.text.AttributedCharacterIterator;
 import java.text.Annotation;
 import java.text.AttributedCharacterIterator.Attribute;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.harmony.awt.gl.font.TextDecorator.Decoration;
 import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.misc.HashCode;
+import org.teavm.classlib.java.awt.TFont;
+import org.teavm.classlib.java.awt.TGraphics2D;
+import org.teavm.classlib.java.awt.TShape;
+import org.teavm.classlib.java.awt.TToolkit;
+import org.teavm.classlib.java.awt.font.TFontRenderContext;
+import org.teavm.classlib.java.awt.font.TGlyphJustificationInfo;
+import org.teavm.classlib.java.awt.font.TGraphicAttribute;
+import org.teavm.classlib.java.awt.font.TTextAttribute;
+import org.teavm.classlib.java.awt.font.TTextHitInfo;
+import org.teavm.classlib.java.awt.geom.TGeneralPath;
+import org.teavm.classlib.java.awt.geom.TRectangle2D;
+import org.teavm.classlib.java.awt.im.TInputMethodHighlight;
 // TODO - bidi not implemented yet
 
 /**
@@ -41,7 +56,7 @@ import org.apache.harmony.misc.HashCode;
  */
 public class TextRunBreaker implements Cloneable {
     AttributedCharacterIterator aci;
-    FontRenderContext frc;
+    TFontRenderContext frc;
 
     char[] text;
 
@@ -69,7 +84,7 @@ public class TextRunBreaker implements Cloneable {
 
     float justification = 1.0f;
 
-    public TextRunBreaker(AttributedCharacterIterator aci, FontRenderContext frc) {
+    public TextRunBreaker(AttributedCharacterIterator aci, TFontRenderContext frc) {
         this.aci = aci;
         this.frc = frc;
 
@@ -152,21 +167,21 @@ public class TextRunBreaker implements Cloneable {
      * @return patched text attributes
      */
     Map<? extends Attribute, ?> unpackAttributes(Map<? extends Attribute, ?> attrs) {
-        if (attrs.containsKey(TextAttribute.INPUT_METHOD_HIGHLIGHT)) {
-            Map<TextAttribute, ?> styles = null;
+        if (attrs.containsKey(TTextAttribute.INPUT_METHOD_HIGHLIGHT)) {
+            Map<TTextAttribute, ?> styles = null;
 
-            Object val = attrs.get(TextAttribute.INPUT_METHOD_HIGHLIGHT);
+            Object val = attrs.get(TTextAttribute.INPUT_METHOD_HIGHLIGHT);
 
             if (val instanceof Annotation) {
                 val = ((Annotation) val).getValue();
             }
 
-            if (val instanceof InputMethodHighlight) {
-                InputMethodHighlight ihl = ((InputMethodHighlight) val);
+            if (val instanceof TInputMethodHighlight) {
+                TInputMethodHighlight ihl = ((TInputMethodHighlight) val);
                 styles = ihl.getStyle();
 
                 if (styles == null) {
-                    Toolkit tk = Toolkit.getDefaultToolkit();
+                    TToolkit tk = TToolkit.getDefaultToolkit();
                     styles = tk.mapInputMethodHighlight(ihl);
                 }
             }
@@ -196,7 +211,7 @@ public class TextRunBreaker implements Cloneable {
         Map<? extends Attribute, ?> attributes = null;
 
         // Check justification attribute
-        Object val = aci.getAttribute(TextAttribute.JUSTIFICATION);
+        Object val = aci.getAttribute(TTextAttribute.JUSTIFICATION);
         if (val != null) {
             justification = ((Float) val).floatValue();
         }
@@ -215,16 +230,16 @@ public class TextRunBreaker implements Cloneable {
             // Find appropriate font or place GraphicAttribute there
 
             // 1. Try to pick up CHAR_REPLACEMENT (compatibility)
-            Object value = attributes.get(TextAttribute.CHAR_REPLACEMENT);
+            Object value = attributes.get(TTextAttribute.CHAR_REPLACEMENT);
 
             if (value == null) {
                 // 2. Try to Get FONT
-                value = attributes.get(TextAttribute.FONT);
+                value = attributes.get(TTextAttribute.FONT);
 
                 if (value == null) {
                     // 3. Try to create font from FAMILY
-                    if (attributes.get(TextAttribute.FAMILY) != null) {
-                        value = Font.getFont(attributes);
+                    if (attributes.get(TTextAttribute.FAMILY) != null) {
+                        value = TFont.getFont(attributes);
                     }
 
                     if (value == null) {
@@ -318,10 +333,10 @@ public class TextRunBreaker implements Cloneable {
             do {
                 endLevelRun = getLevelRunLimit(levelPos, ajustedEndStyleRun);
 
-                if (fontOrGAttr instanceof GraphicAttribute) {
+                if (fontOrGAttr instanceof TGraphicAttribute) {
                     runSegments.add(
                         new TextRunSegmentImpl.TextRunSegmentGraphic(
-                                (GraphicAttribute)fontOrGAttr,
+                                (TGraphicAttribute)fontOrGAttr,
                                 endLevelRun - levelPos,
                                 levelPos + runStart)
                     );
@@ -330,7 +345,7 @@ public class TextRunBreaker implements Cloneable {
                     TextRunSegmentImpl.TextSegmentInfo i =
                             new TextRunSegmentImpl.TextSegmentInfo(
                                     levels == null ? 0 : levels[ajustedPos],
-                                    (Font) fontOrGAttr,
+                                    (TFont) fontOrGAttr,
                                     frc,
                                     text,
                                     levelPos + runStart,
@@ -597,7 +612,7 @@ public class TextRunBreaker implements Cloneable {
      * @param yOffset - offset in Y direction to the upper left corner
      * of the layout from the origin of the graphics
      */
-    public void drawSegments(Graphics2D g2d, float xOffset, float yOffset) {
+    public void drawSegments(TGraphics2D g2d, float xOffset, float yOffset) {
         for (int i=0; i<runSegments.size(); i++) {
             runSegments.get(i).draw(g2d, xOffset, yOffset);
         }
@@ -609,8 +624,8 @@ public class TextRunBreaker implements Cloneable {
      * @param secondEndpoint - end position
      * @return black box bounds shape
      */
-    public Shape getBlackBoxBounds(int firstEndpoint, int secondEndpoint) {
-        GeneralPath bounds = new GeneralPath();
+    public TShape getBlackBoxBounds(int firstEndpoint, int secondEndpoint) {
+        TGeneralPath bounds = new TGeneralPath();
 
         TextRunSegment segment;
 
@@ -626,13 +641,13 @@ public class TextRunBreaker implements Cloneable {
      * Creates visual bounds shape
      * @return visual bounds rectangle
      */
-    public Rectangle2D getVisualBounds() {
-        Rectangle2D bounds = null;
+    public TRectangle2D getVisualBounds() {
+        TRectangle2D bounds = null;
 
         for (int i=0; i<runSegments.size(); i++) {
             TextRunSegment s = runSegments.get(i);
             if (bounds != null) {
-                Rectangle2D.union(bounds, s.getVisualBounds(), bounds);
+                TRectangle2D.union(bounds, s.getVisualBounds(), bounds);
             } else {
                 bounds = s.getVisualBounds();
             }
@@ -645,13 +660,13 @@ public class TextRunBreaker implements Cloneable {
      * Creates logical bounds shape
      * @return logical bounds rectangle
      */
-    public Rectangle2D getLogicalBounds() {
-        Rectangle2D bounds = null;
+    public TRectangle2D getLogicalBounds() {
+        TRectangle2D bounds = null;
 
         for (int i=0; i<runSegments.size(); i++) {
             TextRunSegment s = runSegments.get(i);
             if (bounds != null) {
-                Rectangle2D.union(bounds, s.getLogicalBounds(), bounds);
+                TRectangle2D.union(bounds, s.getLogicalBounds(), bounds);
             } else {
                 bounds = s.getLogicalBounds();
             }
@@ -691,8 +706,8 @@ public class TextRunBreaker implements Cloneable {
      * Creates outline shape for the managed text
      * @return outline
      */
-    public GeneralPath getOutline() {
-        GeneralPath outline = new GeneralPath();
+    public TGeneralPath getOutline() {
+        TGeneralPath outline = new TGeneralPath();
 
         TextRunSegment segment;
 
@@ -713,13 +728,13 @@ public class TextRunBreaker implements Cloneable {
      * @param y - y coordinate of the hit
      * @return hit info
      */
-    public TextHitInfo hitTest(float x, float y) {
+    public TTextHitInfo hitTest(float x, float y) {
         TextRunSegment segment;
 
         double endOfPrevSeg = -1;
         for (int i = 0; i < runSegments.size(); i++) {
             segment = runSegments.get(i);
-            Rectangle2D bounds = segment.getVisualBounds();
+            TRectangle2D bounds = segment.getVisualBounds();
             if ((bounds.getMinX() <= x && bounds.getMaxX() >= x) || // We are in the segment
                (endOfPrevSeg < x && bounds.getMinX() > x)) { // We are somewhere between the segments
                 return segment.hitTest(x,y);
@@ -727,7 +742,7 @@ public class TextRunBreaker implements Cloneable {
             endOfPrevSeg = bounds.getMaxX();
         }
 
-        return isLTR() ? TextHitInfo.trailing(text.length) : TextHitInfo.leading(0);
+        return isLTR() ? TTextHitInfo.trailing(text.length) : TTextHitInfo.leading(0);
     }
 
     public float getJustification() {
@@ -767,14 +782,14 @@ public class TextRunBreaker implements Cloneable {
         int highestPriority = -1;
         // GlyphJustificationInfo.PRIORITY_KASHIDA is 0
         // GlyphJustificationInfo.PRIORITY_NONE is 3
-        for (int priority = 0; priority <= GlyphJustificationInfo.PRIORITY_NONE + 1; priority++) {
+        for (int priority = 0; priority <= TGlyphJustificationInfo.PRIORITY_NONE + 1; priority++) {
             JustificationInfo jInfo = new JustificationInfo();
             jInfo.lastIdx = lastIdx;
             jInfo.firstIdx = firstIdx;
             jInfo.grow = gap > 0;
             jInfo.gapToFill = gapLeft;
 
-            if (priority <= GlyphJustificationInfo.PRIORITY_NONE) {
+            if (priority <= TGlyphJustificationInfo.PRIORITY_NONE) {
                 jInfo.priority = priority;
             } else {
                 jInfo.priority = highestPriority; // Last pass

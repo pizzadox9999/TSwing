@@ -17,7 +17,7 @@
 /**
  * @author Dmitry A. Durnev
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
@@ -27,7 +27,7 @@ import org.apache.harmony.awt.internal.nls.Messages;
 import org.apache.harmony.awt.state.LabelState;
 
 
-public class Label extends Component implements Accessible {
+public class TLabel extends TComponent implements Accessible {
 
     private static final long serialVersionUID = 3094126758329070636L;
 
@@ -93,7 +93,7 @@ public class Label extends Component implements Accessible {
 
     final State state = new State();
 
-    public Label(String text) throws HeadlessException {
+    public TLabel(String text) throws HeadlessException {
         this(text, LEFT);
         toolkit.lockAWT();
         try {
@@ -102,7 +102,7 @@ public class Label extends Component implements Accessible {
         }
     }
 
-    public Label() throws HeadlessException {
+    public TLabel() throws HeadlessException {
         this(new String(""), LEFT); //$NON-NLS-1$
         toolkit.lockAWT();
         try {
@@ -111,7 +111,7 @@ public class Label extends Component implements Accessible {
         }
     }
 
-    public Label(String text, int alignment) throws HeadlessException {
+    public TLabel(String text, int alignment) throws HeadlessException {
         toolkit.lockAWT();
         try {
             this.text = text;

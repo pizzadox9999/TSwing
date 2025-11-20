@@ -19,7 +19,7 @@
  *
  */
 
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.gl.MultiRectArea;
 import org.apache.harmony.awt.wtk.NativeWindow;
@@ -27,7 +27,7 @@ import org.apache.harmony.awt.wtk.NativeWindow;
 /**
  * Non-component window for displaying menus and drop-down lists
  */
-abstract class PopupBox {
+abstract class TPopupBox {
 
     NativeWindow nativeWindow;
 
@@ -41,7 +41,7 @@ abstract class PopupBox {
 
     final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-    PopupBox() {
+    TPopupBox() {
     }
 
     void addNotify() {

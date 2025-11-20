@@ -17,7 +17,7 @@
 /**
  * @author Pavel Dolgov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
 import org.apache.harmony.awt.wtk.NativeWindow;
 
@@ -25,17 +25,17 @@ import org.apache.harmony.awt.wtk.NativeWindow;
  * The root of the component hierarchy 
  * embedded into a native application's window
  */
-class EmbeddedWindow extends Window {
+class TEmbeddedWindow extends TWindow {
     private static final long serialVersionUID = -572384690015061225L;
 
     final long nativeWindowId;
 
-    EmbeddedWindow(long nativeWindowId) {
+    TEmbeddedWindow(long nativeWindowId) {
         super(null);
         this.nativeWindowId = nativeWindowId;
 
         addNotify();
-        Rectangle bounds = behaviour.getNativeWindow().getBounds();
+        TRectangle bounds = behaviour.getNativeWindow().getBounds();
         x = bounds.x;
         y = bounds.y;
         w = bounds.width;
@@ -43,7 +43,7 @@ class EmbeddedWindow extends Window {
     }
 
     @Override
-    ComponentBehavior createBehavior() {
+    TComponentBehavior createBehavior() {
         return new EmbeddedBehavior();
     }
 
@@ -51,15 +51,15 @@ class EmbeddedWindow extends Window {
     /**
      * The component behavior for the embedded window
      */
-    private class EmbeddedBehavior extends HWBehavior {
+    private class EmbeddedBehavior extends THWBehavior {
 
         EmbeddedBehavior() {
-            super(EmbeddedWindow.this);
+            super(TEmbeddedWindow.this);
         }
 
         @Override
         protected NativeWindow createNativeWindow() {
-            return toolkit.createEmbeddedNativeWindow(EmbeddedWindow.this);
+            return toolkit.createEmbeddedNativeWindow(TEmbeddedWindow.this);
         }
 
     }

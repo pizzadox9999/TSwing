@@ -19,12 +19,12 @@
  */
 package org.teavm.classlib.java.awt.font;
 
-import java.awt.geom.AffineTransform;
+import org.teavm.classlib.java.awt.geom.TAffineTransform;
 
 public class TFontRenderContext {
 
     // Affine transform of this mode
-    private AffineTransform transform;
+    private TAffineTransform transform;
 
     // Is the anti-aliased mode used
     private boolean fAntiAliased;
@@ -33,10 +33,10 @@ public class TFontRenderContext {
     private boolean fFractionalMetrics;
 
 
-    public TFontRenderContext(AffineTransform trans, boolean antiAliased, 
+    public TFontRenderContext(TAffineTransform trans, boolean antiAliased, 
             boolean usesFractionalMetrics) {
         if (trans != null){
-            transform = new AffineTransform(trans);
+            transform = new TAffineTransform(trans);
         }
         fAntiAliased = antiAliased;
         fFractionalMetrics = usesFractionalMetrics;
@@ -62,11 +62,11 @@ public class TFontRenderContext {
 
     }
 
-    public AffineTransform getTransform() {
+    public TAffineTransform getTransform() {
         if (transform != null){
-            return new AffineTransform(transform);
+            return new TAffineTransform(transform);
         }
-        return new AffineTransform();
+        return new TAffineTransform();
     }
 
     public boolean equals(TFontRenderContext frc) {

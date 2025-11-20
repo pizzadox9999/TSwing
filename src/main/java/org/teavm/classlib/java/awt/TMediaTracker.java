@@ -17,17 +17,14 @@
 /**
  * @author Igor V. Stolyarov
  */
-package java.awt;
+package org.teavm.classlib.java.awt;
 
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class MediaTracker implements Serializable {
+public class TMediaTracker implements Serializable {
 
     private static final long serialVersionUID = -483174189758638095L;
 
@@ -42,7 +39,7 @@ public class MediaTracker implements Serializable {
     Component owner;
     LinkedList<TrackingImage> trackingObjects = new LinkedList<TrackingImage>();
 
-    public MediaTracker(Component comp) {
+    public TMediaTracker(Component comp) {
         owner = comp;
     }
 
